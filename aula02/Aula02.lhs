@@ -19,6 +19,10 @@ usando a linguagem Haskell.
 - Apresentar noções de sistemas de tipos e
 sua relação com a lógica.
 
+
+Haskell
+=======
+
 Haskell
 =======
 
@@ -147,6 +151,11 @@ doubleAll :: [Int] -> [Int]
 doubleAll = map (* 2)
 ```
 
+```
+$> doubleAll [1,2,3]
+[2,4,6]
+````
+
 Haskell
 =======
 
@@ -204,6 +213,11 @@ Haskell
 - Adicionalmente, compiladores Haskell realizam inferência de
 tipos, permitindo omitir a maioria das anotações de tipos
 em funções.
+
+
+Exemplo
+=======
+
 
 Exemplo
 =======
@@ -446,6 +460,13 @@ deriving instance Eq Val
 -->
 
 Exemplo
+=======
+
+- Para facilitar, vamos criar funções auxiliares
+para implementar o interpretador.
+
+
+Exemplo
 ======
 
 - Somando valores
@@ -488,19 +509,58 @@ interp :: Exp -> Maybe Val
 interp (ENum n) = return (VInt n)
 interp ETrue = return (VBool True)
 interp EFalse = return (VBool False)
+\end{code}
+
+Exemplo
+=======
+
+- Continuação...
+
+\begin{code}
 interp (EAdd e1 e2)
     = do
         v1 <- interp e1
         v2 <- interp e2
         addVal v1 v2
+\end{code}
+
+Exemplo
+=======
+
+- Continuação...
+
+\begin{code}
 interp (EEq e1 e2)
     = do
         v1 <- interp e1
         v2 <- interp e2
         eqVal v1 v2
+\end{code}
+
+Exemplo
+=======
+
+- Continuação...
+
+\begin{code}
 interp (EIf e1 e2 e3)
     = do
         v1 <- interp e1
         if valTrue v1 then interp e2
           else interp e3
 \end{code}
+
+
+Exemplo
+=======
+
+- Isso conclui o nosso exemplo inicial de
+um interpretador.
+
+Referências
+===========
+
+- Lipovaca, Miran. Learn You a Haskell for Great Good. No Starch Press, 2011.
+Disponível on-line: [http://learnyouahaskell.com/]
+
+- Pierce, Benjamin. Types and Programming Languages. MIT Press, 2002.
