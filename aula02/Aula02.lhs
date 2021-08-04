@@ -8,7 +8,8 @@ Objetivos
 
 <!--
 \begin{code}
-{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE StandaloneDeriving   #-}
+{-# LANGUAGE ScopedTypeVariables  #-}
 module Aula02 where
 \end{code}
 -->
@@ -556,6 +557,198 @@ Exemplo
 
 - Isso conclui o nosso exemplo inicial de
 um interpretador.
+
+Lógica
+======
+
+
+Lógica
+======
+
+- Haskell possui um sistema de tipos suficientemente expressivo
+para expressar fatos simples da lógica proposicional.
+
+Lógica
+======
+
+- De maneira intuitiva, podemos entender tipos polimórficos
+formados apenas por variáveis e tipos funcionais
+como tautologias da lógica proposicional.
+
+Lógica
+======
+
+- Exemplo: A seguinte fórmula é uma tautologia da lógica
+proposicional.
+
+$$
+(B \to C) \to (A \to B) \to (A \to C)
+$$
+
+Lógica
+======
+
+- A tautologia anterior pode ser provada pelo seguinte argumento:
+
+- Suponha que $B \to C$ e $A \to B$. Suponha que $A$.
+    - Como $A \to B$ e $A$ temos que $B$.
+    - Como $B \to C$ e $B$ temos que $C$.
+- Portanto, $A \to C$.
+
+Lógica
+======
+
+- O argumento anterior pode ser representado como uma função
+Haskell.
+
+Lógica
+======
+
+- A fórmula
+
+$$
+(B \to C) \to (A \to B) \to (A \to C)
+$$
+
+- pode ser representada pelo seguinte tipo em Haskell.
+
+```haskell
+comp :: forall a b c. (b -> c) -> (a -> b) -> (a -> c)
+comp bc ab a = _
+```
+
+Lógica
+======
+
+- Uma expressão Haskell que com esse tipo tem a
+mesma estrutura da demonstração.
+
+Lógica
+======
+
+- Representando a demonstração como código:
+
+- Suposições são representadas como variáveis.
+
+Lógica
+======
+
+- As suposições $B \to C$ e $A \to B$ serão
+representadas pelas variáveis `bc` e `ab`,
+respectivamente
+
+```haskell
+comp :: forall a b c. (b -> c) -> (a -> b) -> (a -> c)
+comp bc ab = _
+```
+
+Lógica
+======
+
+- A suposição $A$ é representada pela
+variável `a`:
+
+```haskell
+comp :: forall a b c. (b -> c) -> (a -> b) -> (a -> c)
+comp bc ab a = _
+```
+
+Lógica
+======
+
+- Podemos representar a dedução de $B$ a partir
+de $A \to B$ e $A$, como uma aplicação de função.
+
+```haskell
+comp :: forall a b c. (b -> c) -> (a -> b) -> (a -> c)
+comp bc ab a
+   = let
+       pb :: b
+       pb = ab a
+     in _
+```
+Lógica
+======
+
+- Finalmente, podemos deduzir $C$, a partir
+de $B \to C$ e $C$:
+
+\begin{code}
+comp :: forall a b c. (b -> c) -> (a -> b) -> (a -> c)
+comp bc ab a
+   = let
+       pb :: b
+       pb = ab a
+     in bc pb
+\end{code}
+
+Lógica
+======
+
+- Podemos então usar Haskell para desenvolver programas e
+demonstrações sobre estes?
+
+Lógica
+======
+
+- Não! Apesar de expressiva, Haskell não impõe restrições
+importantes para interpretar quaisquer programas como
+demonstrações.
+
+Lógica
+======
+
+- Haskell permite usar:
+    - Exceções
+    - Não terminação de programas
+
+Lógica
+======
+
+- Uso de exceções para definir funções independentemente do
+tipo.
+
+\begin{code}
+cheat :: forall a. a
+cheat = error "Cheating..."
+
+absurd :: forall a b. a -> b
+absurd = cheat
+\end{code}
+
+Lógica
+======
+
+- Uso de não terminação
+
+\begin{code}
+loop :: forall a . a
+loop = loop
+\end{code}
+
+Lógica
+======
+
+- Para desenvolvermos demonstrações sem incorrer no risco de
+trapaças, devemos usar linguagens que as evitem.
+
+Lógica
+======
+
+- Atualmente, existem diversos _assistentes de provas_ que
+possuem um sistema de tipos expressivos e evitam os problemas
+de Haskell.
+   - Exceções.
+   - Permitir não terminação.
+
+Lógica
+======
+
+- Para isso, neste curso vamos utilizar a linguagem (Agda)[https://wiki.portal.chalmers.se/agda/pmwiki.php]
+para desenvolvimento de demonstrações.
+
+- Outras linguagens: (Coq)[https://coq.inria.fr/], (Idris)[https://www.idris-lang.org/] e
+(Lean)[https://leanprover.github.io/].
 
 Referências
 ===========
