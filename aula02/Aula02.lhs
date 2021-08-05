@@ -744,16 +744,16 @@ de Haskell.
 Lógica
 ======
 
-- Para isso, neste curso vamos utilizar a linguagem (Agda)[https://wiki.portal.chalmers.se/agda/pmwiki.php]
+- Para isso, neste curso vamos utilizar a linguagem [Agda](https://wiki.portal.chalmers.se/agda/pmwiki.php)
 para desenvolvimento de demonstrações.
 
-- Outras linguagens: (Coq)[https://coq.inria.fr/], (Idris)[https://www.idris-lang.org/] e
-(Lean)[https://leanprover.github.io/].
+- Outras linguagens: [Coq](https://coq.inria.fr/), [Idris](https://www.idris-lang.org/) e
+[Lean](https://leanprover.github.io/).
 
 Referências
 ===========
 
 - Lipovaca, Miran. Learn You a Haskell for Great Good. No Starch Press, 2011.
-Disponível on-line: [http://learnyouahaskell.com/]
+Disponível on-line: <http://learnyouahaskell.com/>
 
 - Pierce, Benjamin. Types and Programming Languages. MIT Press, 2002.
