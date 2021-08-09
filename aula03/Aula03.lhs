@@ -359,3 +359,357 @@ Dedução Natural
 
 Dedução Natural
 ===============
+
+- Sintaxe
+
+$$
+\begin{array}{lcll}
+  \varphi & \to  & \bot & \textrm{falso}\\
+          & \mid & \top & \textrm{verdadeiro}\\
+          & \mid & A    & \textrm{variáveis}\\
+          & \mid & \varphi \supset \varphi & \textrm{implicação}\\
+          & \mid & \varphi \land \varphi & \textrm{conjunção}\\
+          & \mid & \varphi \lor \varphi & \textrm{disjunção}\\
+          & \mid & \neg \varphi & \textrm{negação}\\
+\end{array}
+$$
+
+
+Dedução Natural
+===============
+
+- Precedência: $\neg, \land, \lor, \supset$.
+
+- Associatividade: $\supset$ à direita.
+
+Dedução Natural
+===============
+
+- Denominamos por _contexto_ uma lista de
+fórmulas.
+
+$$
+\Gamma = [\varphi_1, ... \varphi_n]
+$$
+
+Dedução Natural
+===============
+
+- Um _sequente_ é um par formado por um contexto e uma
+fórmula.
+
+$$\Gamma \vdash \varphi$$
+
+
+- Um sequente $\Gamma \vdash \varphi$ pode ser lido
+como "usando as hipóteses em $\Gamma$ é possível
+deduzir $\varphi$."
+
+Dedução Natural
+===============
+
+- O sistema de dedução natural é apresentado como
+um conjunto de _regras de inferência_.
+
+Dedução Natural
+===============
+
+- Uma regra de inferência possui a forma
+   - $\Gamma \vdash\varphi_i$ : premissas.
+   - $\Gamma\vdash \varphi$ : conclusão.
+
+$$
+\dfrac{\Gamma \vdash \varphi_1\,\,...\,\,\Gamma\vdash\varphi_n}
+      {\Gamma \vdash \varphi}
+$$
+
+
+Dedução Natural
+===============
+
+- Regras de inferência são formadas por um axioma e
+dois tipos de regras para cada um dos conectivos.
+
+Dedução Natural
+===============
+
+- _Regras de eliminação_: Permitem o uso de uma
+fórmula com um certo conectivo.
+    - Premissa principal é a mais à esquerda em
+      regras.
+
+Dedução Natural
+===============
+
+- _Regras de introdução_: Permite deduzir uma fórmula
+com um certo conectivo.
+
+Dedução Natural
+===============
+
+- Axioma
+
+$$
+\dfrac{}{\Gamma, A, \Gamma' \vdash A}
+$$
+
+Dedução Natural
+===============
+
+- Regra de introdução da conjunção.
+
+$$
+\dfrac{\Gamma\vdash \varphi_1\,\,\,\,\Gamma\vdash\varphi_2}
+      {\Gamma\vdash\varphi_1 \land \varphi_2}
+$$
+
+Dedução Natural
+===============
+
+- Regras de eliminação da conjunção.
+
+$$
+\begin{array}{c}
+  \dfrac{\Gamma \vdash \varphi_1 \land \varphi_2}
+        {\Gamma \vdash \varphi_1} \\ \\
+  \dfrac{\Gamma \vdash \varphi_1 \land \varphi_2}
+        {\Gamma \vdash \varphi_2}
+\end{array}
+$$
+
+Dedução Natural
+===============
+
+- Regra de introdução da implicação
+
+$$
+\dfrac{\Gamma, \varphi_1 \vdash \varphi_2}
+      {\Gamma \vdash \varphi_1 \supset \varphi_2}
+$$
+
+Dedução Natural
+===============
+
+- Regra de eliminação da implicação
+
+$$
+\dfrac{\Gamma \vdash \varphi_1 \supset \varphi_2\,\,\,\,\,\,\,\Gamma\vdash\varphi_1}
+      {\Gamma\vdash \varphi_2}
+$$
+
+
+Dedução Natural
+===============
+
+- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+
+
+Dedução Natural
+===============
+
+- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+
+$$
+\dfrac{}{A \to B \to C}
+$$
+
+Dedução Natural
+===============
+
+- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+
+$$
+\dfrac{
+   \dfrac{}
+         {B \to C}
+}{A \to B \to C}
+$$
+
+Dedução Natural
+===============
+
+- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+
+$$
+\dfrac{
+   \dfrac{
+      \dfrac{
+         \dfrac{}
+               {A \land B \to C}
+         \,\,\,\,
+         \dfrac{}
+               {A \land B}
+      }{C}
+   }{B \to C}
+}{A \to B \to C}
+$$
+
+
+Dedução Natural
+===============
+
+- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+
+$$
+\dfrac{
+   \dfrac{
+      \dfrac{
+         \dfrac{}
+               {A \land B \to C}
+         \,\,\,\,
+         \dfrac{
+            \dfrac{}{A} \,\,\,\,\dfrac{}{B}
+         }{A \land B}
+      }{C}
+   }{B \to C}
+}{A \to B \to C}
+$$
+
+Dedução Natural
+===============
+
+- Regras de introdução da disjunção.
+
+$$
+\begin{array}{cc}
+  \dfrac{\Gamma\vdash \varphi_1}
+        {\Gamma\vdash \varphi_1 \lor \varphi_2} &
+  \dfrac{\Gamma\vdash \varphi_2}
+        {\Gamma\vdash \varphi_1 \lor \varphi_2}
+\end{array}
+$$
+
+Dedução Natural
+===============
+
+- Regras de eliminação da disjunção.
+
+$$
+\dfrac{\Gamma\vdash \varphi_1\lor \varphi_2\,\,\,\,\,\,
+       \Gamma,\varphi_1\vdash\varphi\,\,\,\,\,\,
+       \Gamma,\varphi_2\vdash\varphi}
+      {\Gamma\vdash \varphi}
+$$
+
+Dedução Natural
+===============
+
+- Regra de eliminação do falso.
+
+$$
+\dfrac{\Gamma \vdash \bot}
+      {\Gamma \vdash \varphi}
+$$
+
+Dedução Natural
+===============
+
+- Regra de introdução do verdadeiro.
+
+$$
+\dfrac{}{\Gamma\vdash \top}
+$$
+
+Dedução Natural
+===============
+
+Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+
+
+Dedução Natural
+===============
+
+Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+
+$$
+\dfrac{}
+      {\neg B \to \neg A}
+$$
+
+Dedução Natural
+===============
+
+Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+
+$$
+\dfrac{
+  \dfrac{}{\neg A}
+}{\neg B \to \neg A}
+$$
+
+Dedução Natural
+===============
+
+Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+
+$$
+\dfrac{
+  \dfrac{
+     \dfrac{}{\bot}
+  }{\neg A}
+}{\neg B \to \neg A}
+$$
+
+Dedução Natural
+===============
+
+Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+
+$$
+\dfrac{
+  \dfrac{
+     \dfrac{
+        \dfrac{}{\neg B}\,\,\,\,
+        \dfrac{}{B}
+     }{\bot}
+  }{\neg A}
+}{\neg B \to \neg A}
+$$
+
+Dedução Natural
+===============
+
+Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+
+$$
+\dfrac{
+  \dfrac{
+     \dfrac{
+        \dfrac{}{\neg B}\,\,\,\,
+        \dfrac{
+          \dfrac{}{A \to B}\,\,\,\,
+          \dfrac{}{A}
+        }{B}
+     }{\bot}
+  }{\neg A}
+}{\neg B \to \neg A}
+$$
+
+
+Dedução Natural
+===============
+
+- Mas não estão faltando regras?
+   - Introdução do falso...
+   - Eliminação do verdadeiro...
+
+Dedução Natural
+===============
+
+- Não! Está ok.
+   - Não é possível introduzir $\bot$.
+   - Não é poassível eliminar $\top$.
+
+Dedução Natural
+===============
+
+- Negação é tratada como a implicação.
+    - Logo, não há necessidade de regras para
+      a negação.
+
+$$
+\neg \varphi \equiv \varphi \supset \bot
+$$
+
+Dedução Natural
+===============
