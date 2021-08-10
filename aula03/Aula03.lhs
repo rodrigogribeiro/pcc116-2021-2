@@ -613,6 +613,31 @@ $$
 Dedução Natural
 ===============
 
+- Mas não estão faltando regras?
+   - Introdução do falso...
+   - Eliminação do verdadeiro...
+
+Dedução Natural
+===============
+
+- Não! Está ok.
+   - Não é possível introduzir $\bot$.
+   - Não é poassível eliminar $\top$.
+
+Dedução Natural
+===============
+
+- Negação é tratada como a implicação.
+    - Logo, não há necessidade de regras para
+      a negação.
+
+$$
+\neg \varphi \equiv \varphi \supset \bot
+$$
+
+Dedução Natural
+===============
+
 Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
 
 
@@ -685,31 +710,67 @@ $$
 }{\neg B \to \neg A}
 $$
 
+Dedução Natural
+===============
+
+- Além das regras apresentadas, a dedução
+natural conta com regras _estruturais_.
+
+- Essas regras lidam com o contexto de hipóteses.
 
 Dedução Natural
 ===============
 
-- Mas não estão faltando regras?
-   - Introdução do falso...
-   - Eliminação do verdadeiro...
-
-Dedução Natural
-===============
-
-- Não! Está ok.
-   - Não é possível introduzir $\bot$.
-   - Não é poassível eliminar $\top$.
-
-Dedução Natural
-===============
-
-- Negação é tratada como a implicação.
-    - Logo, não há necessidade de regras para
-      a negação.
+- Weakening
 
 $$
-\neg \varphi \equiv \varphi \supset \bot
+\dfrac{\Gamma,\Gamma'\vdash\varphi}
+      {\Gamma,\varphi',\Gamma' \vdash \varphi}
 $$
 
 Dedução Natural
 ===============
+
+- Exchange
+
+$$
+\dfrac{\Gamma,\varphi_1,\varphi_2\Gamma'\vdash\varphi}
+      {\Gamma,\varphi_2,\varphi_1,\Gamma' \vdash \varphi}
+$$
+
+Dedução Natural
+===============
+
+- Contraction
+
+$$
+\dfrac{\Gamma,\varphi',\varphi',\Gamma'\vdash\varphi}
+      {\Gamma,\varphi',\Gamma' \vdash \varphi}
+$$
+
+Dedução Natural
+===============
+
+- O uso de regras estruturais é necessário por considerarmos
+contextos como listas de fórmulas.
+
+- Ao se considerar contextos como conjuntos de fórmulas
+não é necessário considerar essas regras.
+
+Dedução Natural
+===============
+
+- Outra regra estrutural da dedução natural é a de _corte_.
+
+- Intuitivamente, a regra de corte permite o uso de resultados
+auxiliares em provas.
+
+Dedução Natural
+===============
+
+- Regra de corte.
+
+$$
+\dfrac{\Gamma\vdash \varphi'\,\,\,\,\Gamma,\varphi',\Gamma'\vdash \varphi}
+      {\Gamma,\Gamma' \vdash \varphi}
+$$
