@@ -1,7 +1,7 @@
 default: slides
 
 slides:
-	pandoc -f markdown+lhs --mathjax -t revealjs -s -o slides.html Aula03.lhs -V theme=white -V revealjs-url=../revealjs -V slidenum=true
+	pandoc -s --mathjax -t revealjs -o slides.html Aula03.md -V theme=white -V revealjs-url=../revealjs -V slidenum=true --slide-level 2
 
 pdf:
-	pandoc -f markdown+lhs --mathjax -t beamer -s -o slides.pdf Aula03.lhs
+	pandoc --mathjax -t beamer -s -o slides.pdf Aula03.md
