@@ -620,7 +620,7 @@ comp bc ab a = _
 Lógica
 ======
 
-- Uma expressão Haskell que com esse tipo tem a
+- Uma expressão Haskell com esse tipo tem a
 mesma estrutura da demonstração.
 
 Lógica
