@@ -1,6 +1,6 @@
 ---
 author: PCC116 - Lógica aplicada à computação - Prof. Rodrigo Ribeiro
-title: Lógica proposicional
+title: Lógica proposicional - parte I
 ---
 
 # Objetivos
@@ -16,10 +16,6 @@ title: Lógica proposicional
 - Apresentar o cálculo de sequentes para a lógica proposicional.
 
 - Apresentar o conceito de _corte_ e sua relação com computação.
-
-## Objetivos
-
-- Apresentar algoritmos para construção de provas da lógica proposicional.
 
 # Introdução
 
@@ -687,10 +683,10 @@ não é necessário considerar essas regras.
 
 ## Eliminação de Corte 
 
-- Outra regra estrutural da dedução natural é a de _corte_.
+- Um conceito muito importante na lógica é o de _corte_.
 
-- Intuitivamente, a regra de corte permite o uso de resultados
-auxiliares em provas.
+- Intuitivamente, o corte permite o uso de resultados
+auxiliares (lemas) em provas.
 
 ## Eliminação de Corte 
 
@@ -707,17 +703,414 @@ vamos considerar um exemplo simples.
 
 - Teorema: todo número $n\in\mathbb{N}$ par, existe $m$ tal que $n = m + m$.
 
-    - Passo indutivo ($n = n' + 2$). Suponha $n' \in\mathbb{N}$ um número par arbitrário
-     tal que $n' = m' + m'$. Seja $m = m' + 1$. Temos:
+    - Passo indutivo ($n = n' + 2$). Suponha $n' \in\mathbb{N}$ um número 
+      par arbitrário tal que $n' = m' + m'$. Seja $m = m' + 1$. Temos:
+     
 $$
 n = n' + 2 = (m' + m') + 2 = (m' + 1) + (m' + 1).
 $$
 
 ## Eliminação de Corte 
 
-- Regra de corte.
+- Dado o teorema anterior e o fato de que $4$ é par, podemos deduzir
+qual é a "metade" de 4.
+
+- É possível calcular o valor de $m$ a partir dos fatos de que 
+$4$ é par e do teorema anterior.
+
+## Eliminação de Corte
+
+- O teorema nos diz que se $n$ é par...
+   - Existe $n'$ par tal que $n = n' + 2$.
+
+## Eliminação de Corte
+
+- O teorema nos diz que se $n$ é par...
+   - Existe $n'$ par tal que $n = n' + 2$.
+   - Se $n'$ é par então $n' = m' + m'$ 
+
+## Eliminação de Corte
+
+- O teorema nos diz que se $n$ é par...
+   - Existe $n'$ par tal que $n = n' + 2$.
+   - Se $n'$ é par então $n' = m' + m'$ 
+   - Portanto, $n = m + m$ e $m = m' + 1$.
+
+## Eliminação de Corte 
+
+- Se $4$ é par...
+   - Existe $n'$ par tal que $4 = n' + 2$.
+
+## Eliminação de Corte 
+
+- Se $4$ é par...
+   - Existe $n'$ par tal que $4 = n' + 2$.
+   - Logo $n' = 2$.
+
+## Eliminação de Corte 
+
+- Recursivamente: Se $2$ é par ...
+   - Existe $n'$ par tal que $2 = n' + 2$.
+   - Logo $n' = 0$
+   
+- Caso base: $0$ é par e $m = 0$
+
+## Eliminação de Corte 
+
+- Recursivamente: Se $2$ é par ...
+   - Existe $n'$ par tal que $2 = n' + 2$.
+   - Logo $n' = 0$ e $m' = 0$
+- Logo, $m = m' + 1 = 1$.
+
+## Eliminação de Corte 
+
+- Como, $4$ é par ...
+   - Existe $n'$ par tal que $4 = n' + 2$.
+   - Logo $n' = 2$ e $m' = 1$.
+- Temos que $m = m' + 1 = 2$.
+
+## Eliminação de Corte 
+
+- Logo, como $4$ é par, pelo teorema anterior 
+conseguimos calcular que $4 = 2 + 2$, ou seja
+que $2$ é a metade de $4$.
+
+## Eliminação de Corte
+
+- Formalmente, a eliminação do corte consiste 
+em remover redundâncias em provas. 
+
+- Redundância $\Rightarrow$ uso de uma regra de introdução 
+seguido de uma eliminação para um mesmo conectivo.
+
+## Eliminação de Corte
+
+- Exemplo de redundância
 
 $$
-\dfrac{\Gamma\vdash \varphi'\,\,\,\,\Gamma,\varphi',\Gamma'\vdash \varphi}
+\begin{array}{ccc}
+    \dfrac{\dfrac{
+          \dfrac{\pi}{\Gamma\vdash A}\:\:\:\:
+          \dfrac{\pi'}{\Gamma\vdash B}
+       }{\Gamma\vdash A \land B}}
+      {\Gamma\vdash A} 
+\end{array}
+$$
+
+
+## Eliminação de Corte
+
+- Exemplo de redundância
+
+$$
+\begin{array}{ccc}
+    \dfrac{\dfrac{
+          \dfrac{\pi}{\Gamma\vdash A}\:\:\:\:
+          \dfrac{\pi'}{\Gamma\vdash B}
+       }{\Gamma\vdash A \land B}}
+      {\Gamma\vdash A} & \leadsto &
+\end{array}
+$$
+
+## Eliminação de Corte
+
+- Exemplo de redundância
+
+$$
+\begin{array}{ccc}
+    \dfrac{\dfrac{
+          \dfrac{\pi}{\Gamma\vdash A}\:\:\:\:
+          \dfrac{\pi'}{\Gamma\vdash B}
+       }{\Gamma\vdash A \land B}}
+      {\Gamma\vdash A} & \leadsto &
+    \dfrac{\pi}
+          {\Gamma\vdash A}
+\end{array}
+$$
+
+## Eliminação de Corte
+
+- Mas, porque utilizar essa estrutura em provas?
+
+## Eliminação de Corte
+
+- Mas, porque utilizar essa estrutura em provas?
+
+- Simples: modularização!
+
+## Eliminação de Corte
+
+- A remoção de cortes é uma propriedade crucial 
+da lógica pois ela implica a sua _consistência_.
+
+## Eliminação de Corte
+
+- Consistência: Não é possível deduzir $\bot$ a 
+partir de um conjunto vazio de hipóteses.
+
+- Isto é, $\vdash \bot$ não é demonstrável.
+
+## Eliminação de Corte
+
+- Qual a importância desse fato? 
+
+## Eliminação de Corte
+
+- Qual a importância desse fato? 
+
+- Consistência implica que a lógica é **útil**. 
+
+## Eliminação de Corte
+
+- Consistência implica que a lógica é **útil**. 
+
+- Isso ocorre devido a regra: 
+
+$$
+\dfrac{\Gamma\vdash \bot}{\Gamma\vdash \varphi}
+$$
+
+## Eliminação de Corte
+
+- Isso ocorre devido a regra: 
+
+$$
+\dfrac{\Gamma\vdash \bot}{\Gamma\vdash \varphi}
+$$
+
+- Se é possível demonstrar $\vdash \bot$ então 
+toda fórmula $\varphi$ é demonstrável usando a
+regra de eliminação de $\bot$. 
+
+## Eliminação de Corte
+
+- Formalmente, representamos o corte pela seguinte
+propriedade possuída pela lógica.
+
+$$
+\dfrac{\Gamma \vdash \varphi'\:\:\:\:\Gamma',\varphi' \vdash \varphi}
       {\Gamma,\Gamma' \vdash \varphi}
 $$
+
+## Eliminação de Corte
+
+- A remoção de cortes em provas consiste em substituir 
+referências à hipótese $\varphi'$ em $\Gamma',\varphi'\vdash\varphi$
+pela demonstração $\Gamma\vdash\varphi'$.
+
+
+## Eliminação de Corte 
+
+- Exemplo: $\{A \land B, A \to B \to C\} \vdash C$
+
+$$
+\dfrac{
+   \dfrac{}{B \to C}\:\:\:\:
+   \dfrac{}{B}
+ }{C}
+$$
+
+
+## Eliminação de Corte 
+
+- Exemplo: $\{A \land B, A \to B \to C\} \vdash C$
+
+$$
+\dfrac{
+   \dfrac{\dfrac{}
+                {A \to B \to C}\:\:\:\:
+          \dfrac{
+          }{A}
+    }{B \to C}\:\:\:\:
+   \dfrac{}
+         {B}
+ }{C}
+$$
+
+
+## Eliminação de Corte 
+
+- Exemplo: $\{A \land B, A \to B \to C\} \vdash C$
+
+$$
+\dfrac{
+   \dfrac{\dfrac{}
+                {A \to B \to C}\:\:\:\:
+          \dfrac{
+             \dfrac{}{A \land B}
+          }{A}
+    }{B \to C}\:\:\:\:
+   \dfrac{}
+         {B}
+ }{C}
+$$
+
+
+
+## Eliminação de Corte 
+
+- Exemplo: $\{A \land B, A \to B \to C\} \vdash C$
+
+$$
+\dfrac{
+   \dfrac{\dfrac{}
+                {A \to B \to C}\:\:\:\:
+          \dfrac{
+             \dfrac{}{A \land B}
+          }{A}
+    }{B \to C}\:\:\:\:
+   \dfrac{\dfrac{}{A\land B}}
+         {B}
+ }{C}
+$$
+
+## Eliminação de Corte 
+
+- Exemplo $\{A, B\} \vdash A \land B$
+
+$$
+\dfrac{
+   \dfrac{}{A}\:\:\:\:
+   \dfrac{}{B}
+}{A \land B}
+$$
+
+## Eliminação de Corte
+
+- Exemplo:
+   - Temos demonstração de $\{A \land B, A \to B \to C\} \vdash C$.
+   - Temos demonstração de $\{A, B\}\vdash A \land B$
+   
+## Eliminação de Corte 
+
+- Logo, é possível construir uma demonstração
+
+$$
+\{A,B,A \to B \to C\}\vdash C 
+$$
+
+substituindo a hipótese $A \land B$ pela demonstração 
+de $A \land B$.
+
+## Eliminação de Corte
+
+- Construindo a demonstração $\{A,B,A \to B \to C\}\vdash C$.
+
+- Demonstração original:
+
+$$
+\dfrac{
+   \dfrac{\dfrac{}
+                {A \to B \to C}\:\:\:\:
+          \dfrac{
+             \dfrac{}{A \land B}
+          }{A}
+    }{B \to C}\:\:\:\:
+   \dfrac{\dfrac{}{A\land B}}
+         {B}
+ }{C}
+$$
+
+## Eliminação de Corte
+
+- Substituindo a primeira hipótese $A \land B$ por sua demonstração.
+
+$$
+\dfrac{
+   \dfrac{\dfrac{}
+                {A \to B \to C}\:\:\:\:
+          \dfrac{
+             \dfrac{
+                 \dfrac{}{A}\:\:\:\:
+                 \dfrac{}{B}
+             }{A \land B}
+          }{A}
+    }{B \to C}\:\:\:\:
+   \dfrac{\dfrac{}{A\land B}}
+         {B}
+ }{C}
+$$
+
+## Eliminação de Corte
+
+- Substituindo a segunda hipótese $A \land B$ por sua demonstração.
+
+$$
+\dfrac{
+   \dfrac{\dfrac{}
+                {A \to B \to C}\:\:\:\:
+          \dfrac{
+             \dfrac{
+                 \dfrac{}{A}\:\:\:\:
+                 \dfrac{}{B}
+             }{A \land B}
+          }{A}
+    }{B \to C}\:\:\:\:
+   \dfrac{\dfrac{
+                 \dfrac{}{A}\:\:\:\:
+                 \dfrac{}{B}   
+          }{A\land B}}
+         {B}
+ }{C}
+$$
+
+## Eliminação de Corte
+
+- Se $\varphi$ é demonstrável então existe uma demonstração 
+sem cortes (redundância).
+   - Obtemos a demonstração sem corte, eliminando-os.
+
+## Eliminação de Corte
+
+- Se $\vdash \varphi$ é uma dedução sem cortes, então 
+essa dedução termina com uma regra de introdução.
+
+
+## Eliminação de Corte
+
+- Teorema: O sistema de dedução natural é consistente.
+
+## Eliminação de Corte
+
+- Demonstração: 
+    1. Suponha que a dedução natural não seja consistente.
+
+## Eliminação de Corte
+
+- Demonstração: 
+    1. Suponha que a dedução natural não seja consistente.
+    2. Logo, existe uma dedução $\pi:\:\vdash \bot$.
+
+
+## Eliminação de Corte
+
+- Demonstração: 
+    1. Suponha que a dedução natural não seja consistente.
+    2. Logo, existe uma dedução $\pi:\: \vdash \bot$.
+    3. Existe então uma dedução $\pi':\: \vdash\bot$ sem corte.
+
+## Eliminação de Corte
+
+- Demonstração: 
+    1. Suponha que a dedução natural não seja consistente.
+    2. Logo, existe uma dedução $\pi:\:\vdash \bot$.
+    3. Existe então uma dedução $\pi':\:\vdash\bot$ sem corte.
+    4. Assim, a dedução $\pi'$ deve terminar com uma regra de introdução.
+
+
+## Eliminação de Corte
+
+- Demonstração: 
+    1. Suponha que a dedução natural não seja consistente.
+    2. Logo, existe uma dedução $\pi:\:\vdash \bot$.
+    3. Existe então uma dedução $\pi':\:\vdash\bot$ sem corte.
+    4. Assim, a dedução $\pi'$ deve terminar com uma regra de introdução.
+    5. Porém, não há regra de introdução para $\bot$. Contradição!
+    
+# Referências
+
+## Referências
+
+1. MIMRAM, Samuel. Program = Proof.
+
+2. GIRARD, Jean Y. Proofs and Types.
