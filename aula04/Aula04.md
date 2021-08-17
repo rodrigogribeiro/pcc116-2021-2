@@ -9,12 +9,12 @@ title: Lógica proposicional - parte II
 
 - Apresentar o formalismo do cálculo de sequentes.
 
+## Objetivos
+
 - Apresentar uma variante do cálculo de sequentes que 
 pode ser usada para construção automática de demonstração.
 
 ## Objetivos 
-
-- Apresentar o formalismo do cálculo de Hibert.
 
 - Apresentar a semântica de Kripke para lógica
 proposicional.
@@ -680,8 +680,239 @@ de acordo com alguma relação de ordem bem formada.
 
 ## Proof Search
 
+- Até o momento, estudamos dois formalismos para construir 
+demonstrações da lógica proposicional.
+    - Dedução natural
+    - Cálculo de sequentes
+
+## Proof Search
+
+- Porém, como determinar se um sequente é ou não demonstrável?
+
+## Proof Search
+
 - Para entender o cálculo de sequentes como um formalismo para construção 
-de demonstrações na lógica proposicional.
+de demonstrações na lógica proposicional, temos que modificá-lo para 
+garantir terminação.
+
+## Proof Search
+
+- Vamos representar a nova versão do cálculo de sequentes usando a notação 
+
+$$
+\Gamma \longrightarrow \varphi
+$$
+
+
+## Proof Search
+
+- Veremos, que cada uma das regras "diminui" o tamanho do sequente. 
+    - Tamanho: número de conectivos.
+
+## Proof Search
+
+- Conjunção
+
+$$
+\dfrac{\Gamma\longrightarrow\varphi_1\:\:\:\:
+       \Gamma\longrightarrow\varphi_2}
+      {\Gamma\longrightarrow\varphi_1\land\varphi_2}
+$$
+
+## Proof Search
+
+- Conjunção
+
+$$
+\begin{array}{cc}
+   \dfrac{\Gamma,\varphi_1,\varphi_2\longrightarrow\varphi}
+         {\Gamma,\varphi_1\land\varphi_2\longrightarrow\varphi}
+\end{array}
+$$
+
+## Proof Search
+
+- Disjunção
+
+$$
+\begin{array}{cc}
+   \dfrac{\Gamma\longrightarrow\varphi_1}
+         {\Gamma\longrightarrow\varphi_1\lor\varphi_2} &
+   \dfrac{\Gamma\longrightarrow\varphi_2}
+         {\Gamma\longrightarrow\varphi_1\lor\varphi_2}
+\end{array}
+$$
+
+## Proof Search
+
+- Disjunção
+
+$$
+\dfrac{\Gamma,\varphi_1\longrightarrow\varphi\:\:\:\:
+       \Gamma,\varphi_2\longrightarrow\varphi}
+      {\Gamma,\varphi_1\lor\varphi_2\longrightarrow\varphi}
+$$
+
+## Proof Search
+
+- Constante verdadeiro 
+   - Podemos remover $\top$ à esquerda.
+$$
+\begin{array}{cc}
+   \dfrac{}{\Gamma\longrightarrow\top} & 
+   \dfrac{\Gamma\longrightarrow\varphi}
+         {\Gamma,\top\longrightarrow\varphi}
+\end{array}
+$$
+
+## Proof Search 
+
+- Constante falso 
+
+$$
+\dfrac{}{\Gamma,\bot\longrightarrow\varphi}
+$$
+
+## Proof Search 
+
+- A regra de hipóteses é válida apenas para variáveis.
+
+$$
+\dfrac{}{\Gamma,A\longrightarrow A}
+$$
+
+## Proof Search
+
+- Implicação
+
+$$
+\dfrac{\Gamma,\varphi_1 \longrightarrow \varphi_2}
+      {\Gamma\longrightarrow\varphi_1\supset\varphi_2}
+$$
+
+## Proof Search
+
+- Todas as regras possuem premissas com "tamanho" menor que 
+o da conclusão.
+
+## Proof Search
+
+- Com isso, temos que o processo de construção de provas é 
+garantido de terminar.
+    - Não é possível produzir sequentes de tamanho menor
+      indefinidamente. 
+      
+## Proof Search
+
+- Mas, e a regra à esquerda para a implicação?
+
+$$
+\dfrac{\Gamma,\varphi_1\supset\varphi_2\longrightarrow\varphi_1\:\:\:\:
+       \Gamma,\varphi_2\longrightarrow\varphi}
+      {\Gamma,\varphi_1\supset\varphi_2\longrightarrow\varphi}
+$$
+
+
+## Proof Search
+
+- Note que as premissas não possuem tamanho menor que o da conclusão...
+
+$$
+\dfrac{\Gamma,\varphi_1\supset\varphi_2\longrightarrow\varphi_1\:\:\:\:
+       \Gamma,\varphi_2\longrightarrow\varphi}
+      {\Gamma,\varphi_1\supset\varphi_2\longrightarrow\varphi}
+$$
+
+
+## Proof Search 
+
+- Como resolver esse problema?
+
+## Proof Search 
+
+- Vamos refinar o antecedente da implicação para que os antecedentes possuam
+tamanho menor que a conclusão.
+
+- Esse refinamento irá definir uma nova regra para cada forma do antecendente.
+
+## Proof Search
+
+- Antecedente: constante verdadeiro 
+
+$$
+\dfrac{\Gamma,\varphi_2\longrightarrow\varphi}
+      {\Gamma,\top\supset\varphi_2\longrightarrow\varphi}
+$$
+
+## Proof Search
+
+- Antecedente: disjunção 
+
+$$
+\dfrac{\Gamma,\varphi_1\supset\varphi_3,\varphi_2\supset\varphi_3\longrightarrow\varphi}
+      {\Gamma,(\varphi_1\lor\varphi_2)\supset\varphi_3\longrightarrow\varphi}
+$$
+
+
+## Proof Search
+
+- Mas o sequente 
+
+$$
+\Gamma,\varphi_1\supset\varphi_3,\varphi_2\supset\varphi_3\longrightarrow\varphi
+$$
+
+é menor que 
+
+$$
+\Gamma,(\varphi_1\lor\varphi_2)\supset\varphi_3\longrightarrow\varphi
+$$
+
+??
+
+## Proof Search
+
+- Sim! Basta considerar uma ordem sobre conjunto com repetição de elementos.
+
+- Estamos substituindo a fórmula $(\varphi_1\lor\varphi_2)\supset\varphi_3$
+  por duas de tamanho menor.
+    - $\varphi_1\supset\varphi_3$
+    - $\varphi_2\supset\varphi_3$
+
+## Proof Search 
+
+- Antecendente: conjunção 
+
+$$
+\dfrac{\Gamma,\varphi_1\supset(\varphi_2\supset\varphi_3)\longrightarrow\varphi}
+      {\Gamma,(\varphi_1\land\varphi_2)\supset\varphi_3\longrightarrow\varphi}
+$$
+
+## Proof Search
+
+- Basta considerar que a conjunção tem um peso de 2 e os demais conectivos da lógica
+tem peso 1.
+
+## Proof Search
+
+- Antecedente: variável 
+
+$$
+\dfrac{A\in\Gamma\:\:\:\:\Gamma,\varphi_2\longrightarrow\varphi}
+      {\Gamma,A \supset\varphi_2\longrightarrow\varphi}
+$$
+
+## Proof Search 
+
+- Antecedente: implicação 
+
+$$
+\dfrac{\Gamma,\varphi_2\supset\varphi_3,\varphi_1\longrightarrow\varphi_2\:\:\:\:
+       \Gamma,\varphi_3\longrightarrow\varphi}
+      {\Gamma,(\varphi_1\supset\varphi_2)\supset\varphi_3\longrightarrow\varphi}
+$$
+
+# Semântica de Kripke
 
 # Referências
 
