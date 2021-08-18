@@ -14,11 +14,6 @@ title: Lógica proposicional - parte II
 - Apresentar uma variante do cálculo de sequentes que 
 pode ser usada para construção automática de demonstração.
 
-## Objetivos 
-
-- Apresentar a semântica de Kripke para lógica
-proposicional.
-
 # Introdução
 
 ## Introdução
@@ -672,8 +667,9 @@ de provas para lógica proposicional.
 
 ## Sequent Calculus
 
-- A chave para este algoritmo é garantir sua terminação. Para isso, 
-devemos obrigar que chamadas sejam feitas sobre argumentos "menores"
+- A chave para este algoritmo é garantir sua terminação. 
+
+- Para isso, devemos obrigar que chamadas sejam feitas sobre argumentos "menores"
 de acordo com alguma relação de ordem bem formada.
 
 # Proof Search
@@ -872,7 +868,7 @@ $$
 
 ## Proof Search
 
-- Sim! Basta considerar uma ordem sobre conjunto com repetição de elementos.
+- Sim! Basta considerar uma ordem sobre conjuntos com repetição de elementos.
 
 - Estamos substituindo a fórmula $(\varphi_1\lor\varphi_2)\supset\varphi_3$
   por duas de tamanho menor.
@@ -912,7 +908,13 @@ $$
       {\Gamma,(\varphi_1\supset\varphi_2)\supset\varphi_3\longrightarrow\varphi}
 $$
 
-# Semântica de Kripke
+## Proof Search
+
+- O cálculo de sequentes anterior pode ser entendido como a especificação 
+de um algoritmo para determinar se $\Gamma \vdash \varphi$
+
+- Lembre-se: O cálculo de sequente é equivalente à dedução natural.
+
 
 # Referências
 
