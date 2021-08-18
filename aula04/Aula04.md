@@ -915,7 +915,6 @@ de um algoritmo para determinar se $\Gamma \vdash \varphi$
 
 - Lembre-se: O cálculo de sequente é equivalente à dedução natural.
 
-
 # Referências
 
 ## Referências
