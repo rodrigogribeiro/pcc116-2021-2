@@ -915,6 +915,11 @@ de um algoritmo para determinar se $\Gamma \vdash \varphi$
 
 - Lembre-se: O cálculo de sequente é equivalente à dedução natural.
 
+## Proof Search
+
+- Junto aos slides desta aula, encontra-se uma implementação em Haskell 
+do algoritmo de proof search usando o cálculo de sequentes.
+
 # Referências
 
 ## Referências
