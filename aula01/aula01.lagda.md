@@ -181,7 +181,7 @@ realmente implementa a divisão de números naturais.
 - Expressando em lógica, temos:
 
 $$
-\forall n\,m. n \in \mathbb{N} \to m \in \mathbb{N} \to \exists q\,r. n = mq + r \land q < r
+\forall n\,m. n \in \mathbb{N} \to m \in \mathbb{N} \to \exists q\,r. n = mq + r \land r < m
 $$
 
 
