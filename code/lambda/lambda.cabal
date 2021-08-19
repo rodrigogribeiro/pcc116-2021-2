@@ -25,13 +25,18 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Eval
+      Parser
+      Pretty
+      Syntax
   other-modules:
       Paths_lambda
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , containers
+    , haskeline
     , mtl
     , parsec
     , pretty
@@ -46,6 +51,8 @@ executable lambda-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , containers
+    , haskeline
     , lambda
     , mtl
     , parsec
@@ -62,6 +69,8 @@ test-suite lambda-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , containers
+    , haskeline
     , lambda
     , mtl
     , parsec
