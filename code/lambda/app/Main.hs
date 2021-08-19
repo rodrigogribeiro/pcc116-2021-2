@@ -9,9 +9,6 @@ import Control.Monad
 import Control.Monad.Trans
 import System.Console.Haskeline
 
-showStep :: (Int, Term) -> IO ()
-showStep (d, x) = putStrLn ((replicate d ' ') ++ "=> " ++ prettyTerm x)
-
 process :: String -> IO ()
 process line = do
   let res = parseTerm line

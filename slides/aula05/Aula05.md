@@ -17,7 +17,8 @@ como uma linguagem de programação.
 
 ## Objetivos
 
-- Apresentar uma implementação do $\lambda$-cálculo.
+- Apresentar uma implementação de um interpretador 
+do $\lambda$-cálculo.
 
 - Discutir índices De Bruijn para a implementação do 
 $\lambda$-cálculo.
