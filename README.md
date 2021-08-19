@@ -20,4 +20,6 @@ Listas de exercícios
 Código de exemplo
 -----------------
 
+* [Implementação de proof search usando cálculo de sequentes](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/search)
+
 * [Interpretador para o lambda-cálculo não tipado](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/lambda)

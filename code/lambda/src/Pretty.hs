@@ -1,4 +1,4 @@
-module Pretty (prettyTerm) where
+module Pretty (prettyTerm, prettyName) where
 
 import Prelude hiding ((<>))
 import Text.PrettyPrint.HughesPJ
@@ -35,7 +35,7 @@ viewVars (Lam n e) = n : viewVars e
 viewVars _ = []
 
 viewBody :: Term -> Term
-viewBody (Lam _ e) = e
+viewBody (Lam _ e) = viewBody e
 viewBody e = e
 
 viewApp :: Term -> (Term, [Term])
@@ -48,3 +48,6 @@ viewApp _ = error "not application"
 
 prettyTerm :: Term -> String
 prettyTerm = render . ppr 0
+
+prettyName :: Name -> String
+prettyName (Name n) = n

@@ -1,4 +1,4 @@
-module Parser (parseTerm) where
+module Parser (parseTerm, parseDef) where
 
 import Text.Parsec
 import Text.Parsec.String (Parser)
@@ -12,7 +12,7 @@ import Syntax
 lexer :: Tok.TokenParser ()
 lexer = Tok.makeTokenParser style
   where
-    ops = ["\\", "."]
+    ops = ["\\", ".", "="]
     names = []
     style = haskellStyle {
               Tok.reservedOpNames = ops,
@@ -44,16 +44,25 @@ lambda
       reservedOp "\\"
       vars <- many1 identifier
       reservedOp "."
-      body <- term
+      body <- expr
       return (foldr Lam body vars)
 
 basic :: Parser Term
-basic = parens term <|>
+basic = parens expr <|>
         variable    <|>
         lambda
 
-term :: Parser Term
-term = foldl1 (:@:) <$> many1 basic
+expr :: Parser Term
+expr = foldl1 (:@:) <$> many1 basic
+
+def :: Parser Def
+def = f <$> identifier <*> eq <*> expr
+  where
+    eq = reservedOp "="
+    f n _ e = Def n e
 
 parseTerm :: String -> Either ParseError Term
-parseTerm = parse (contents term) ""
+parseTerm = parse (contents expr) ""
+
+parseDef :: String -> Either ParseError Def
+parseDef = parse (contents def) ""

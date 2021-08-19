@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Eval
+      Expand
       Parser
       Pretty
       Syntax

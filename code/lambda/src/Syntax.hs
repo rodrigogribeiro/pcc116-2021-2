@@ -11,3 +11,12 @@ data Term
   | Term :@: Term
   | Lam Name Term
   deriving (Eq, Ord, Show)
+
+
+-- definitions
+
+data Def
+  = Def {
+      name :: Name
+    , term :: Term
+    } deriving (Eq, Ord, Show)
