@@ -13,3 +13,11 @@ Conteúdo da disciplina.
 * [Aula 02 - 26/08/2021 - Revisão: Programação Funcional](https://youtube.com/playlist?list=PLxVVfOvO-mM2-ukidO-TqGm7CZLLBTP6M)
 
 
+Listas de exercícios
+--------------------
+
+
+Código de exemplo
+-----------------
+
+
