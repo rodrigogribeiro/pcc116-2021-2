@@ -23,7 +23,7 @@ title: Lógica proposicional - parte I
 
 - Um conceito central neste curso é o de _tipo_.
 
-- Mas, o que é um tipo em uma linguagem de programaçãp?
+- Mas, o que é um tipo em uma linguagem de programação?
 
 ## Introdução
 
@@ -285,7 +285,7 @@ e um marcador de que esta proposição é verdadeira.
 
 ## Intuicionismo
 
-- A demonstração de $A \to B$ consiste de um processo que produz uma
+- A demonstração de $A \supset B$ consiste de um processo que produz uma
 demonstração de $B$ a partir de uma para $A$.
 
 ## Intuicionismo
@@ -385,7 +385,7 @@ com um certo conectivo.
 - Axioma
 
 $$
-\dfrac{}{\Gamma, A, \Gamma' \vdash A}
+\dfrac{}{\Gamma, \varphi, \Gamma' \vdash \varphi}
 $$
 
 ## Dedução Natural
@@ -431,78 +431,78 @@ $$
 
 ## Dedução Natural
 
-- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+- Exemplo: $\{A \land B \supset C\} \vdash A \supset B \supset C$.
 
 
 ## Dedução Natural
 
-- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+- Exemplo: $\{A \land B \supset C\} \vdash A \supset B \supset C$.
 
 $$
-\dfrac{}{A \to B \to C}
+\dfrac{}{A \supset B \supset C}
 $$
 
 ## Dedução Natural
 
-- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+- Exemplo: $\{A \land B \supset C\} \vdash A \supset B \supset C$.
 
 $$
 \dfrac{
    \dfrac{}
-         {B \to C}
-}{A \to B \to C}
+         {B \supset C}
+}{A \supset B \supset C}
 $$
 
 ## Dedução Natural
 
-- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+- Exemplo: $\{A \land B \supset C\} \vdash A \supset B \supset C$.
 
 $$
 \dfrac{
    \dfrac{
       \dfrac{
       }{C}
-   }{B \to C}
-}{A \to B \to C}
+   }{B \supset C}
+}{A \to B \supset C}
 $$
 
 
 ## Dedução Natural
 
-- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+- Exemplo: $\{A \land B \supset C\} \vdash A \supset B \supset C$.
 
 $$
 \dfrac{
    \dfrac{
       \dfrac{
          \dfrac{}
-               {A \land B \to C}
+               {A \land B \supset C}
          \,\,\,\,
          \dfrac{}
                {A \land B}
       }{C}
-   }{B \to C}
-}{A \to B \to C}
+   }{B \supset C}
+}{A \to B \supset C}
 $$
 
 
 ## Dedução Natural
 
-- Exemplo: $\{A \land B \to C\} \vdash A \to B \to C$.
+- Exemplo: $\{A \land B \supset C\} \vdash A \supset B \supset C$.
 
 $$
 \dfrac{
    \dfrac{
       \dfrac{
          \dfrac{}
-               {A \land B \to C}
+               {A \land B \supset C}
          \,\,\,\,
          \dfrac{
             \dfrac{}{A} \,\,\,\,\dfrac{}{B}
          }{A \land B}
       }{C}
-   }{B \to C}
-}{A \to B \to C}
+   }{B \supset C}
+}{A \to B \supset C}
 $$
 
 ## Dedução Natural
@@ -570,43 +570,43 @@ $$
 
 ## Dedução Natural
 
-Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+Exemplo: $\{A \supset B\}\vdash \neg B \supset \neg A$
 
 
 ## Dedução Natural
 
-Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+Exemplo: $\{A \supset B\}\vdash \neg B \supset \neg A$
 
 $$
 \dfrac{}
-      {\neg B \to \neg A}
+      {\neg B \supset \neg A}
 $$
 
 ## Dedução Natural
 
-Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+Exemplo: $\{A \supset B\}\vdash \neg B \supset \neg A$
 
 $$
 \dfrac{
   \dfrac{}{\neg A}
-}{\neg B \to \neg A}
+}{\neg B \supset \neg A}
 $$
 
 ## Dedução Natural
 
-Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+Exemplo: $\{A \supset B\}\vdash \neg B \supset \neg A$
 
 $$
 \dfrac{
   \dfrac{
      \dfrac{}{\bot}
   }{\neg A}
-}{\neg B \to \neg A}
+}{\neg B \supset \neg A}
 $$
 
 ## Dedução Natural
 
-Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+Exemplo: $\{A \supset B\}\vdash \neg B \supset \neg A$
 
 $$
 \dfrac{
@@ -616,12 +616,12 @@ $$
         \dfrac{}{B}
      }{\bot}
   }{\neg A}
-}{\neg B \to \neg A}
+}{\neg B \supset \neg A}
 $$
 
 ## Dedução Natural
 
-Exemplo: $\{A \to B\}\vdash \neg B \to \neg A$
+Exemplo: $\{A \supset B\}\vdash \neg B \supset \neg A$
 
 $$
 \dfrac{
@@ -629,12 +629,12 @@ $$
      \dfrac{
         \dfrac{}{\neg B}\,\,\,\,
         \dfrac{
-          \dfrac{}{A \to B}\,\,\,\,
+          \dfrac{}{A \supset B}\,\,\,\,
           \dfrac{}{A}
         }{B}
      }{\bot}
   }{\neg A}
-}{\neg B \to \neg A}
+}{\neg B \supset \neg A}
 $$
 
 ## Dedução Natural
@@ -658,7 +658,7 @@ $$
 - Exchange
 
 $$
-\dfrac{\Gamma,\varphi_1,\varphi_2\Gamma'\vdash\varphi}
+\dfrac{\Gamma,\varphi_1,\varphi_2,\Gamma'\vdash\varphi}
       {\Gamma,\varphi_2,\varphi_1,\Gamma' \vdash \varphi}
 $$
 

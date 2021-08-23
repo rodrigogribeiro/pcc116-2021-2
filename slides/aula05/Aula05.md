@@ -437,13 +437,13 @@ estratégia de redução usada.
 - Para ilustrar, vamos apresentar algumas funções conhecidas
   usando o $\lambda$-cálculo.
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Representando booleanos
   - True: $\lambda x y. x$
   - False: $\lambda x y. y$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - A função de conjunção é representada pelo seguinte termo:
    - False é o termo $\lambda x y . y$
@@ -453,7 +453,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -463,7 +463,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -474,7 +474,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -486,7 +486,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -499,7 +499,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -513,7 +513,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -528,7 +528,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -544,13 +544,13 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Pode-se representar números naturais utilizando a notação de Peano.
   - zero \in $\mathbb{N}$
   - se n \in $\mathbb{N}$ então succ n \in $\mathbb{N}$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Representando números naturais
 
@@ -564,18 +564,18 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Representando números naturais:
   - Se n \in $\mathbb{N}$ então $\overline{n} = \lambda s z. s^n z$.
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Como representar uma função para calcular o sucessor de um número natural?
 
 - A função deve computar $\overline{n+1}$ a partir de $\overline{n}$.
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Logo, devemos obter um termo $f$ tal que:
 $$
@@ -584,7 +584,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Mas, temos que
 
@@ -594,7 +594,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Mas, temos que
 
@@ -606,7 +606,7 @@ $$
 $$
 
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Mas, temos que
 
@@ -618,7 +618,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Porém, $\overline{n} = \lambda s n. s^n z$:
 
@@ -631,7 +631,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Abstraindo sobre $\overline{n}$, obtemos:
 
@@ -641,7 +641,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -651,7 +651,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -662,7 +662,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -674,7 +674,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -687,7 +687,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -701,7 +701,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -716,7 +716,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -732,7 +732,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Exemplo
 
@@ -749,20 +749,20 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Pontos fixos: dizemos que x é ponto fixo de f se f(x) = x.
 
 - Ao contrário de funções da análise, funções do $\lambda$-cálculo
   sempre possuem um ponto fixo.
 
-$$ Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Podemos mostrar esse fato facilmente. Para isso, considere:
    - $A = \lambda x y. y (xxy)$
    - $\Theta = AA$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Seja $e$ um termo qualquer. O ponto fixo de $f$ é dado por
   $x = \Theta f$.
@@ -773,7 +773,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Seja $e$ um termo qualquer. O ponto fixo de $f$ é dado por
   $x = \Theta f$.
@@ -785,7 +785,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Seja $e$ um termo qualquer. O ponto fixo de $f$ é dado por
   $x = \Theta f$.
@@ -798,7 +798,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Seja $e$ um termo qualquer. O ponto fixo de $f$ é dado por
   $x = \Theta f$.
@@ -812,7 +812,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Seja $e$ um termo qualquer. O ponto fixo de $f$ é dado por
   $x = \Theta f$.
@@ -827,7 +827,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Seja $e$ um termo qualquer. O ponto fixo de $f$ é dado por
   $x = \Theta f$.
@@ -843,7 +843,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Seja $e$ um termo qualquer. O ponto fixo de $f$ é dado por
   $x = \Theta f$.
@@ -860,12 +860,12 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Podemos usar o $\lambda$-cálculo para definir estruturas de dados
   como tuplas e listas.
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Pares: Se $e_1, e_2$ são $\lambda$-termos então o par $(e_1,e_2)$ pode
   ser representado pelo termo:
@@ -876,13 +876,13 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Projeções:
   - fst = $\lambda p.p (\lambda x y. x)$
   - snd = $\lambda p.p (\lambda x y. y)$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Tuplas são representadas de maneira similar.
 
@@ -895,7 +895,7 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Projeções podem também ser generalizadas de forma imediata.
 
@@ -905,13 +905,13 @@ $$
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Listas: são formadas por dois construtores
   - nil: representando a lista vazia
   - h:t : lista formada por um primeiro elemento h e uma causa t.
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Representando o construtor nil:
 
@@ -921,7 +921,7 @@ nil = \lambda x y. y
 \end{array}
 $$
 
-## Programando em lambda-cálculo
+## Programando em $\lambda$-cálculo
 
 - Representando o construtor h:t
 
@@ -930,3 +930,65 @@ $$
 h:t = \lambda x y. x h t
 \end{array}
 $$
+
+## Programando em $\lambda$-cálculo
+
+- No repositório on-line da disciplina, há um 
+interpretador do $\lambda$-cálculo. 
+
+- Você poderá usá-lo para experimentar um pouco 
+com programar com o $\lambda$-cálculo.
+
+## Programando em $\lambda$-cálculo 
+
+- Vamos considerar agora como implementar o 
+$\lambda$-cálculo.
+
+- Para isso, vamos utilizar a linguagem Haskell.
+
+# Implementação
+
+## Implementação 
+
+- Vamos considerar a tarefa de implementar um 
+interpretador para o $\lambda$-cálculo.
+
+## Implementação
+
+- Para isso, vamos usar uma técnica conhecida como
+_normalization by evaluation_.
+
+## Implementação
+
+- Normalization by evaluation: utilizar o mecanismo de 
+execução da linguagem _host_ para realizar computações 
+da linguagem a ser definida.
+
+## Implementação
+
+- Isto é, usaremos o mecanismo de execução de Haskell
+para executar nossa definição do $\lambda$-cálculo.
+
+- Essa técnica é amplamente utilizada em assistentes 
+de provas como Coq, Agda e Idris.
+
+## Implementação
+
+- A vantagem desta técnica é que não é necessário
+codificar a operação de substituição.
+
+- Usaremos o mecanismo já implementado na 
+linguagem Haskell.
+
+
+## Implementação
+
+- Representando a sintaxe:
+
+```haskell
+data Term
+  = Var Name
+  | Term :@: Term
+  | Lam Name Term
+```
+

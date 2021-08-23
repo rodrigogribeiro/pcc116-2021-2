@@ -143,6 +143,14 @@ o formato de deduções.
 
 - A restrição evitará que deduções tenham redundâncias.
 
+## Introdução
+
+- Ao eliminar redundâncias, obtemos um sistema em que estas
+não ocorrem.
+
+- Chamamos esse sistema de _normal natural deduction_.
+
+
 # Normal Natural Deduction
 
 ## Normal Natural Deduction
@@ -195,9 +203,9 @@ $$
 $$
 \begin{array}{cc}
    \dfrac{\Gamma^{\downarrow}\vdash\varphi_1\land\varphi_2\,\downarrow}
-         {\Gamma^{\downarrow}\vdash\varphi_1} &
+         {\Gamma^{\downarrow}\vdash\varphi_1\,\downarrow} &
    \dfrac{\Gamma^{\downarrow}\vdash\varphi_1\land\varphi_2\,\downarrow}
-         {\Gamma^{\downarrow}\vdash\varphi_2} 
+         {\Gamma^{\downarrow}\vdash\varphi_2\,\downarrow} 
 \end{array}
 $$
 
@@ -209,7 +217,7 @@ utilizar $\varphi_1$".
 
 $$
    \dfrac{\Gamma^{\downarrow}\vdash\varphi_1\land\varphi_2\,\downarrow}
-         {\Gamma^{\downarrow}\vdash\varphi_1}
+         {\Gamma^{\downarrow}\vdash\varphi_1\,\downarrow}
 $$
 
 ## Normal Natural Deduction
@@ -280,7 +288,7 @@ $$
 - Como utilizar hipóteses?
 
 $$
-\dfrac{}{\Gamma'^{\downarrow},\varphi\uparrow,\Gamma^{\downarrow}\vdash\varphi\downarrow}
+\dfrac{}{\Gamma'^{\downarrow},\varphi\downarrow,\Gamma^{\downarrow}\vdash\varphi\downarrow}
 $$
 
 ## Normal Natural Deduction
@@ -430,7 +438,7 @@ não podem ser reduzidas.
 
 - O sistema de dedução normal marca o momento em que uma demonstração
 deixa de usar regras de introdução para regras de eliminação usando
-a regra 
+a regra:
 
 $$
 \dfrac{\Gamma^{\downarrow}\vdash \varphi\downarrow}
@@ -648,7 +656,7 @@ $$
 
 ## Sequent Calculus
 
-- A demonstraçõa envolve dois passos...
+- A demonstração envolve dois passos...
     1. Mostrar que a dedução natural é equivalente à dedução natural normal.
     2. Mostrar que a dedução natural normal é equivalente ao cálculo de sequentes.
 
@@ -671,6 +679,17 @@ de provas para lógica proposicional.
 
 - Para isso, devemos obrigar que chamadas sejam feitas sobre argumentos "menores"
 de acordo com alguma relação de ordem bem formada.
+
+## Sequent Calculus
+
+- Relação de ordem bem formada: relação sem cadeias decrescentes infinitas.
+
+$$
+x_n > x_{n -1} > x_{n - 2} > ...
+$$
+
+- Se existem cadeias descrescentes finitas então um algoritmo não pode executar
+indefinidamente.
 
 # Proof Search
 
