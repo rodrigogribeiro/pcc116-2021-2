@@ -992,3 +992,207 @@ data Term
   | Lam Name Term
 ```
 
+## Implementação
+
+- O resultado da computação de um $\lambda$-termo 
+é descrito pela seguinte gramática:
+
+$$
+v \to \lambda x . e \,\mid\,x\:v_1\hdotsv_n
+$$
+
+## Implementação 
+
+- Representando valores 
+    - Funções são representadas como funções da linguagem Haskell
+
+```haskell
+data Value
+  = VAbs (Value -> Value)
+  | VNeutral Neutral
+```
+
+## Implementação
+
+- Representando valores
+
+```haskell 
+data Neutral
+  = NVar Name
+  | NApp Neutral Value
+```
+
+## Implementação
+
+- A chave da normalization by evaluation é usar a própria 
+linguagem Haskell para realizar a substituição necessária 
+para o $\lambda$-cálculo.
+
+## Implementação 
+
+- Para isso, vamos definir uma função auxiliar que 
+realiza a aplicação de valores.
+
+```haskell
+app :: Value -> Value -> Value
+app (VAbs f) u = f u
+app (VNeutral n) u = VNeutral (NApp n u)
+```
+
+## Implementação
+
+- A _mágica_ acontece nesta linha: 
+
+```haskell
+app (VAbs f) u = f u
+```
+
+- Lembre-se: `VAbs (Value -> Value)`{.haskell}
+
+## Implementação
+
+- Para implementar a normalização vamos utilizar um tipo 
+chamado `Env`{.haskell} que denota um finite-map entre 
+nomes e valores.
+
+## Implementação 
+
+- Função de normalização
+
+```haskell
+eval :: Env -> Term -> Value
+eval env (Var n)
+  = case Map.lookup n env of
+      Just v -> v
+      Nothing -> VNeutral (NVar n)
+```
+
+## Implementação
+
+- Função de normalização
+
+```haskell
+eval env (Lam n e)
+  = VAbs (\ v -> eval (extend n v env) e)
+```
+
+## Implementação 
+
+- Função de normalização 
+
+```haskell
+eval env (e :@: e')
+  = app (eval env e) (eval env e')
+```
+
+## Implementação
+
+- Com isso, temos uma implementação eficiente
+e elegante da execução do $\lambda$-cálculo.
+
+- Exceto por um detalhe: Não é simples 
+apresentarmos o resultado da computação de um termo.
+
+## Implementação
+
+- Lembre-se da definição de `Value`{.haskell}:
+
+```haskell
+data Value
+  = VAbs (Value -> Value)
+  | VNeutral Neutral
+```
+
+- Como apresentar valores deste tipo como strings?
+
+## Implementação
+
+- Primeiro, precisamos criar novas variáveis.
+
+```haskell
+fresh :: Int -> Name
+fresh n = Name ("x" ++ show n)
+```
+
+## Implementação
+
+- Usando `fresh`{.haskell}, podemos converter valores em $\lambda$-termos.
+
+```haskell
+unquote :: Int -> Value -> Term
+unquote n (VAbs f)
+  = let
+      x = fresh n
+    in Lam x (unquote (n + 1) (f (VNeutral (NVar x))))
+unquote n (VNeutral x)
+  = neutral n x
+```
+
+## Implementação 
+
+- Finalmente, a função de normalização.
+
+```haskell
+norm :: Term -> Term
+norm e = unquote 0 (eval emptyEnv e)
+```
+
+## Implementação
+
+- Isso conclui a implementação do interpretador do $\lambda$-cálculo.
+
+- Maiores detalhes podem ser encontrados no repositório da disciplina.
+
+# Índices De Bruijn
+
+## Índices De Bruijn
+
+- Um problema recorrente no $\lambda$-cálculo é determinar se dois 
+termos $e_1$ e $e_2$ denotam a mesma função. 
+
+## Índices De Bruijn
+
+- De maneira simples, podemos reduzir os termos e comparar suas formas 
+normais (supondo que a redução termine...)
+
+## Índices De Bruijn
+
+- Um grande problema é determinar quando dois termos são $\alpha$-equivalentes.
+
+- Iguais, módulo renomeamento de variáveis.
+
+## Índices De Bruijn
+
+- Porquê isso é importante?
+
+## Índices De Bruijn
+
+- Muitos bugs em compiladores em assistentes de provas decorrem da implementação
+incorreta de substituição.
+
+- Uma forma de eliminar esses problemas é usando os chamados _índices De Bruijn_.
+
+## Índices De Bruijn
+
+- A ideia é representar variáveis pela posição das abstrações destas no termo.
+
+## Índices De Bruijn
+
+- Representação de $\lambda z. (\lambda y. y (\lambda x. x)) (\lambda x. z x)$
+
+![](debruijn.svg){ height=156px }
+
+## Índices De Bruijn
+
+- Sintaxe de termos De Bruijn
+
+$$
+\begin{array}{lcl}
+   t & \to  & i \\
+     & \mid & t\:t \\
+     & \mid & \lambda.t\\
+\end{array}
+$$
+
+## Índices De Bruijn
+
