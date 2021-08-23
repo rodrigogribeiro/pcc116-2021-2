@@ -62,3 +62,11 @@ reduce (IApp e e')
   = case reduce e of
       IAbs e1 -> sub 0 (reduce e') e1
       e1      -> IApp e1 (reduce e')
+
+
+normalize :: Bruijn -> [Bruijn]
+normalize e
+  = let e' = reduce e
+    in if e == e'
+       then [e]
+       else e : normalize e'

@@ -38,6 +38,7 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , haskeline
     , mtl
     , parsec
     , pretty
@@ -54,6 +55,7 @@ executable debruijn-exe
       base >=4.7 && <5
     , containers
     , debruijn
+    , haskeline
     , mtl
     , parsec
     , pretty
@@ -71,6 +73,7 @@ test-suite debruijn-test
       base >=4.7 && <5
     , containers
     , debruijn
+    , haskeline
     , mtl
     , parsec
     , pretty
