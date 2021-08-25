@@ -23,6 +23,10 @@ Conteúdo da disciplina.
 Listas de exercícios
 --------------------
 
+* Lista 01 - Lógica proposicional
+    * Data para entrega: 03/09/2021, pela plataforma Moodle.
+    * Link para a lista: <https://github.com/rodrigogribeiro/pcc116-2021-2/blob/master/listas/lista01/lista01.pdf>
+
 
 Código de exemplo
 -----------------
