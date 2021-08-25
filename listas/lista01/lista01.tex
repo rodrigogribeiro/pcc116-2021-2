@@ -1,0 +1,82 @@
+\documentclass[a4paper]{article}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx,hyperref}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{proof,tikz}
+\usepackage{amssymb,amsthm,stmaryrd}
+
+
+\usepackage[edges]{forest}
+\usetikzlibrary{automata, positioning, arrows}
+
+
+\newtheorem{Lemma}{Lema}
+\newtheorem{Theorem}{Teorema}
+\theoremstyle{definition}
+\newtheorem{Example}{Exemplo}
+\newtheorem{Definition}{Definição}
+
+
+\usepackage{fancyhdr}
+  \pagestyle{fancy}
+  \fancyhf{}
+  \lhead{Lógica aplicada à computação}
+  \rhead{Lista de exercícios 01}
+  \lfoot{Prof. Rodrigo Ribeiro}
+  \rfoot{\thepage}
+  \renewcommand{\footrulewidth}{0.4pt}
+  \pagestyle{fancy}
+
+\tikzset{
+        ->,  % makes the edges directed
+        >=stealth', % makes the arrow heads bold
+        node distance=3cm,
+        every state/.style={thick, fill=gray!10},
+        initial text=$\,$
+        }
+  
+
+\begin{document}
+
+  \title{Lista 01 - Lógica proposicional}
+  \author{Rodrigo Ribeiro}
+
+  \maketitle
+
+
+  \pagestyle{fancy}
+
+  \section*{Avisos sobre a entrega da lista 01}
+
+  \begin{itemize}
+    \item As listas deverão ser resolvidas utilizando~\LaTeX~usando o template fornecido.
+    \item O conjunto de soluções deverá ser entregue na plataforma Moodle como um único
+        arquivo \textbf{.pdf}. É de responsabilidade do aluno a entrega de sua solução dentro do
+        prazo estabelecido.
+  \end{itemize}
+
+  \section*{Exercícios}
+
+  \begin{enumerate}
+    \item Para cada um dos sequentes a seguir, apresente uma demonstração em 1) dedução natural; 2) normal natural deduction.
+          \begin{enumerate}
+            \item $\vdash (A \supset B) \supset (A \supset B \supset C) \supset (A \supset C)$.
+            \item $\{\neg (A\lor B)\} \vdash \neg A \land \neg B$.
+          \end{enumerate}
+    \item Apresente uma dedução em cálculo de sequentes para
+          \[
+            \Longrightarrow (A \supset B \supset C) \supset ((A \supset B) \supset (A \supset C))
+          \]
+
+    \item Apresente deduções usando o cálculo para proof search para as seguintes tautologias.
+          Lembre-se que $\neg \varphi \equiv \varphi \supset \bot$!
+          \begin{enumerate}
+            \item $\neg \neg (A \lor \neg A)$
+            \item $\neg \neg (\neg \neg A \supset A)$
+          \end{enumerate}
+  \end{enumerate}
+
+\end{document}

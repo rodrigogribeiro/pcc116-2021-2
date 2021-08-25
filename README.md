@@ -16,6 +16,8 @@ Conteúdo da disciplina.
 * Semana 2
 
     * [Aula 03 - 31/08/2021 - Lógica proposicional - Parte 01](https://youtube.com/playlist?list=PLxVVfOvO-mM24qLpEx6_-HbBiV4I72KMK)
+    
+    * [Aula 04 - 02/08/2021 - Lógica proposicional - Parte 02](https://youtube.com/playlist?list=PLxVVfOvO-mM2lbLci9io3S2z5c55MAqhN)
 
 
 Listas de exercícios

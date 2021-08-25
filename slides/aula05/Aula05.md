@@ -1188,11 +1188,34 @@ incorreta de substituição.
 
 $$
 \begin{array}{lcl}
-   t & \to  & i \\
+   t & \to  & i \in\mathbb{N}\\
      & \mid & t\:t \\
      & \mid & \lambda.t\\
 \end{array}
 $$
 
 ## Índices De Bruijn
+
+- Diferenças com o $\lambda$-cálculo tradicional.
+    - Variáveis são representadas por números.
+    - Abstrações não definem variáveis.
+    
+## Índices De Bruijn
+
+- Representando a função identidade.
+
+$$
+\lambda x. x
+$$
+
+## Índices De Bruijn
+
+- Representando a função identidade.
+
+$$
+\lambda. 0
+$$
+
+## Índices De Bruijn
+
 
