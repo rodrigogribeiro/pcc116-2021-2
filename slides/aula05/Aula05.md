@@ -1167,7 +1167,7 @@ normais (supondo que a redução termine...)
 
 ## Índices De Bruijn
 
-- Muitos bugs em compiladores em assistentes de provas decorrem da implementação
+- Muitos bugs em compiladores e assistentes de provas decorrem da implementação
 incorreta de substituição.
 
 - Uma forma de eliminar esses problemas é usando os chamados _índices De Bruijn_.
@@ -1216,6 +1216,203 @@ $$
 \lambda. 0
 $$
 
+## Índices De Bruijn 
+
+- Convertendo para índices De Bruijn
+   - Fácil! Um inteiro para cada variável ligada.
+- Como lidar com variáveis livres? 
+
 ## Índices De Bruijn
 
+- Usamos um finite-mapping entre variáveis e números 
+inteiros, $\Theta$.
 
+- Antes da conversão, calculamos esse ambiente que armazena
+os inteiros correspondentes a cada variável.
+
+## Índices De Bruijn 
+
+- Convertendo para índices De Bruijn
+
+$$
+\begin{array}{lcl}
+  \textrm{removeNames }x & = & \Theta(x)\\
+\end{array}
+$$
+
+## Índices De Bruijn 
+
+- Convertendo para índices De Bruijn
+
+$$
+\begin{array}{lcl}
+  \textrm{removeNames }(x)           & = & \Theta(x)\\
+  \textrm{removeNames }(\lambda x.e) & = & \lambda.\textrm{removeNames(e)}\\
+\end{array}
+$$
+
+## Índices De Bruijn 
+
+- Convertendo para índices De Bruijn
+
+$$
+\begin{array}{lcl}
+  \textrm{removeNames}(x)           & = & \Theta(x)\\
+  \textrm{removeNames}(\lambda x.e) & = & \lambda.\textrm{removeNames}(e)\\
+  \textrm{removeNames}(e_1\:e_2)    & = & \textrm{removeNames}(e_1)\:\textrm{removeNames}(e_2)\\
+\end{array}
+$$
+
+
+## Índices De Bruijn
+
+- Como implementar um interpretador usando a sintaxe 
+De Bruijn?
+
+- A principal modificação envolve a operação 
+de substituição.
+
+## Índices De Bruijn
+
+- Substituição
+
+$$
+(\lambda. e)\,e' \to_{\beta} [0 \mapsto e']\,e
+$$
+
+## Índices De Bruijn
+
+- Para implementar a operação de substituição, vamos utilizar 
+uma função auxiliar que "ajusta" os índices de variáveis a 
+medida que percorre um $\lambda$-termo.
+
+## Índices De Bruijn
+
+- A função de "lifting" de variáveis usa um parâmetro $l$ que indica
+quantas abstrações foram encontradas até o momento.
+   - Variáveis $i < l$: ligadas
+   - Variáveis $i \geq l$: livres
+   
+## Índices De Bruijn
+
+- De maneira intuitiva, a função de lifting inclui uma nova variável na
+posição $l$.
+   
+## Índices De Bruijn
+
+- Lifting 
+
+$$
+\begin{array}{lcl}
+\uparrow_{l}\,i & = & \left\{
+                        \begin{array}{ll}
+                           i & \textrm{se }i < l\\
+                           i + 1 & \textrm{caso contrário}\\
+                        \end{array}
+                      \right.
+\end{array}
+$$
+
+## Índices De Bruijn
+
+- Lifting 
+
+$$
+\begin{array}{lcl}
+\uparrow_{l}(i) & = & \left\{
+                        \begin{array}{ll}
+                           i & \textrm{se }i < l\\
+                           i + 1 & \textrm{caso contrário}\\
+                        \end{array}
+                      \right. \\
+\uparrow_{l}(e_1\,e_2) & = & \uparrow_{l}(e_1)\,\uparrow_{l}(e_2)\\
+\end{array}
+$$
+
+## Índices De Bruijn
+
+- Lifting 
+
+$$
+\begin{array}{lcl}
+\uparrow_{l}(i) & = & \left\{
+                        \begin{array}{ll}
+                           i & \textrm{se }i < l\\
+                           i + 1 & \textrm{caso contrário}\\
+                        \end{array}
+                      \right. \\
+\uparrow_{l}(e_1\,e_2) & = & \uparrow_{l}(e_1)\,\uparrow_{l}(e_2)\\
+\uparrow_{l}(\lambda. e) & = & \lambda.(\uparrow_{l + 1}(e))\\
+\end{array}
+$$
+
+## Índices De Bruijn 
+
+- Evidentemente, precisamos de uma operação para "remover" uma variável 
+em uma posição $l$.
+
+- Chamamos essa operação de "unlift".
+
+## Índices De Bruijn
+
+- Unlift: definido apenas para variáveis
+
+$$
+\begin{array}{lcl}
+   \downarrow_{l}(i) & = & \left\{
+                            \begin{array}{ll}
+                              i - 1 & \textrm{se }i > l\\
+                              i     & \textrm{se }i < l\\
+                            \end{array}
+                           \right. \\
+\end{array}
+$$
+
+## Índices De Bruijn
+
+- Finalmente, podemos implementar a substituição.
+
+$$
+\begin{array}{lcl}
+   [i\mapsto u]\,i & = & u\\
+   [i\mapsto u]\,j & = & \downarrow_{i}(j)\textrm{ se }j\neq i\\
+\end{array}
+$$
+
+## Índices De Bruijn
+
+- Finalmente, podemos implementar a substituição.
+
+$$
+\begin{array}{lcl}
+   [i\mapsto u]\,i & = & u\\
+   [i\mapsto u]\,j & = & \downarrow_{i}(j)\textrm{ se }j\neq i\\
+   [i\mapsto u](e_1\:e_2) & = & ([i\mapsto u]e_1)\,([i\mapsto u]e_2)\\
+\end{array}
+$$
+
+## Índices De Bruijn
+
+- Finalmente, podemos implementar a substituição.
+
+$$
+\begin{array}{lcl}
+   [i\mapsto u]\,i & = & u\\
+   [i\mapsto u]\,j & = & \downarrow_{i}(j)\textrm{ se }j\neq i\\
+   [i\mapsto u](e_1\:e_2) & = & ([i\mapsto u]e_1)\,([i\mapsto u]e_2)\\
+   [i\mapsto u](\lambda.e) & = & \lambda. [(i + 1) \mapsto \uparrow_0(u)]\,e
+\end{array}
+$$
+
+## Índices De Bruijn
+
+- No repositório da disciplina, há uma implementação de um interpretador 
+para o $\lambda$-cálculo usando índices De Bruijn.
+
+# Referências
+
+## Referências
+
+- Pierce, Benjamin. Types and Programming Languages, MIT Press, 2002.
+
+- Mimram, Samuel. Program = Proof.
