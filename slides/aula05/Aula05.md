@@ -274,6 +274,8 @@ $$
 
 # Semântica
 
+## Semântica
+
 - Antes de apresentar a semântica do $\lambda$-cálculo, é necessário
   definir a operação de substituição.
 
@@ -311,9 +313,9 @@ $$
 ## Semântica
 
 - Um termo da forma: $(\lambda x. e)\:e'$ denota
-    - uma função de um argumento $x$
+    - uma função de um parâmetro $x$
     - um argumento $e'$
-- Como calcular o resultado desta _chamdada de função_?
+- Como calcular o resultado desta _chamada de função_?
 
 ## Semântica
 
@@ -337,7 +339,7 @@ $$
 - A relação de $\beta$-redução é definda pelas seguintes regras.
 
 $$
-\dfrac{e \rigtharrow_{\beta}e'}
+\dfrac{e \rightarrow_{\beta}e'}
       {\lambda x. e \rightarrow_{\beta} e'}
 $$
 
@@ -346,7 +348,7 @@ $$
 - A relação de $\beta$-redução é definda pelas seguintes regras.
 
 $$
-\dfrac{e_1 \rigtharrow_{\beta}e'_1}
+\dfrac{e_1 \rightarrow_{\beta}e'_1}
       {e_1\:e_2 \rightarrow_{\beta} e'_1\:e_2}
 $$
 
@@ -355,7 +357,7 @@ $$
 - A relação de $\beta$-redução é definda pelas seguintes regras.
 
 $$
-\dfrac{e_2 \rigtharrow_{\beta}e'_2}
+\dfrac{e_2 \rightarrow_{\beta}e'_2}
       {e_1\:e_2 \rightarrow_{\beta} e_1\:e'_2}
 $$
 
@@ -547,8 +549,8 @@ $$
 ## Programando em $\lambda$-cálculo
 
 - Pode-se representar números naturais utilizando a notação de Peano.
-  - zero \in $\mathbb{N}$
-  - se n \in $\mathbb{N}$ então succ n \in $\mathbb{N}$
+  - zero $\in$ $\mathbb{N}$
+  - se n $\in$ $\mathbb{N}$ então succ n $\in$ $\mathbb{N}$
 
 ## Programando em $\lambda$-cálculo
 
@@ -567,7 +569,7 @@ $$
 ## Programando em $\lambda$-cálculo
 
 - Representando números naturais:
-  - Se n \in $\mathbb{N}$ então $\overline{n} = \lambda s z. s^n z$.
+  - Se n $\in$ $\mathbb{N}$ então $\overline{n} = \lambda s z. s^n z$.
 
 ## Programando em $\lambda$-cálculo
 
@@ -998,7 +1000,7 @@ data Term
 é descrito pela seguinte gramática:
 
 $$
-v \to \lambda x . e \,\mid\,x\:v_1\hdotsv_n
+v \to \lambda x . e \,\mid\,x\:v_1 ... v_n
 $$
 
 ## Implementação 
@@ -1259,7 +1261,8 @@ $$
 \begin{array}{lcl}
   \textrm{removeNames}(x)           & = & \Theta(x)\\
   \textrm{removeNames}(\lambda x.e) & = & \lambda.\textrm{removeNames}(e)\\
-  \textrm{removeNames}(e_1\:e_2)    & = & \textrm{removeNames}(e_1)\:\textrm{removeNames}(e_2)\\
+  \textrm{removeNames}(e_1\:e_2)    & = & \textrm{removeNames}(e_1)\\ 
+                                    &   & \textrm{removeNames}(e_2)\\
 \end{array}
 $$
 
