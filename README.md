@@ -32,6 +32,10 @@ Listas de exercícios
     * Data para entrega: 10/09/2021, pela plataforma Moodle.
     * Link para a lista: <https://github.com/rodrigogribeiro/pcc116-2021-2/blob/master/listas/lista01/lista01.pdf>
 
+* Lista 02 - Lambda-cálculo
+    * Data para entrega: 17/09/2021, pela plataforma Moodle.
+    * Link para a lista: <https://github.com/rodrigogribeiro/pcc116-2021-2/blob/master/listas/lista02/lista02.pdf>
+
 
 Código de exemplo
 -----------------
