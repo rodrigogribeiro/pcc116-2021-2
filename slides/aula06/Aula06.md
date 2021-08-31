@@ -16,7 +16,7 @@ de tipos.
 
 ## Objetivos
 
-- Apresentar o isomorfismo de Curry-Howard entre o $\lambda$-cálculo tipado 
+- Apresentar a correspondência de Curry-Howard entre o $\lambda$-cálculo tipado 
 simples e a lógica proposicional.
 
 ## Objetivos 
@@ -890,7 +890,7 @@ $e\in R_{\tau}$.
 ## Normalização 
 
 - Lema: Seja $e$ um termo tal que para todo $e'\in R_{\tau_1}$, temos que 
-$[x \mapsto e']\,e \in R_{\tau_2}$. Então $\lambda x : \tau_1. e : R_{\tau_1\to\tau_2}$.
+$[x \mapsto e']\,e \in R_{\tau_2}$. Então $\lambda x : \tau_1. e \in R_{\tau_1\to\tau_2}$.
 
 ## Normalização
 

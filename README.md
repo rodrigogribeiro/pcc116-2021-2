@@ -23,6 +23,7 @@ Conteúdo da disciplina.
     
     * [Aula 05 - 07/09/2021 - Lambda cálculo não tipado](https://youtube.com/playlist?list=PLxVVfOvO-mM0hacFHyf_aRZvdZQp0Pc4I)
 
+    * [Aula 06 - 09/09/2021 - Lambda cálculo tipado simples](https://youtube.com/playlist?list=PLxVVfOvO-mM3djYRJ4iH70z8ARnTeEkCl)
 
 Listas de exercícios
 --------------------
@@ -40,3 +41,5 @@ Código de exemplo
 * [Interpretador para o lambda-cálculo não tipado](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/lambda)
 
 * [Interpretador para o lambda-cálculo não tipado com índices De Bruijn](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/debruijn)
+
+* [Inferência de tipos para o lambda-cálculo tipado simples](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/stlc)

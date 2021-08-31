@@ -1,0 +1,103 @@
+\documentclass[a4paper]{article}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx,hyperref}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{proof,tikz}
+\usepackage{amssymb,amsthm,stmaryrd}
+
+
+\usepackage[edges]{forest}
+\usetikzlibrary{automata, positioning, arrows}
+
+
+\newtheorem{Lemma}{Lema}
+\newtheorem{Theorem}{Teorema}
+\theoremstyle{definition}
+\newtheorem{Example}{Exemplo}
+\newtheorem{Definition}{Definição}
+
+
+\usepackage{fancyhdr}
+  \pagestyle{fancy}
+  \fancyhf{}
+  \lhead{Lógica aplicada à computação}
+  \rhead{Lista de exercícios 02}
+  \lfoot{Prof. Rodrigo Ribeiro}
+  \rfoot{\thepage}
+  \renewcommand{\footrulewidth}{0.4pt}
+  \pagestyle{fancy}
+
+\tikzset{
+        ->,  % makes the edges directed
+        >=stealth', % makes the arrow heads bold
+        node distance=3cm,
+        every state/.style={thick, fill=gray!10},
+        initial text=$\,$
+        }
+  
+
+\begin{document}
+
+  \title{Lista 02 - $\lambda$-cálculo}
+  \author{Rodrigo Ribeiro}
+
+  \maketitle
+
+
+  \pagestyle{fancy}
+
+  \section*{Avisos sobre a entrega da lista 02}
+
+  \begin{itemize}
+    \item As listas deverão ser resolvidas utilizando~\LaTeX~usando o template fornecido.
+    \item O conjunto de soluções deverá ser entregue na plataforma Moodle como um único
+        arquivo \textbf{.pdf}. É de responsabilidade do aluno a entrega de sua solução dentro do
+        prazo estabelecido.
+  \end{itemize}
+
+  \section*{Exercícios}
+
+  \begin{enumerate}
+
+    \item O $\lambda$-cálculo não tipado pode ser utilizado para representar quaisquer funções computáveis.
+          O objetivo deste exercício é a definição de algumas funções usando esse formalismo.
+    \begin{enumerate}
+      \item Apresente a definição de um $\lambda$-termo para realizar a soma de dois números naturais
+            expressos usando a notação de Peano.
+      \item Seja $add$ o termo definido por você no item anterior.
+            Apresente a redução do termo $add\:\overline{1}\:\overline{1}$, em que $\overline{n}$ denota
+            a representação de $n\in\mathbb{N}$ em notação de Peano.
+      \item Apresente a definição de um $\lambda$-termo para retornar o maior dentre dois números naturais
+            expressos usando a notação de Peano.
+      \item Apresente uma definição de um $\lambda$-termo para calcular o número de elementos presentes em uma lista.
+            Sua definição deverá considerar a representação de listas em $\lambda$-cálculo não tipado utilizada
+            nas aulas.
+      \item Apresente como definir árvores binárias utilizando termos do $\lambda$-cálculo não tipado.
+      \item Apresente um $\lambda$-termo para calcular a altura de árvores binárias representadas utilizando a notação
+            definida por você no item anterior.
+    \end{enumerate}
+    \item A seguinte proposição é uma tautologia da lógica proposicional:
+
+          \[
+          (D \to (A \to C) \to A) \to (A\to C) \to D \to C
+          \]
+          \begin{enumerate}
+            \item Apresente o $\lambda$-termo correspondente a essa tautologia da lógica,
+                  de acordo com a correspondência de Curry-Howard.
+            \item Apresente a derivação de tipos para o termo apresentado por você no item anterior.
+          \end{enumerate}
+    \item Considere o seguinte termo:
+          \[
+          \vdash \lambda x : \tau_{1}. \lambda y : \tau_{2}.\lambda z : \tau_{3}. x\:y\:(y z) : \tau_{4}
+          \]
+          Faça o que se pede.
+          \begin{itemize}
+            \item Apresente tipos $\tau_{1},\tau_{2}, \tau_{3}$ e $\tau_{4}$ que permitam a construção de
+                  uma derivação de tipos para este termo.
+            \item Apresente a derivação de tipos para os tipos escolhidos por você no item anterior.
+          \end{itemize}
+  \end{enumerate}
+\end{document}
