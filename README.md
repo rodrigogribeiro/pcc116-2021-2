@@ -19,6 +19,10 @@ Conteúdo da disciplina.
     
     * [Aula 04 - 02/09/2021 - Lógica proposicional - Parte 02](https://youtube.com/playlist?list=PLxVVfOvO-mM2lbLci9io3S2z5c55MAqhN)
 
+* Semana 3
+    
+    * [Aula 05 - 07/09/2021 - Lambda cálculo não tipado](https://youtube.com/playlist?list=PLxVVfOvO-mM0hacFHyf_aRZvdZQp0Pc4I)
+
 
 Listas de exercícios
 --------------------
