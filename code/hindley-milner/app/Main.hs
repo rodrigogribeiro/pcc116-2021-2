@@ -5,6 +5,8 @@ import Pretty
 import Parser
 import Infer
 
+import qualified Data.Map as Map
+
 import System.Environment (getArgs)
 import Text.PrettyPrint.HughesPJ
 import Text.ParserCombinators.Parsec
@@ -25,4 +27,12 @@ exec s
       Right e  ->
           case typeInfer e of
             Left err' -> print err'
-            Right ty  -> putStrLn (render (ppr ty))
+            Right ty  -> showResult ty
+
+-- here, we do like GHCi, we generalize the types.
+
+showResult :: Tau -> IO ()
+showResult tau
+  = do
+      let sig = generalization Map.empty tau
+      putStrLn (render (ppr sig))
