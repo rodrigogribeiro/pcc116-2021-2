@@ -1,6 +1,6 @@
 ---
 author: PCC116 - Lógica aplicada à computação - Prof. Rodrigo Ribeiro
-title: Hindley-Milner e Sistema F
+title: Sistema de Hindley-Milner e Inferência.
 ---
 
 # Objetivos
@@ -8,12 +8,11 @@ title: Hindley-Milner e Sistema F
 ## Objetivos
 
 - Apresentar o sistema de tipos de Hindley-Milner e seu algoritmo 
-de inferência.
+de inferência de tipos.
 
 ## Objetivos
 
-- Apresentar o $\lambda$-cálculo polimórfico, Sistema F e como 
-codificar tipos dados quaisquer neste cálculo.
+- Discutir uma implementação deste algoritmo em Haskell.
 
 # Sistema HM
     
@@ -481,14 +480,33 @@ infer gamma (Let n e e')
 - Isso conclui a apresentação do algoritmo de 
 inferência de tipos para o $\lambda$-cálculo.
 
-# Sistema F
+## Inferência
 
-## Sistema F
+- Propriedades: O algoritmo é correto.
 
-- O $\lambda$-cálculo polimórfico, sistema F, foi 
-desenvolvido paralelamente pelo lógico Jean Yves Girard 
-e pelo cientista da computação John Reynolds.
+- Se $\Gamma \vdash e : \tau \Rightarrow S$ então $S(\Gamma)\vdash e : S(\tau)$.
 
-## Sistema F
+## Inferência
 
-- 
+- Propriedades: O algoritmo é completo.
+
+- Se $\Gamma\vdash e : \tau$ então existe $S'$, $S''$, $\Gamma'$ e $\tau'$ tais que 
+$\Gamma = S'(\Gamma')$,  $\tau = S'(\tau')$, $\Gamma'\vdash e : \tau' \Rightarrow S$ e 
+$S' = S'' \circ S$.
+
+## Inferência
+
+- Uma implementação deste algoritmo está disponível no repositório da disciplina.
+
+<https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/hindley-milner>
+
+# Referências
+
+## Referências
+
+- Pierce, Benjamin. Types and Programming Languages, MIT Press. 2002.
+
+- Damas, Luis; Milner, Robin. Principal types schemes for functional programs.
+POPL 82.
+
+
