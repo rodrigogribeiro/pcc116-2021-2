@@ -203,3 +203,430 @@ $$
 
 ## Sistema F
 
+- Ao contrário do $\lambda$-cálculo tipado simples, contextos no sistema F
+armazenam
+    - tipos para termos da forma $x : \sigma$.
+    - variáveis de tipos: $\alpha$.
+    
+## Sistema F
+
+- Regras para variáveis (termos).
+
+$$
+\dfrac{x : \sigma \in \Gamma}
+      {\Gamma \vdash x : \sigma}
+$$
+
+## Sistema F
+
+- Regra para abstrações (termos).
+
+$$
+\dfrac{\Gamma, x : \sigma' \vdash e : \sigma}
+      {\Gamma \vdash \lambda x : \sigma'.e : \sigma' \to \sigma}
+$$
+
+## Sistema F
+
+- Regra para aplicações (termos).
+
+$$
+\dfrac{\Gamma\vdash e_1 : \sigma' \to \sigma\:\:\:\:
+       \Gamma\vdash e_2 : \sigma'}
+      {\Gamma\vdash e_1\:e_2 : \sigma}
+$$
+
+## Sistema F
+
+- Regra para abstração (tipos).
+
+$$
+\dfrac{\Gamma,\alpha\vdash e : \sigma}
+      {\Gamma\vdash \Lambda \alpha. e : \forall \alpha.\sigma}
+$$
+
+## Sistema F
+
+- Regra para aplicação (tipos).
+
+$$
+\dfrac{\Gamma\vdash e : \forall \alpha.\sigma}
+      {\Gamma\vdash e\,[\sigma'] : [\alpha\mapsto \sigma']\,\sigma}
+$$
+
+## Sistema F 
+
+- Exemplo de derivação.
+
+$$
+\dfrac{}{
+\vdash (\Lambda \alpha. \lambda x : \alpha. x)[\textrm{bool}] : \textrm{bool}\to\textrm{bool}}
+$$
+
+## Sistema F 
+
+- Exemplo de derivação.
+
+$$
+\dfrac{
+   \dfrac{}{\vdash \Lambda \alpha. \lambda x : \alpha. x : \forall \alpha . \alpha \to \alpha}
+}{\vdash (\Lambda \alpha. \lambda x : \alpha. x)[\textrm{bool}] : \textrm{bool}\to\textrm{bool}}
+$$
+
+## Sistema F 
+
+- Exemplo de derivação.
+
+$$
+\dfrac{
+   \dfrac{\dfrac{}{\alpha \vdash \lambda x : \alpha . x : \alpha \to \alpha}}
+         {\vdash \Lambda \alpha. \lambda x : \alpha. x : \forall \alpha . \alpha \to \alpha}
+}{\vdash (\Lambda \alpha. \lambda x : \alpha. x)[\textrm{bool}] : \textrm{bool}\to\textrm{bool}}
+$$
+
+## Sistema F 
+
+- Exemplo de derivação.
+
+$$
+\dfrac{
+   \dfrac{\dfrac{
+              \dfrac{}{\alpha, x : \alpha \vdash x : \alpha}
+          }{\alpha \vdash \lambda x : \alpha . x : \alpha \to \alpha}}
+         {\vdash \Lambda \alpha. \lambda x : \alpha. x : \forall \alpha . \alpha \to \alpha}
+}{\vdash (\Lambda \alpha. \lambda x : \alpha. x)[\textrm{bool}] : \textrm{bool}\to\textrm{bool}}
+$$
+
+# Church Encodings
+
+## Church Encodings
+
+- O sistema F é uma linguagem bastante expressiva e permite codificar diversos tipos
+de dados e de funções sobre estes.
+
+## Church Encodings
+
+- Basicamente, a representação consiste em adicionar anotações de tipos à versão 
+destes termos do $\lambda$-cálculo não tipado.
+
+## Church Encodings
+
+- Booleanos
+
+$$
+\begin{array}{l}
+   \textrm{bool}  = \forall \alpha. \alpha \to \alpha \to \alpha\\
+   \textrm{true}  = \Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x\\
+   \textrm{false} = \Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . y\\
+\end{array}
+$$
+
+## Church Encodings
+
+- Demonstrando que $\vdash true : bool$
+
+$$
+  \dfrac{}{\textrm{true} : \textrm{bool}}
+$$
+
+## Church Encodings
+
+- Demonstrando que $\vdash true : bool$
+   - $\textrm{true}  = \Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x$
+
+$$
+  \dfrac{}{\Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x : \textrm{bool}}
+$$
+
+## Church Encodings
+
+- Demonstrando que $\vdash true : bool$
+   - $\textrm{true}  = \Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x$
+   - $\textrm{bool}  = \forall \alpha. \alpha \to \alpha \to \alpha\\$
+
+$$
+  \dfrac{}{\Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x : \forall \alpha. \alpha \to \alpha \to \alpha}
+$$
+
+## Church Encodings
+
+- Demonstrando que $\vdash true : bool$
+$$
+  \dfrac{
+    \dfrac{
+    }{\alpha \vdash \lambda x : \alpha. \lambda y : \alpha . x :\alpha \to \alpha \to \alpha}}
+{\Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x : \forall \alpha. \alpha \to \alpha \to \alpha}
+$$
+
+
+
+## Church Encodings
+
+- Demonstrando que $\vdash true : bool$
+$$
+  \dfrac{
+    \dfrac{
+       \dfrac{}{\alpha, x : \alpha \vdash \lambda y : \alpha . x : \alpha \to \alpha}
+    }{\alpha \vdash \lambda x : \alpha. \lambda y : \alpha . x :\alpha \to \alpha \to \alpha}}
+{\Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x : \forall \alpha. \alpha \to \alpha \to \alpha}
+$$
+
+## Church Encodings
+
+- Demonstrando que $\vdash true : bool$
+$$
+  \dfrac{
+    \dfrac{
+       \dfrac{
+         \dfrac{}{\alpha, x : \alpha, y : \alpha \vdash x : \alpha}
+       }{\alpha, x : \alpha \vdash \lambda y : \alpha . x : \alpha \to \alpha}
+    }{\alpha \vdash \lambda x : \alpha. \lambda y : \alpha . x :\alpha \to \alpha \to \alpha}}
+{\Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x : \forall \alpha. \alpha \to \alpha \to \alpha}
+$$
+
+## Church Encodings
+
+- Demonstrando que $\vdash true : bool$
+$$
+  \dfrac{
+    \dfrac{
+       \dfrac{
+         \dfrac{x : \alpha \in \{\alpha, x : \alpha, y : \alpha\}}
+               {\alpha, x : \alpha, y : \alpha \vdash x : \alpha}
+       }{\alpha, x : \alpha \vdash \lambda y : \alpha . x : \alpha \to \alpha}
+    }{\alpha \vdash \lambda x : \alpha. \lambda y : \alpha . x :\alpha \to \alpha \to \alpha}}
+{\Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x : \forall \alpha. \alpha \to \alpha \to \alpha}
+$$
+
+## Church Encodings
+
+- Números naturais usando a notação de Peano.
+
+$$
+\begin{array}{l}
+\textrm{nat} = \forall \alpha. (\alpha \to \alpha) \to \alpha \to \alpha \\
+\textrm{zero} = \Lambda \alpha. \lambda s : \alpha \to \alpha. \lambda z : \alpha. z\\
+\textrm{succ} = \Lambda \alpha. \lambda s : \alpha \to \alpha. \lambda z : \alpha. s\:z\\
+\end{array}
+$$ 
+
+## Church Encodings
+
+- Listas
+
+$$
+\begin{array}{lcl}
+   \textrm{list}\:\alpha & = & \forall\,\beta.(\alpha\to\beta\to\beta)\to\beta\to\beta\\
+   \textrm{nil} & = & \Lambda \alpha. \Lambda\,\beta.\lambda c : \alpha \to \beta\to \beta.\lambda n : \beta. n\\
+   \textrm{cons} & = & \Lambda \alpha.\lambda h : \alpha. \lambda tl : \textrm{list }\alpha.\\
+                 &   & \Lambda \beta.\lambda c : \alpha\to\beta\to\beta. \lambda n : \beta. c\,h\,(tl\,[\beta]\,c\,n)\\
+\end{array}
+$$
+
+## Church Encodings
+
+- Além de tipos de dados, podemos utilizar o sistema F para representar conectivos da lógica.
+
+## Church Encodings
+
+- Representando a conjunção $A \land B$.
+
+$$
+\forall \alpha. (A \to B \to \alpha) \to \alpha
+$$
+
+## Church Encodings 
+
+- Representando a negação $\neg A$
+
+$$
+\forall \alpha.A \to \alpha
+$$
+
+## Church Encodings
+
+- Representando a constante $\top$:
+
+$$ 
+\forall \alpha. \alpha\to \alpha
+$$
+
+## Church Encodings
+
+- Antes de generalizarmos o processo de representação de termos quaisquer 
+utilizando o sistema F, vamos considerar a estrutura de formas normais 
+deste cálculo.
+
+# Formas Normais
+
+## Formas Normais 
+
+- Intuitivamente, um termo do sistema F é uma forma normal se não
+possui sub-expressões:
+    - $(\Lambda \alpha.e)[\beta]$
+    - $(\lambda x : \sigma.e)\,e'$
+
+## Formas Normais
+
+- Formas normais do sistema F
+    - $\Lambda a_i$: abstrações de tipos ou termos.
+    - $Q_j$: um termo em forma normal ou um tipo.
+    
+$$
+\Lambda a_1. ... \Lambda a_n. z Q_1 ... Q_k
+$$
+
+## Formas Normais
+
+- Sistema F não possui formas normais únicas.
+
+- Exemplos
+
+$$
+\begin{array}{l}
+\Lambda \alpha.\Lambda \beta. \lambda x : \alpha \to \beta . x\\
+\Lambda \alpha.\Lambda \beta. \lambda x : \alpha \to \beta . \lambda y : \alpha. x\,y\\
+\end{array}
+$$
+
+## Formas Normais
+
+- Os termos anteriores são $\eta$-equivalentes.
+
+$$
+\begin{array}{l}
+e \equiv_{\eta} \lambda x. e\\
+x \not\in\textrm{fv}(e)
+\end{array}
+$$
+
+## Formas Normais
+
+- Para considerar formas normais únicas, temos que adaptar a definição
+para levar em conta a $\eta$ equivalência.
+
+## Formas Normais
+
+- Um termo é uma forma normal longa, se:
+    - Se é uma forma normal.
+    - O termo $z Q_1 ... Q_n$ possui um tipo atômico.
+    - Cada $Q_j$, se termo, está em forma normal longa.
+    
+## Formas Normais
+
+- Propriedade: Todo termo do Sistema F possui uma única forma normal longa.
+
+## Formas Normais
+
+- Formas normais longas são importantes porque muito de sua estrutura 
+deriva diretamente de seu tipo.
+
+## Formas Normais
+
+- Se o tipo da forma normal for atômico, então esta deve ser:
+
+$$
+z Q_1 ... Q_n
+$$
+
+## Formas Normais
+
+- Se o tipo da forma normal for $\sigma\to\sigma'$, então esta deve ser:
+
+$$
+\lambda x : \sigma . e
+$$
+
+## Formas Normais
+
+- Se o tipo da forma normal for $\forall \alpha.\sigma$, então esta deve ser:
+
+$$
+\Lambda \alpha. e
+$$
+
+## Formas Normais
+
+- Exemplo: Considere o tipo: 
+
+$$
+\sigma_1 \to \sigma_2 \to \forall \alpha_3. \sigma_4 \to \forall \alpha_5. \beta
+$$
+
+## Formas Normais
+
+- Esse tipo possui 5 "prefixos".
+
+$$
+\sigma_1 \to \sigma_2 \to \forall \alpha_3. \sigma_4 \to \forall \alpha_5. \beta
+$$
+
+
+## Formas Normais 
+
+- Uma forma normal para o tipo anterior deve ser:
+
+$$
+\lambda x : \sigma_1. \lambda y: \sigma_2. \Lambda \alpha_3. \lambda z:\sigma_4.\Lambda \alpha_5 ...
+$$
+
+## Formas Normais
+
+- Este termo também possui 5 prefixos, correspondentes aos prefixos em seu tipo.
+
+$$
+\lambda x : \sigma_1. \lambda y: \sigma_2. \Lambda \alpha_3. \lambda z:\sigma_4.\Lambda \alpha_5 ...
+$$
+
+## Formas Normais
+
+- Logo, o problema de construir uma forma normal longa pra um termo consiste em determinar
+a primeira variável em
+
+$$
+z Q_1 ... Q_k
+$$
+
+## Formas Normais
+
+- Exemplo: toda forma normal longa do tipo $\textrm{bool}$ é equivalente
+aos termos $\textrm{true}$ e $\textrm{false}$.
+
+$$
+\begin{array}{l}
+   \textrm{bool}  = \forall \alpha. \alpha \to \alpha \to \alpha\\
+   \textrm{true}  = \Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . x\\
+   \textrm{false} = \Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha . y\\
+\end{array}
+$$
+
+
+## Formas Normais
+
+- Como $\textrm{bool}  = \forall \alpha. \alpha \to \alpha \to \alpha$, temos que suas 
+formas normais longa devem possuir a forma:
+
+$$
+\Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha. ...
+$$
+
+
+## Formas Normais
+
+- Visto que o contexto atual é $\Gamma = \{\alpha, x : \alpha, y : \alpha\}$, temos dois 
+possíveis termos:
+
+$$
+\begin{array}{l}
+\Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha. x\\
+\Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha. y\\
+\end{array}
+$$
+
+# Referências
+
+## Referências
+
+- Selinger, Peter. Lecture Notes on the $\lambda$-calculus.
+
+- Pierce, Benjamin. Types and Programming Languages. MIT Press. 2002.
