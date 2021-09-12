@@ -100,7 +100,7 @@ _tipo_ como argumento.
 
 $$
 \begin{array}{lc}
-   (\Lambda \alpha. \lambda x : \alpha. x)\:\textrm{bool} & \longrigharrow \\
+   (\Lambda \alpha. \lambda x : \alpha. x)\:\textrm{bool} & \longrightarrow \\
 \end{array}
 $$
 
@@ -110,7 +110,7 @@ $$
 
 $$
 \begin{array}{lc}
-   (\Lambda \alpha. \lambda x : \alpha. x)\:\textrm{bool}  & \longrigharrow \\
+   (\Lambda \alpha. \lambda x : \alpha. x)\:\textrm{bool}  & \longrightarrow \\
    [\alpha \mapsto \textrm{bool}]\:(\lambda x : \alpha. x) & \longrightarrow \\
 \end{array}
 $$
@@ -121,7 +121,7 @@ $$
 
 $$
 \begin{array}{lc}
-   (\Lambda \alpha. \lambda x : \alpha. x)\:\textrm{bool}  & \longrigharrow \\
+   (\Lambda \alpha. \lambda x : \alpha. x)\:\textrm{bool}  & \longrightarrow \\
    [\alpha \mapsto \textrm{bool}]\:(\lambda x : \alpha. x) & \longrightarrow \\
    \lambda x : \textrm{bool}. x\\
 \end{array}
@@ -197,7 +197,7 @@ $$
 $$
 \begin{array}{lcl}
    (\lambda x : \sigma . e_1)\,e_2 & \longrightarrow & [x\mapsto e_2]\:e_1\\
-   (\Lambda \alpha.e_1)\,\sigma    & \longrightarrow & [\alpha\mapsto \sigma]\,e_1\\
+   (\Lambda \alpha.e_1)\,[\sigma]    & \longrightarrow & [\alpha\mapsto \sigma]\,e_1\\
 \end{array}
 $$
 
@@ -251,7 +251,7 @@ $$
 
 $$
 \dfrac{\Gamma\vdash e : \forall \alpha.\sigma}
-      {\Gamma\vdash e\,[\sigma'] : [\alpha\mapsto \sigma']\,\sigma}
+      {\Gamma\vdash e\,[\sigma'] : [\alpha\mapsto \sigma']\,e}
 $$
 
 ## Sistema F 

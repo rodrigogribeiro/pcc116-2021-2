@@ -1,6 +1,6 @@
 ---
 author: PCC116 - Lógica aplicada à computação - Prof. Rodrigo Ribeiro
-title: Sistema de Hindley-Milner e Inferência.
+title: Sistema de Hindley-Milner.
 ---
 
 # Objetivos
@@ -13,6 +13,37 @@ de inferência de tipos.
 ## Objetivos
 
 - Discutir uma implementação deste algoritmo em Haskell.
+
+# Motivação
+
+## Motivação 
+
+- Vimos em aulas anteriores... 
+    - O $\lambda$-cálculo tipado simples possui uma correspondência com 
+      a lógica proposicional.
+      
+## Motivação
+
+- Mas e a lógica de primeira ordem?
+
+- Como lidar com quantificadores?
+
+## Motivação
+
+- Antes de responder essas perguntas em um contexto geral, vamos
+considerar o problema restrito de adicionar o quantificador universal 
+ao $\lambda$-cálculo tipado simples.
+
+## Motivação
+
+- Se restringirmos a presença de quantificadores a "prefixos" dos tipos
+do $\lambda$-cálculo, obtemos o núcleo de linguagens funcionais como ML 
+e Haskell
+
+## Motivação
+
+- Nesta aula, focaremos no problema de inferência de tipos para o $\lambda$-cálculo
+estendido com a construção $\texttrm{let}$.
 
 # Sistema HM
     
@@ -82,9 +113,9 @@ $$
 - Instâncias do tipo $\forall \alpha_1\,\alpha_2. \alpha_1 \to \alpha_2 \to \alpha_1$:
 
 $$
-\begin{array}{l}
-   \forall \alpha_2. \textrm{int} \to \alpha_2 \to \textrm{int}\\
-   \textrm{int} \to \textrm{bool} \to \textrm{bool}\\
+\begin{array}{l|l}
+   \forall \alpha_2. \textrm{int} \to \alpha_2 \to \textrm{int} & S=\{\alpha_1 \mapsto\textrm{int}\}\\
+   \textrm{int} \to \textrm{bool} \to \textrm{int} & S=\{\alpha_1 \mapsto\textrm{int},\alpha_2\mapsto\textrm{bool}\}\\
 \end{array}
 $$
 
@@ -145,7 +176,7 @@ $$
 ## Sistema HM
 
 - A sintaxe de termos possui um novo componente: 
-termos \textrm{let}.
+termos $\textrm{let}$.
 
 ## Sistema HM
 
@@ -213,7 +244,7 @@ $$
 $$
 \dfrac{\Gamma \vdash e_1 : \tau_1\:\:\:\:
        \Gamma , x : \sigma_1 \vdash e_2 : \tau_2\:\:\:\:
-       \sigma = \textrm{gen}(\tau_1,\Gamma)}
+       \sigma_1 = \textrm{gen}(\tau_1,\Gamma)}
       {\Gamma \vdash \textrm{let } x = e_1 \textrm{ in } e_2 : \tau_2}
 $$
 
@@ -264,6 +295,11 @@ $$
 - Agora que apresentamos o sistema HM, vamos considerar seu algoritmo de inferência.
 
 # Inferência
+
+## Inferência
+
+- O sistema de tipos de Hindley-Milner consiste de uma extensão simples do 
+$\lambda$-cálculo tipado simples.
 
 ## Inferência
 
