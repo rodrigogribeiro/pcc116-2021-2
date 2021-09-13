@@ -69,8 +69,6 @@ $$
 \Lambda \alpha. \lambda x : \alpha. x
 $$
 
-## Introdução
-
 ## Introdução 
 
 - Identidade polimórfica.
@@ -135,6 +133,13 @@ sintaxe especial para esta última.
 $$
 (\Lambda \alpha. \lambda x : \alpha. x)[\textrm{bool}]
 $$
+
+## Introdução
+
+- No repositório da disciplina, está disponível uma implementação Haskell do 
+Sistema F.
+
+<https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/system-f>
 
 ## Introdução
 
