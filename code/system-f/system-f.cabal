@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Eval
+      Expand
       Parser
       Pretty
       Syntax
@@ -37,6 +38,7 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , haskeline
     , mtl
     , parsec
     , pretty
@@ -52,6 +54,7 @@ executable system-f-exe
   build-depends:
       base >=4.7 && <5
     , containers
+    , haskeline
     , mtl
     , parsec
     , pretty
@@ -69,6 +72,7 @@ test-suite system-f-test
   build-depends:
       base >=4.7 && <5
     , containers
+    , haskeline
     , mtl
     , parsec
     , pretty

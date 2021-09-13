@@ -1,4 +1,4 @@
-module Parser where
+module Parser (parseCmd, Cmd (..)) where
 
 import           Control.Monad
 import           Text.ParserCombinators.Parsec
@@ -15,6 +15,11 @@ data Cmd
   | Def Name Term
   | Eval Term
   deriving Show
+
+-- top level parsing function
+
+parseCmd :: String -> Either ParseError Cmd
+parseCmd = parse cmdParser ""
 
 -- parsing commands
 
@@ -43,6 +48,7 @@ cmdParser
                   n <- nm
                   str ":"
                   t <- typ
+                  str "."
                   return (Lam n t)
       typ = forallt <|> fun
       forallt = flip (foldr ForAll) <$> between (str "forall") (str ".") (many1 nm) <*> fun

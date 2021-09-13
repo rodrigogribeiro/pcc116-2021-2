@@ -38,6 +38,7 @@ whnf env (Var v)
         case x of
           Var v' | v == v' -> x
           _ -> whnf env x
+      Nothing -> Var v
 whnf _ t = t
 
 
