@@ -24,6 +24,12 @@ Conteúdo da disciplina.
     * [Aula 05 - 07/09/2021 - Lambda cálculo não tipado](https://youtube.com/playlist?list=PLxVVfOvO-mM0hacFHyf_aRZvdZQp0Pc4I)
 
     * [Aula 06 - 09/09/2021 - Lambda cálculo tipado simples](https://youtube.com/playlist?list=PLxVVfOvO-mM3djYRJ4iH70z8ARnTeEkCl)
+    
+* Semana 4 
+
+    * [Aula 07 - 14/09/2021 - Sistema de Hindley-Milner](https://youtube.com/playlist?list=PLxVVfOvO-mM0mP7x--npcYr-SwoIzsVE8)
+    
+    * [Aula 08 - 16/09/2021 - Sistema F](https://youtube.com/playlist?list=PLxVVfOvO-mM1FtTDznN4r78kKAnj23_tL)
 
 Listas de exercícios
 --------------------
@@ -35,6 +41,11 @@ Listas de exercícios
 * Lista 02 - Lambda-cálculo
     * Data para entrega: 17/09/2021, pela plataforma Moodle.
     * Link para a lista: <https://github.com/rodrigogribeiro/pcc116-2021-2/blob/master/listas/lista02/lista02.pdf>
+    
+* Lista 03 - Inferência de tipos e Sistema F
+    * Data para entrega: 02/10/2021, pela plataforma Moodle.
+    * Link para a lista: <https://github.com/rodrigogribeiro/pcc116-2021-2/blob/master/listas/lista03/lista03.pdf>
+
 
 
 Código de exemplo
@@ -47,3 +58,5 @@ Código de exemplo
 * [Interpretador para o lambda-cálculo não tipado com índices De Bruijn](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/debruijn)
 
 * [Inferência de tipos para o lambda-cálculo tipado simples](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/stlc)
+
+* [Interpretador do Sistem F](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/system-f)

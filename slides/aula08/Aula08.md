@@ -187,6 +187,18 @@ $$
 
 ## Sistema F
 
+- Variáveis livres
+
+$$
+\begin{array}{lcl}
+   fv(\emptyset) & = & \emptyset \\
+   fv(\Gamma, \alpha) & = & fv (\Gamma) \cup \{\alpha\}\\
+   fv(\Gamma, x : \sigma) & = & fv(\Gamma) \cup fv(\sigma)\\
+\end{array}
+$$
+
+## Sistema F
+
 - Avaliação possui duas formas básicas de redução.
     - Redução de termos.
 $$
@@ -246,7 +258,7 @@ $$
 - Regra para abstração (tipos).
 
 $$
-\dfrac{\Gamma,\alpha\vdash e : \sigma}
+\dfrac{\Gamma,\alpha\vdash e : \sigma\:\:\:\:\alpha\not\in fv(\Gamma)}
       {\Gamma\vdash \Lambda \alpha. e : \forall \alpha.\sigma}
 $$
 
@@ -256,7 +268,7 @@ $$
 
 $$
 \dfrac{\Gamma\vdash e : \forall \alpha.\sigma}
-      {\Gamma\vdash e\,[\sigma'] : [\alpha\mapsto \sigma']\,e}
+      {\Gamma\vdash e\,[\sigma'] : [\alpha\mapsto \sigma']\,\sigma}
 $$
 
 ## Sistema F 
@@ -592,6 +604,8 @@ $$
 z Q_1 ... Q_k
 $$
 
+- E, em seguida, preencher cada um dos $Q_j$ recursivamente.
+
 ## Formas Normais
 
 - Exemplo: toda forma normal longa do tipo $\textrm{bool}$ é equivalente
@@ -620,6 +634,7 @@ $$
 
 - Visto que o contexto atual é $\Gamma = \{\alpha, x : \alpha, y : \alpha\}$, temos dois 
 possíveis termos:
+    - que são exatamente as formas normais do tipo $\textrm{bool}$.
 
 $$
 \begin{array}{l}
@@ -627,6 +642,74 @@ $$
 \Lambda \alpha. \lambda x : \alpha. \lambda y : \alpha. y\\
 \end{array}
 $$
+
+## Formas Normais
+
+- Vamos considerar a tarefa de codificar um tipo de dados para árvores binárias como 
+termos do sistema F.
+
+```haskell
+data Tree = Leaf Nat | Node Tree Tree
+```
+
+## Formas Normais
+
+- Para traduzir o tipo anterior em um termo do sistema F, precisamos de uma variável.
+
+## Formas Normais
+
+- Além da variável, precisamos de tipos para representar os construtores do tipo `Tree`{.haskell}
+
+## Formas Normais
+
+- O construtor `Leaf Nat`{.haskell} pode ser representado pelo seguinte tipo:
+
+$$
+\textrm{nat} \to \alpha
+$$
+
+
+## Formas Normais
+
+- O construtor `Node Tree Tree`{.haskell} pode ser representado por: 
+
+$$
+\alpha \to \alpha \to \alpha
+$$
+
+## Formas Normais
+
+- Dessa forma, o tipo `Tree`{.haskell} pode ser representado por:
+
+$$
+\forall \alpha. (\textrm{nat}\to\alpha)\to (\alpha \to \alpha \to \alpha) \to \alpha
+$$
+
+## Formas Normais
+
+- Usando o tipo para representar `Tree`{.haskell}, temos que as formas normais deste
+devem iniciar com o seguinte prefixo.
+
+$$
+\Lambda \alpha. \lambda l : \textrm{nat}\to\alpha. \lambda n : \alpha\to\alpha\to\alpha. ...
+$$
+
+## Formas Normais
+
+- Podemos inclusive representar a sintaxe do sistema F usando essa estratégia de codificação
+de termos.
+
+## Formas Normais
+
+- Com isso, podemos codificar um interpretador de sistema F usando o sistema F.
+
+- Consideração importante: todo termo bem tipado do sistema F termina a execução em tempo finito.
+
+## Formas Normais
+
+- Detalhes podem ser encontrados no artigo:
+
+<http://web.cs.ucla.edu/~palsberg/paper/popl16-full.pdf>
 
 # Referências
 

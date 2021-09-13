@@ -1,0 +1,85 @@
+\documentclass[a4paper]{article}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx,hyperref}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{proof,tikz}
+\usepackage{amssymb,amsthm,stmaryrd}
+
+
+\usepackage[edges]{forest}
+\usetikzlibrary{automata, positioning, arrows}
+
+
+\newtheorem{Lemma}{Lema}
+\newtheorem{Theorem}{Teorema}
+\theoremstyle{definition}
+\newtheorem{Example}{Exemplo}
+\newtheorem{Definition}{Definição}
+
+
+\usepackage{fancyhdr}
+  \pagestyle{fancy}
+  \fancyhf{}
+  \lhead{Lógica aplicada à computação}
+  \rhead{Lista de exercícios 02}
+  \lfoot{Prof. Rodrigo Ribeiro}
+  \rfoot{\thepage}
+  \renewcommand{\footrulewidth}{0.4pt}
+  \pagestyle{fancy}
+
+\tikzset{
+        ->,  % makes the edges directed
+        >=stealth', % makes the arrow heads bold
+        node distance=3cm,
+        every state/.style={thick, fill=gray!10},
+        initial text=$\,$
+        }
+  
+
+\begin{document}
+
+  \title{Lista 03 - Inferência de tipos e Sistema F}
+  \author{Rodrigo Ribeiro}
+
+  \maketitle
+
+
+  \pagestyle{fancy}
+
+  \section*{Avisos sobre a entrega da lista 03}
+
+  \begin{itemize}
+    \item As listas deverão ser resolvidas utilizando~\LaTeX~usando o template fornecido.
+    \item O conjunto de soluções deverá ser entregue na plataforma Moodle como um único
+        arquivo \textbf{.pdf}. É de responsabilidade do aluno a entrega de sua solução dentro do
+        prazo estabelecido.
+  \end{itemize}
+
+  \section*{Exercícios}
+
+  \begin{enumerate}
+    \item O sistema F é mais expressivo que o sistema de Hindley-Milner. Apresente um termo válido
+          do sistema F que não é aceito pelo sistema de Hindley-Milner.
+    \item Apresente representações em sistema F para os seguintes conectivos da lógica:
+          \begin{enumerate}
+            \item $A\lor B$
+            \item $\bot$
+            \item $\exists \beta. A$
+          \end{enumerate}
+    \item Apresente uma função, em sistema F, para somar dois números naturais em notação de Peano.
+    \item Considere a tarefa de representar o produto cartesiano no sistema F.
+          \begin{enumerate}
+            \item Apresente um termo do sistema F para denotar o tipo $A \times B$.
+            \item Apresente uma forma normal longa para denotar o par ordenado $(a,b)$.
+            \item Apresente funções para obter o primeiro e segundo componente de pares.
+            \item Apresente um termo do sistema F para denotar a seguinte função sobre pares:
+\begin{verbatim}
+swap :: (a,b) -> (b,a)
+swap (x,y) = (y,x)
+\end{verbatim}
+          \end{enumerate}
+  \end{enumerate}
+\end{document}
