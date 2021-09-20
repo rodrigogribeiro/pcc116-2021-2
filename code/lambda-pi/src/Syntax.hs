@@ -4,6 +4,10 @@ import qualified Data.Map as Map
 
 -- term syntax definition
 
+data Definition
+  = Def Name Type Term
+  deriving (Eq, Ord)
+
 type Name = String
 
 type Type = Term
