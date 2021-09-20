@@ -30,6 +30,11 @@ Conteúdo da disciplina.
     * [Aula 07 - 14/09/2021 - Sistema de Hindley-Milner](https://youtube.com/playlist?list=PLxVVfOvO-mM0mP7x--npcYr-SwoIzsVE8)
     
     * [Aula 08 - 16/09/2021 - Sistema F](https://youtube.com/playlist?list=PLxVVfOvO-mM1FtTDznN4r78kKAnj23_tL)
+    
+    
+* Semana 5
+    
+    [Aula 09 - 21/09/2021 - Lógica de Predicados](https://youtube.com/playlist?list=PLxVVfOvO-mM153yw9gXSX2FgOzvsY_D5D)
 
 Listas de exercícios
 --------------------

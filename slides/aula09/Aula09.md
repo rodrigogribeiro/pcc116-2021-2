@@ -21,6 +21,17 @@ para a lógica de predicados.
 - A lógica de predicados estende a lógica proposicional para descrever
 propriedades sobre elementos de um conjunto.
 
+## Introdução
+
+- A lógica proposicional não é capaz de representar propriedades como
+    - Todo elemento de um conjunto satisfaz $\varphi$.
+    - Algum elemento de um conjunto satisfaz $\varphi$.
+    
+## Introdução
+
+- Para isso, vamos revisar a sintaxe, semântica e os formalismos de 
+dedução natural e cálculo de sequentes.
+
 # Sintaxe
 
 ## Sintaxe
@@ -87,7 +98,7 @@ $$
 ## Sintaxe
 
 - Em uma fórmula $\forall x. \varphi$, dizemos que $x$ é ligada em $\varphi$. 
-- O mesmo pode ser dizer para $\exists x. \varphi$.
+- O mesmo pode se dizer para $\exists x. \varphi$.
 
 ## Sintaxe
 
@@ -200,8 +211,6 @@ $$
 
 ## Semântica
 
-## Semântica
-
 - Função de interpretação de fórmulas
 
 $$
@@ -242,7 +251,7 @@ para manipulação de quantificadores.
 
 $$
 \begin{array}{cc}
-   \dfrac{\Gamma \vdash \varphi\:\:\:\:x \not\in\textrm{fv}(\varphi)}
+   \dfrac{\Gamma \vdash \varphi\:\:\:\:x \not\in\textrm{fv}(\Gamma)}
          {\Gamma\vdash \forall x. \varphi} &
    \dfrac{\Gamma \vdash \forall x. \varphi}
          {\Gamma \vdash [x\mapsto t]\varphi}
