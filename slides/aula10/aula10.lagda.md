@@ -28,7 +28,7 @@ trans refl refl = refl
 
 ## Objetivos
 
-- Discutir sobre o ambiente de desenvolvimento para a linguagem Agda.
+- Apresentar o ambiente de desenvolvimento para a linguagem Agda.
 
 - Introduzir conceitos básicos sobre a linguagem Agda.
 
@@ -158,11 +158,11 @@ de igualdade:
 
 ## Igualdade
 
-- A igualdade por definição consiste é implementada pela linguagem Agda.
+- A igualdade por definição é implementada pela linguagem Agda.
 
 ## Igualdade
 
-- A igualdade por definição consiste é implementada pela linguagem Agda.
+- A igualdade por definição é implementada pela linguagem Agda.
 
 - Consiste no processo de redução, seguido por um teste de α-equivalência
 
@@ -321,7 +321,7 @@ syntax step-≡  x y≡z x≡y = x ≡⟨  x≡y ⟩ y≡z
 ## Igualdade
 
 - Finalizando uma sequência de equações
-    - O símbolo ∎ é represntado por `\qed`. 
+    - O símbolo ∎ é representado por `\qed`. 
 
 ```agda
 infix 3 _∎
@@ -372,7 +372,8 @@ anterior pode ser representado por uma função Agda.
 
 ```agda
 not-elim : (b : Bool) → not (not b) ≡ b
-not-elim b = {!!}
+not-elim true = refl
+not-elim false = refl
 ```
 
 ## Booleanos
@@ -381,7 +382,7 @@ not-elim b = {!!}
 
 ```agda
 not-not-false : not (not false) ≡ false
-not-not-false = {!!}
+not-not-false = refl
 ```
 
 ## Booleanos
@@ -390,7 +391,8 @@ not-not-false = {!!}
 
 ```agda
 &&-idem : (b : Bool) → b && b ≡ b
-&&-idem = {!!}
+&&-idem true = refl
+&&-idem false = refl
 ```
 
 ## Booleanos
@@ -451,6 +453,7 @@ implementada pelo type-checker de Agda.
 - Porém, esse fato não possui uma demonstração imediata como o anterior...
 
     &&-true-right : {b : Bool} → b && true ≡ b
+    
     &&-true-right = refl -- agda complains!!
 
 ## Booleanos
@@ -474,7 +477,8 @@ implementada pelo type-checker de Agda.
 
 ```agda
 &&-true-right : {b : Bool} → b && true ≡ b
-&&-true-right {b} = {!!}
+&&-true-right {true} = refl
+&&-true-right {false} = refl
 ```
 
 ## Booleanos
@@ -483,7 +487,9 @@ implementada pelo type-checker de Agda.
 
 ```agda
 &&-≡-true-left : (a b : Bool) → a && b ≡ true → a ≡ true
-&&-≡-true-left a b a&&b≡true = {!!}
+&&-≡-true-left true true a&&b≡true = refl
+&&-≡-true-left true false a&&b≡true = refl
+&&-≡-true-left false false ()
 ```
 
 # Exercícios
