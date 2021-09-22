@@ -54,7 +54,7 @@ Listas de exercícios
     * Link para a lista: <https://github.com/rodrigogribeiro/pcc116-2021-2/blob/master/listas/lista03/lista03.pdf>
 
 * Lista 04 - Definições e teoremas sobre booleanos
-    * Data para entrega: 04/10/2021, pela plataforma Moodle.
+    * Data para entrega: 09/10/2021, pela plataforma Moodle.
     * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
     * Arquivos contendo os exercícios da lista:
     <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Bool/Bool.agda>
