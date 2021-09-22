@@ -35,6 +35,8 @@ Conteúdo da disciplina.
 * Semana 5
     
     [Aula 09 - 21/09/2021 - Lógica de Predicados](https://youtube.com/playlist?list=PLxVVfOvO-mM153yw9gXSX2FgOzvsY_D5D)
+    
+    [Aula 10 - 23/09/2021 - Introdução à linguagem Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1Rqc1JkThW2pTxmfw_q3Wx)
 
 Listas de exercícios
 --------------------
@@ -51,7 +53,12 @@ Listas de exercícios
     * Data para entrega: 02/10/2021, pela plataforma Moodle.
     * Link para a lista: <https://github.com/rodrigogribeiro/pcc116-2021-2/blob/master/listas/lista03/lista03.pdf>
 
-
+* Lista 04 - Definições e teoremas sobre booleanos
+    * Data para entrega: 04/10/2021, pela plataforma Moodle.
+    * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
+    * Arquivos contendo os exercícios da lista:
+    <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Bool/Bool.agda>
+    <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Bool/BoolTheorems.agda>
 
 Código de exemplo
 -----------------
