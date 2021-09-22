@@ -34,9 +34,9 @@ Conteúdo da disciplina.
     
 * Semana 5
     
-    [Aula 09 - 21/09/2021 - Lógica de Predicados](https://youtube.com/playlist?list=PLxVVfOvO-mM153yw9gXSX2FgOzvsY_D5D)
+    * [Aula 09 - 21/09/2021 - Lógica de Predicados](https://youtube.com/playlist?list=PLxVVfOvO-mM153yw9gXSX2FgOzvsY_D5D)
     
-    [Aula 10 - 23/09/2021 - Introdução à linguagem Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1Rqc1JkThW2pTxmfw_q3Wx)
+    * [Aula 10 - 23/09/2021 - Introdução à linguagem Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1Rqc1JkThW2pTxmfw_q3Wx)
 
 Listas de exercícios
 --------------------
