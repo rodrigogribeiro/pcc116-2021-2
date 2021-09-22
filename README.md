@@ -72,3 +72,12 @@ Código de exemplo
 * [Inferência de tipos para o lambda-cálculo tipado simples](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/stlc)
 
 * [Interpretador do Sistem F](https://github.com/rodrigogribeiro/pcc116-2021-2/tree/master/code/system-f)
+
+
+Biblioteca Agda
+------------------
+
+Parte do conteúdo da disciplina envolverá o desenvolvimento de uma biblioteca Agda.
+A biblioteca pode ser encontrada no seguinte link:
+
+<https://github.com/rodrigogribeiro/pcc116-agda-lib>
