@@ -9,6 +9,14 @@ title: Números Naturais em Agda
 ```agda
 module aula11 where
 
+data Bool : Set where
+  true  : Bool
+  false : Bool
+
+not : Bool → Bool
+not true  = false
+not false = true
+
 open import Equality.Propositional
 ```
 -->
@@ -250,5 +258,286 @@ representar o princípio de indução por uma função Agda?
               (∀ n → P n → P (suc n)) → -- passo indutivo
               ∀ (n : ℕ) → P n
 ℕ-induction P base ind zero = base
-ℕ-induction P base ind (suc n) = ind n (ℕ-induction P base ind n)
+ℕ-induction P base ind (suc n)
+   = ind n (ℕ-induction P base ind n)
 ```
+
+## Indução em Agda
+
+- Podemos usar a função `ℕ-induction` para demonstrar
+
+    ∀ {n} → n + 0 ≡ n
+
+## Indução em Agda
+
+- Exemplo usando `ℕ-induction`:
+
+```agda
++-zero-right-2 : ∀ {n} → n + 0 ≡ n
++-zero-right-2 {n}
+   = ℕ-induction P base ind n
+   where
+     P : ℕ → Set
+     P n = n + 0 ≡ n
+
+     base : P 0
+     base = refl
+
+     ind : ∀ n → P n → P (suc n)
+     ind m IH rewrite IH = refl
+```
+
+## Indução em Agda
+
+- Exemplo: Adição é associativa.
+
+```agda
++-assoc : ∀ (x y z : ℕ) → x + (y + z) ≡ x + y + z
++-assoc x y z = {!!}
+```
+
+
+## Indução em Agda
+
+- Outro exemplo: provar comutatividade da adição.
+
+     ∀ (n m : ℕ) → n + m ≡ m + n
+
+## Indução em Agda
+
+- Iniciando a demonstração.
+
+    +-comm : ∀ (n m : ℕ) → n + m ≡ m + n
+    +-comm zero    m = ?
+    +-comm (suc n) m = ?
+
+## Indução em Agda
+
+- No primeiro _hole_, temos o seguinte tipo:
+
+    0 + m ≡ m + 0
+
+## Indução em Agda
+
+- No segundo _hole_, temos o seguinte tipo:
+
+    (suc n) + m ≡ m + (suc n)
+
+## Indução em Agda
+
+- O primeiro hole
+
+    0 + m ≡ m + 0
+
+- Pode ser demonstrado por `+-zero-right`.
+
+## Indução em Agda
+
+- Para provar o segundo hole
+
+   (suc n) + m ≡
+
+## Indução em Agda
+
+- Para provar o segundo hole
+
+   (suc n) + m ≡
+
+   suc (n + m) ≡
+
+## Indução em Agda
+
+- Para provar o segundo hole
+
+   (suc n) + m ≡
+
+   suc (n + m) ≡
+
+   suc (m + n) ≡
+
+## Indução em Agda
+
+- Para provar o segundo hole:
+
+   (suc n) + m ≡
+
+   suc (n + m) ≡
+
+   suc (m + n) ≡
+
+   m + suc n
+
+## Indução em Agda
+
+- Porém, como podemos provar o seguinte fato:
+
+    suc (m + n) ≡ m + suc n
+
+## Indução em Agda
+
+- Podemos demonstrá-lo por indução:
+    - Usamos o `rewrite` para a H.I.
+
+```agda
++-suc : ∀ (n m : ℕ) → suc n + m ≡ n + suc m
++-suc zero m = refl
++-suc (suc n) m rewrite +-suc n m = refl
+```
+
+## Indução em Agda
+
+- Usando a função `+-suc`, a demonstração da comutatividade
+é imediata.
+
+```agda 
++-comm : ∀ (n m : ℕ) → n + m ≡ m + n
++-comm zero m = sym +-zero-right
++-comm (suc n) m
+   = begin
+       suc n + m   ≡⟨ refl ⟩
+       suc (n + m) ≡⟨ cong suc (+-comm n m) ⟩
+       suc (m + n) ≡⟨ +-suc m n ⟩
+       m + suc n
+     ∎ 
+```
+
+# Multiplicação
+
+## Multiplicação
+
+- Podemos definir a multiplicação recursivamente
+da seguinte forma:
+
+```agda
+infixl 7 _*_
+
+_*_ : ℕ → ℕ → ℕ
+zero    * m = zero
+(suc n) * m = m + n * m
+```
+## Multiplicação
+
+- Distributividade da multiplicação
+
+```agda
+*-distr-+-r : ∀ (x y z : ℕ) → (x + y) * z ≡ (x * z) + (y * z)
+*-distr-+-r x y z = {!!}
+```
+
+## Multiplicação
+
+- Multiplicação é uma operação associativa.
+
+```agda
+*-assoc : ∀ (x y z : ℕ) → x * (y * z) ≡ x * y * z
+*-assoc x y z = {!!}
+```
+
+# Comparação
+
+## Comparação
+
+- Teste de igualdade
+
+```agda
+infix 6 _≡B_
+
+_≡B_ : ℕ → ℕ → Bool
+zero ≡B zero   = true
+zero ≡B suc m  = false
+suc n ≡B zero  = false
+suc n ≡B suc m = n ≡B m
+```
+
+## Comparação 
+
+- Como garantir que a função ≡B é correta?
+
+## Comparação
+
+- Precisamos provar a correção (soundness):
+
+    n ≡B m ≡ true → n ≡ m
+
+## Comparação
+
+- Precisamos provar a completude (completeness):
+
+    n ≡ m → n ≡B m = true
+
+## Comparação
+
+- O teste é correto
+
+```agda
+≡B-sound : ∀ {n m} → n ≡B m ≡ true → n ≡ m
+≡B-sound {zero} {zero} n≡Bm = refl
+≡B-sound {suc n} {suc m} n≡Bm = cong suc IH
+  where
+     IH : n ≡ m
+     IH = ≡B-sound {n}{m} n≡Bm
+```
+
+## Comparação
+
+- Antes de provar a completude, vamos considerar
+uma propriedade auxiliar.
+
+```agda
+≡B-refl : ∀ (n : ℕ) → n ≡B n ≡ true
+≡B-refl zero = refl
+≡B-refl (suc n) = ≡B-refl n
+```
+
+## Comparação
+
+- O teste é completo
+
+```agda
+≡B-complete : ∀ {n m} → n ≡ m → n ≡B m ≡ true
+≡B-complete {n} refl = ≡B-refl n
+```
+
+# Par e Ímpar
+
+## Par e Ímpar
+
+- Podemos definir funções para determinar se um número
+natural é par ou ímpar.
+
+- Para isso, vamos usar definições mutuamente recursivas.
+
+## Par e Ímpar
+
+```agda
+even : ℕ → Bool
+odd  : ℕ → Bool
+
+even zero    = true
+even (suc n) = odd n
+
+odd zero     = false
+odd (suc n) = even n
+```
+
+## Par e Ímpar
+
+- Um teorema mutuamente recursivo.
+
+```agda
+even-not-odd : (n : ℕ) → even n ≡ not (odd n)
+odd-not-even : (n : ℕ) → odd n ≡ not (even n)
+
+even-not-odd zero = refl
+even-not-odd (suc n) = odd-not-even n
+
+odd-not-even zero = refl
+odd-not-even (suc n) = even-not-odd n
+```
+
+# Exercícios
+
+## Exercícios
+
+- Lista de exercícios sobre números naturais,
+no arquivo Data.Nat.NatTheorems.
