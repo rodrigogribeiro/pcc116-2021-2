@@ -67,11 +67,13 @@ Listas de exercícios
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Bool/BoolTheorems.agda>
         
 * Lista 05 - Definições e teoremas sobre números naturais.
-    * Data para entrega: 09/10/2021, pela plataforma Moodle.
+    * Data para entrega: 16/10/2021, pela plataforma Moodle.
     * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
     * Arquivos contendo os exercícios da lista:
-        * 
-        * 
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Nat/Le.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Nat/LeAlt.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Nat/NatTheorems.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Nat/EvenOdd.agda>
 
 
 Código de exemplo
