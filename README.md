@@ -38,6 +38,12 @@ Conteúdo da disciplina.
     
     * [Aula 10 - 23/09/2021 - Introdução à linguagem Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1Rqc1JkThW2pTxmfw_q3Wx)
 
+* Semana 6
+ 
+    * [Aula 11 - 28/09/2021 - Números naturais em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM3-QR3ivcRgLqG8GaMo1x8Y)
+    
+    * [Aula 12 - 30/09/2021 - Relações em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM0STd02yK5nCw0tbbv4HO_w)
+
 Listas de exercícios
 --------------------
 
@@ -57,8 +63,16 @@ Listas de exercícios
     * Data para entrega: 09/10/2021, pela plataforma Moodle.
     * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
     * Arquivos contendo os exercícios da lista:
-    <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Bool/Bool.agda>
-    <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Bool/BoolTheorems.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Bool/Bool.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Bool/BoolTheorems.agda>
+        
+* Lista 05 - Definições e teoremas sobre números naturais.
+    * Data para entrega: 09/10/2021, pela plataforma Moodle.
+    * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
+    * Arquivos contendo os exercícios da lista:
+        * 
+        * 
+
 
 Código de exemplo
 -----------------
