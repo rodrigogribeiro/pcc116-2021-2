@@ -17,7 +17,7 @@ not : Bool → Bool
 not true  = false
 not false = true
 
-open import Equality.Propositional
+open import Relation.Equality.Propositional
 ```
 -->
 
@@ -289,16 +289,6 @@ representar o princípio de indução por uma função Agda?
 
 ## Indução em Agda
 
-- Exemplo: Adição é associativa.
-
-```agda
-+-assoc : ∀ (x y z : ℕ) → x + (y + z) ≡ x + y + z
-+-assoc x y z = {!!}
-```
-
-
-## Indução em Agda
-
 - Outro exemplo: provar comutatividade da adição.
 
      ∀ (n m : ℕ) → n + m ≡ m + n
@@ -308,7 +298,9 @@ representar o princípio de indução por uma função Agda?
 - Iniciando a demonstração.
 
     +-comm : ∀ (n m : ℕ) → n + m ≡ m + n
+
     +-comm zero    m = ?
+
     +-comm (suc n) m = ?
 
 ## Indução em Agda
@@ -401,6 +393,16 @@ representar o princípio de indução por uma função Agda?
      ∎ 
 ```
 
+## Indução em Agda
+
+- Exemplo: Adição é associativa.
+
+```agda
++-assoc : ∀ (x y z : ℕ) → x + (y + z) ≡ x + y + z
++-assoc zero y z    = refl
++-assoc (suc x) y z rewrite +-assoc x y z = refl
+```
+
 # Multiplicação
 
 ## Multiplicação
@@ -415,13 +417,47 @@ _*_ : ℕ → ℕ → ℕ
 zero    * m = zero
 (suc n) * m = m + n * m
 ```
+
+## Multiplicação
+
+- Exemplo: 2 * 2.
+
+```agda
+_ : 2 * 2 ≡ 4
+_ = begin
+       2 * 2      ≡⟨⟩
+       (suc 1) * 2 ≡⟨⟩
+       2 + 1 * 2   ≡⟨⟩
+       2 + (suc zero * 2) ≡⟨⟩
+       2 + (2 + zero * 2) ≡⟨⟩
+       2 + (2 + 0) ≡⟨⟩
+       4
+    ∎ 
+```
+
+## Multiplicação
+
+- Um teorema simples
+
+```agda
+*-zero-right : ∀ {n} → n * 0 ≡ 0
+*-zero-right {zero} = refl
+*-zero-right {suc n} = *-zero-right {n}
+```
+
 ## Multiplicação
 
 - Distributividade da multiplicação
 
 ```agda
 *-distr-+-r : ∀ (x y z : ℕ) → (x + y) * z ≡ (x * z) + (y * z)
-*-distr-+-r x y z = {!!}
+*-distr-+-r x y zero rewrite *-zero-right {x + y} |
+                             *-zero-right {x} |
+                             *-zero-right {y} = refl
+*-distr-+-r zero y (suc z) = refl
+*-distr-+-r (suc x) y (suc z)
+  rewrite sym (+-assoc z (x * suc z) (y * suc z))
+    = cong suc (cong (z +_) (*-distr-+-r x y (suc z)))
 ```
 
 ## Multiplicação
@@ -430,7 +466,9 @@ zero    * m = zero
 
 ```agda
 *-assoc : ∀ (x y z : ℕ) → x * (y * z) ≡ x * y * z
-*-assoc x y z = {!!}
+*-assoc zero y z = refl
+*-assoc (suc x) y z rewrite *-distr-+-r y (x * y) z
+  | *-assoc x y z = refl
 ```
 
 # Comparação
