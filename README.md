@@ -75,6 +75,15 @@ Listas de exercícios
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Nat/NatTheorems.agda>
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Nat/EvenOdd.agda>
 
+* Lista 06 - Lógica em Agda
+    * Data parea entrega:
+    * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
+    * Arquivos contendos exercícios da lista: 
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Product/ProductTheoerms.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Sum/SumTheorems.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Biconditional/BiconditionalTheorems.agda>
+    
+
 
 Código de exemplo
 -----------------
