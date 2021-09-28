@@ -604,5 +604,5 @@ tipos indutivos Agda.
 
 ## Referências
 
-- Kokke, Wen; Walder, Philip; Siek, Jeremy. Programming languages foundations
-in Agda.
+- Kokke, Wen; Walder, Philip; Siek, Jeremy. Programming languages
+foundations in Agda.
