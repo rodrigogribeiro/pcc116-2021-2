@@ -4,7 +4,6 @@
 #+AUTHOR: Rodrigo Ribeiro
 #+EMAIL: rodrigo.ribeiro@ufop.edu.br
 
-
 * Setup inicial
 
 #+BEGIN_SRC agda2
@@ -14,9 +13,12 @@ module aula15 where
 
   open import Data.Bool.Bool
   open import Data.Function.Function
+  open import Data.Biconditional.Biconditional
   open import Data.Nat.Nat
   open import Data.Nat.Le
+  open import Data.Product.Product renaming ( _,_ to _:,:_)
 
+  open import Relation.Decidable.Dec
   open import Relation.Equality.Propositional
 
   _≥_ : ℕ → ℕ → Bool
@@ -69,7 +71,7 @@ module aula15 where
   length [] = 0
   length (x ∷ xs) = suc (length xs)
 
-  _ : length [ 1 , 2 ] ≡ 2
+  _ : length (1 ∷ 2 ∷ []) ≡ 2
   _ = {!!}
 #+end_src
 
@@ -244,5 +246,109 @@ module aula15 where
 #+begin_src agda2
   filter-length : ∀ {a}{A : Set a}{p : A → Bool}(xs : List A) →
                   length (filter p xs) ≤ length xs
-  filter-length xs = ?
+  filter-length xs = {!!}
 #+end_src
+
+* Listas
+
+- O predicado `All` denota que uma propriedade é válida
+para todos os elementos de uma lista.
+
+#+begin_src agda2
+  data All {a b}{A : Set a}(P : A → Set b) : List A → Set (a ⊔ b) where
+    []  : All P []
+    _∷_ : ∀ {x xs} → P x → All P xs → All P (x ∷ xs)
+#+end_src
+  
+* Listas
+
+- Exemplo
+
+#+begin_src agda2
+  _ : All (λ x → T (x ≥ 2)) [ 3 , 1 , 4 , 0 ]
+  _ = {!!}
+#+end_src
+
+
+* Listas
+
+- Relacionando `All` e `++`
+
+#+begin_src agda2
+  All-++ : ∀ {a}{A : Set a}{P : A → Set a}(xs ys : List A) →
+             All P (xs ++ ys) ⇔ (All P xs × All P ys)
+  All-++ xs ys = {!!}
+#+end_src
+
+
+* Listas
+
+- Indicando que uma propriedade é válida para algum
+elemento de uma lista.
+
+#+begin_src agda2
+  data Any {a b}{A : Set a}(P : A → Set b) : List A → Set (a ⊔ b) where
+    here  : ∀ {x xs} → P x → Any P (x ∷ xs)
+    there : ∀ {x xs} → Any P xs → Any P (x ∷ xs)
+#+end_src
+
+* Listas
+
+- Exemplo
+
+#+begin_src agda2
+  _ : Any (_≡ 2) [ 1 , 2 , 3 , 2 ]
+  _ = {!!}
+#+end_src
+
+* Listas
+
+- Predicado de pertinência em uma lista.
+
+#+begin_src agda2
+  infix 4 _∈_
+
+  _∈_ : ∀ {a}{A : Set a} → A → List A → Set a
+  x ∈ xs = Any (x ≡_) xs
+#+end_src
+
+* Listas
+
+- Exemplo
+
+#+begin_src agda2
+  _ : 3 ∈ [ 1 , 2 , 3 , 2 ]
+  _ = {!!}
+#+end_src
+
+* Listas
+
+- Decidibilidade.
+
+#+begin_src agda2
+  Decidable : ∀ {a}{A : Set a} → (A → Set a) → Set a
+  Decidable {_}{A} P = ∀ (x : A) → Dec (P x)
+#+end_src
+
+
+* Listas
+
+- Decidibilidade de `All`
+
+#+begin_src agda2
+  All? : ∀ {a}{A : Set a}{P : A → Set a} → Decidable P → Decidable (All P)
+  All? decP = {!!}
+#+end_src
+
+* Listas
+
+- Isso conclui a nossa apresentação inicial sobre listas
+e seus algoritmos usando a linguagem Agda.
+
+- Na próxima aula, veremos um exemplo completo de verificação
+de um algoritmo.
+
+* Referências
+
+- Kokke, Wen; Wadler, Phillip; Siek, Jeremy. Programming Languages Foundations in
+Agda.
