@@ -4,7 +4,6 @@
 #+AUTHOR: Rodrigo Ribeiro
 #+EMAIL: rodrigo.ribeiro@ufop.edu.br
 
-
 * Setup inicial
 
 #+BEGIN_SRC agda2
@@ -228,26 +227,11 @@ no x ×-dec db = no (λ z → x (proj₁ z))
 - Uma aplicação importante do apresentado até o momento
 é a técnica de proof by reflection.
 
-- Intuivamente, essa técnica usa o mecanismo de inferência
-de argumentos implícitos de Agda para calcular deduções.
+- Como Agda é uma linguagem de programação e um assistente
+  de provas, podemos usá-la para calcular uma "dedução"
+  de acordo com o seu formato.
 
-* Proof by reflection
-
-* Proof by reflection
-
-- O mecanismo de inferência de Agda é capaz de calcular
-evidências para registros por preencher se este
-for capaz de inferir todos os campos do registro.
-
-- Vamos ver essa técnica em um exemplo.
-  
-* Proof by reflection
-
-- Considere a tarefa de obter a metade de um número
-natural fornecido como entrada.
-
-- Podemos supor que essa tarefa faz sentido apenas
-para números naturais pares.
+- Veremos essa técnica em um exemplo.
 
 * Proof by reflection
 
@@ -258,63 +242,44 @@ data Even : ℕ → Set where
   zero : Even 0
   suc  : ∀ {n} → Even n
                → Even (2 + n)
-
-Even-inv : ∀ {n} → Even (2 + n) → Even n
-Even-inv (suc p) = p
 #+end_src
 
 * Proof by reflection
 
-- Decidibilidade do predicado `Even`.
+- Uma definição alternativa para o predicado even.
 
 #+begin_src agda2
-Even-dec : (n : ℕ) → Dec (Even n)
-Even-dec zero = yes zero
-Even-dec (suc zero) = no (λ ())
-Even-dec (suc (suc n)) with Even-dec n
-...| yes p = yes (suc p)
-...| no ¬p = no (¬p ∘ Even-inv)
+even? : ℕ → Set
+even? 0 = ⊤
+even? (suc 0) = ⊥
+even? (suc (suc n)) = even? n
 #+end_src
 
 * Proof by reflection
 
-- Determinando se um valor de tipo `Dec` é
-"verdadeiro".
+- Estabelencendo a equivalência entre as versões.
+
+#+begin_src agda2 
+soundness : ∀ {n} → even? n → Even n
+soundness {zero} p = zero
+soundness {suc (suc n)} p = suc (soundness p)
+
+completeness : ∀ {n} → Even n → even? n
+completeness zero = tt
+completeness (suc p) = completeness p
+#+end_src
+
+* Proof by reflection
+
+- Usando o lema `soundness` e o fato de que uma computação
+de `even? n` reduz para um valor de tipo `⊤`, para n par
+podemos obter uma dedução sem a construção efetiva de
+uma árvore dedutiva.
 
 #+begin_src agda2
-True : ∀ {l}{Q : Set l} → Dec Q → Set
-True Q = T ⌞ Q ⌟
-
-_ : True (2 <? 3)
-_ = tt
+_ : Even 1099864
+_ = soundness tt
 #+end_src
-
-* Proof by reflection
-
-- Usando as peças anteriores, podemos definir uma função
-para determinar a metade de um número, caso ele seja par.
-
-#+begin_src agda2
-half-refl : ∀ (n : ℕ) → True (Even-dec n) → ℕ
-half-refl zero tt = zero
-half-refl (suc (suc n)) _ = n
-#+end_src
-
-* Proof by reflection
-
-- Exemplo
-
-#+begin_src agda2
-two : ℕ
-two = half-refl 1000 _
-#+end_src
-
-* Proof by reflection
-
-- Ao tentar chamar a função `half-refl` sobre um
-valor ímpar, o typechecker de Agda não será capaz
-de inferir a dedução (`tt`) para `True (Even-dec n)`,
-gerando um erro de tipo.
 
 * Referências
 
