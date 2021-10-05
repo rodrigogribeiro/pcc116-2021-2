@@ -1,6 +1,6 @@
 #    -*- mode: org -*-
 #+TITLE: Listas em Agda
-#+SUBTITLE: PCC102 - Teoria da computação
+#+SUBTITLE: PCC116 - Lógica aplicada a computação
 #+AUTHOR: Rodrigo Ribeiro
 #+EMAIL: rodrigo.ribeiro@ufop.edu.br
 
@@ -15,6 +15,7 @@ module aula15 where
   open import Data.Function.Function
   open import Data.Biconditional.Biconditional
   open import Data.Nat.Nat
+  open import Data.Nat.NatTheorems
   open import Data.Nat.Le
   open import Data.Product.Product renaming ( _,_ to _:,:_)
 
@@ -209,15 +210,68 @@ module aula15 where
 
 * Listas
 
+- Operador `fold`
+
+#+begin_src agda2
+  foldl : ∀ {a b}{A : Set a}{B : Set b} → 
+            (B → A → B) → B → List A → B
+  foldl _ v []       = v
+  foldl f v (x ∷ xs) = foldl f (f v x) xs
+#+end_src
+
+* Listas
+
+- Exemplo 
+
+#+begin_src agda2
+  _ : foldl _+_ 0 [ 1 , 2 , 3 ] ≡ 6
+  _ = {!!}
+#+end_src
+
+* Listas
+
+- Quando o resultado de `foldl f v ≡ foldr f v`?
+
+- O resultado será o mesmo quando `f` e `v` formarem
+um _monóide_.
+
+* Listas
+
+- Definição de monóide:
+
+#+begin_src agda2
+  record IsMonoid {a}{A : Set a}(_⊕_ : A → A → A)(e : A) : Set a where
+    field
+      assoc : ∀ {x y z : A} → x ⊕ (y ⊕ z) ≡ (x ⊕ y) ⊕ z
+      identityˡ : ∀ {x} → e ⊕ x ≡ x
+      identifyʳ : ∀ {x} → x ⊕ e ≡ x
+#+end_src
+
+* Listas
+
+- A adição e 0 formam o monóide
+
+#+begin_src agda2
+  +-Monoid : IsMonoid _+_ 0
+  +-Monoid
+    = record { assoc = λ {x}{y}{z} → +-assoc x y z
+             ; identityˡ = refl
+             ; identifyʳ = λ {x} → +-zero-right x }
+#+end_src
+
+* Listas
+
 - Relacionando `foldr` e `++`
 
 #+begin_src agda2
-  foldr-++ : ∀ {a b}{A : Set a}{B : Set b}
-               {_⊕_ : A → B → B}{ε : B}
+  foldr-++ : ∀ {a}{A : Set a}
+               {_⊕_ : A → A → A}{e : A} → 
+               IsMonoid _⊕_ e  → 
                (xs ys : List A) →
-               foldr _⊕_ ε (xs ++ ys) ≡ foldr _⊕_ (foldr _⊕_ ε ys) xs
+               foldr _⊕_ e (xs ++ ys) ≡ foldr _⊕_ (foldr _⊕_ e ys) xs
   foldr-++ xs ys = {!!}
 #+end_src
+
 
 * Listas
 

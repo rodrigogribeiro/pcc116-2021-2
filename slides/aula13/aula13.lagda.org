@@ -1,12 +1,12 @@
----
-author: PCC116 - Lógica aplicada à computação - Prof. Rodrigo Ribeiro
-title: Lógica em Agda
----
+#    -*- mode: org -*-
+#+TITLE: Lógica em Agda
+#+SUBTITLE: PCC102 - Teoria da computação
+#+AUTHOR: Rodrigo Ribeiro
+#+EMAIL: rodrigo.ribeiro@ufop.edu.br
 
-# Objetivos
+* Setup inicial
 
-<!--
-```agda
+#+begin_src agda2
 module aula13 where
 
 open import Basics.Level
@@ -15,55 +15,47 @@ open import Relation.Equality.Propositional
 
 id : ∀ {l}{A : Set l} → A → A
 id x = x
-```
--->
+#+end_src
 
-## Objetivos
+* Objetivos
 
-- Apresentação do conceito de isomorfismo entre tipos e
-sua realização em Agda.
+- Apresentação do conceito de isomorfismo entre tipos e sua
+realização em Agda.
 
-## Objetivos
-
-- Representação de conectivos da lógica proposicional 
+- Representação de conectivos da lógica proposicional
 em Agda.
 
-## Objetivos
+- Representação de quantificadores da lógica de
+predicados em Agda.
 
-- Representação de quantificadores da lógica de predicados 
-em Agda.
+- Demonstração de equivalências lógicas usando
+isomorfismos.
 
-## Objetivos
-
-- Demonstração de equivalências lógicas usando isomorfismos.
-
-# Isomorfismo
-
-## Isomorfismo
+* Isomorfismo
 
 - Dizemos que um tipo `A` é isomórfico a um tipo `B` se 
 existem funções `f : A → B` e `g : B → A` tais que
 `f ∘ g ≡ id` e `g ∘ f ≡ id`.
 
-## Isomorfismo
+* Isomorfismo
 
 - Composição de funções
 
-```agda
+#+begin_src agda2
 _∘_ : ∀ {l1 l2 l3}
         {A : Set l1}
         {B : Set l2}
         {C : Set l3} →
         (B → C) → (A → B) → (A → C)
 g ∘ f = λ x → g (f x)
-```
+#+end_src
 
-## Isomorfismo
+* Isomorfismo
 
 - Podemos definir a noção de isomorfismo como um registro
 Agda.
 
-```agda
+#+begin_src agda2
 infix 0 _≃_
 
 record _≃_ {l}{l'}(A : Set l)(B : Set l') : Set (l ⊔ l') where
@@ -74,330 +66,264 @@ record _≃_ {l}{l'}(A : Set l)(B : Set l') : Set (l ⊔ l') where
     from∘to : ∀ (x : A) → (from ∘ to) x ≡ x
 
 open _≃_
-```
+#+end_src
 
-## Isomorfismo
+* Isomorfismo
 
 - Isomorfismo é uma relação reflexiva.
 
-```agda
+#+begin_src agda2
 ≃-refl : ∀ {l}{A : Set l} → A ≃ A
 ≃-refl
-  = record { to = id
-           ; from = id
-           ; to∘from = λ y → refl
-           ; from∘to = λ x → refl }
-```
+  = record {
+      to      = id
+    ; from    = id
+    ; to∘from = λ y → refl
+    ; from∘to = λ x → refl }
+#+end_src
 
-## Isomorfismo
+* Isomorfismo
 
 - Isomorfismo é uma relação simétrica.
 
-```agda
+#+begin_src agda2
 ≃-sym : ∀ {l l'}{A : Set l}{B : Set l'}
         → A ≃ B → B ≃ A
 ≃-sym A≃B
-  = record { to = from A≃B
-           ; from = to A≃B
-           ; to∘from = from∘to A≃B
-           ; from∘to = to∘from A≃B }
-```
+  = record {
+       to = _≃_.from A≃B
+     ; from = _≃_.to A≃B
+     ; to∘from = λ {y → _≃_.from∘to A≃B y}
+     ; from∘to = λ {x → _≃_.to∘from A≃B x} }
+#+end_src
 
-## Isomorfismo
+* Isomorfismo
 
 - Isomorfismo é uma relação transitiva.
 
-```agda
+#+begin_src agda2
 ≃-trans : ∀ {l₁ l₂ l₃}
             {A : Set l₁}
             {B : Set l₂}
             {C : Set l₃} →
             A ≃ B → B ≃ C → A ≃ C
 ≃-trans A≃B B≃C
-  = record { to = to B≃C ∘ to A≃B
-           ; from = from A≃B ∘ from B≃C
-```
+  = record {
+      to = _≃_.to B≃C ∘ _≃_.to A≃B
+    ; from = _≃_.from A≃B ∘ _≃_.from B≃C
+    ; to∘from = λ {y →
+              begin
+                 ((to B≃C ∘ to A≃B) ∘ (from A≃B ∘ from B≃C)) y
+              ≡⟨⟩
+                 (to B≃C (to A≃B (from A≃B (from B≃C y))))
+              ≡⟨ cong (to B≃C) (to∘from A≃B (from B≃C y)) ⟩
+                 (to B≃C (from B≃C y))
+              ≡⟨ _≃_.to∘from B≃C y ⟩
+                 y
+               ∎}
+    ; from∘to = λ {x →
+              begin
+                 ((from A≃B ∘ from B≃C) ∘ (to B≃C ∘ to A≃B)) x
+               ≡⟨⟩
+                 from A≃B (from B≃C (to B≃C (to A≃B x)))
+               ≡⟨ cong (from A≃B) (_≃_.from∘to B≃C (to A≃B x)) ⟩
+                 from A≃B (to A≃B x)
+               ≡⟨ _≃_.from∘to A≃B x ⟩
+                 x
+               ∎} }
+#+end_src
 
-## Isomorfismo
-
-- Continuação...
-
-```agda
-  ; to∘from = λ {y →
-    begin
-      (to B≃C ∘ to A≃B) ((from A≃B ∘ from B≃C) y)
-    ≡⟨⟩
-      to B≃C (to A≃B (from A≃B (from B≃C y)))
-    ≡⟨ cong (to B≃C) (to∘from A≃B (from B≃C y)) ⟩
-      to B≃C (from B≃C y)
-    ≡⟨ to∘from B≃C y ⟩
-      y
-    ∎}
-```
-
-## Isomorfismo
-
-- Continuação...
-
-```agda
-   ; from∘to = λ {y →
-     begin
-       (from A≃B ∘ from B≃C) ((to B≃C ∘ to A≃B) y)
-     ≡⟨⟩
-       (from A≃B (from B≃C (to B≃C (to A≃B y))))
-     ≡⟨ cong (from A≃B) (from∘to B≃C (to A≃B y)) ⟩
-       from A≃B (to A≃B y)
-     ≡⟨ from∘to A≃B y ⟩
-       y
-     ∎} }
-```
-
-## Isomorfismo
+* Isomorfismo
 
 - É possível definir operadores para raciocínio
 equacional envolvendo isomorfismos.
 
-## Isomorfismo
-
 - Para isso, vamos definir um módulo para encapsular
 esses operadores.
 
-```agda
+#+begin_src agda2
 module ≃-Reasoning where
 
 infix  1 ≃-begin_
 infixr 2 _≃⟨_⟩_
 infix  3 _≃-∎
-```
+#+end_src
 
-## Isomorfismo
+* Isomorfismo
 
 - Iniciando uma dedução por equações.
 
-```agda
+#+begin_src agda2
 ≃-begin_ : ∀ {A B : Set}
       → A ≃ B → A ≃ B
 ≃-begin A≃B = A≃B
-```
+#+end_src
 
-## Isomorfismo
+* Isomorfismo
 
 - Transitividade
 
-```agda
+#+begin_src agda2
 _≃⟨_⟩_ : ∀ {l₁ l₂ l₃}(A : Set l₁)
                      {B : Set l₂}
                      {C : Set l₃} → 
        A ≃ B → B ≃ C → A ≃ C
 _ ≃⟨ A≃B ⟩ B≃C = ≃-trans A≃B B≃C
-```
+#+end_src
 
-## Isomorfismo
+* Isomorfismo
 
 - Finalizando uma dedução
 
-```agda
+#+begin_src agda2
 _≃-∎ : ∀ (A : Set) → A ≃ A
 A ≃-∎ = ≃-refl
-```
+#+end_src
 
-## Isomorfismo
+* Isomorfismo
 
 - Usando a infra-estrutura definida,
 poderemos provar diversos resultados sobre
 a lógica proposicional em Agda.
 
-# Conjunção
-
-## Conjunção
+* Conjunção
 
 - De acordo com a correspondência de Curry-Howard,
 a conjunção corresponde a tipos produto.
 
-## Conjunção
-
-- Definindo a conjunção em Agda
-
-```agda
+#+begin_src agda2
 infixr 2 _×_
 infixr 4 _,_
 
 record _×_ {l₁ l₂}
            (A : Set l₁)
            (B : Set l₂) : Set (l₁ ⊔ l₂) where
-  constructor _,_
+  constructor _,_ -- A → B → A × B: Introdução do ∧ 
   field
-    proj₁ : A
-    proj₂ : B
+    proj₁ : A -- proj₁ : A × B → A: Eliminação do ∧ à esquerda.
+    proj₂ : B -- proj₂ : A × B → B: Eliminação do ∧ à direita.
 
 open _×_
-```
+#+end_src
 
-## Conjunção
-
-- O construtor do tipo `_×_` 
-
-
-    \_,\_ : A → B → A × B
-
-- é equivalente à regra de introdução da conjunção.
-
-$$
-\dfrac{\Gamma \vdash A\:\:\:\Gamma \vdash B}
-      {\Gamma \vdash A \land B}
-$$
-
-## Conjunção
-
-- Regras de eliminação da conjunção são representadas
-pelas projeções
-
-    proj₁ : A × B → A
-
-    proj₂ : A × B → B
-
-
-## Conjunção
+* Conjunção
 
 - Propriedade: conjunção é comutativa.
 
-```agda
+#+begin_src agda2
+swap : ∀ {a b}{A : Set a}{B : Set b} →
+         A × B → B × A
+swap (a , b) = b , a
+
+swap-id : ∀ {a b}{A : Set a}{B : Set b}
+          {x : A}{y : B} → swap (swap (x , y)) ≡ (x , y)
+swap-id = refl
+
 ×-comm : ∀ {l₁ l₂}{A : Set l₁}{B : Set l₂} →
          A × B ≃ B × A
 ×-comm
-  = record { to = λ { (x , y) → y , x }
-           ; from = λ { (x , y) → y , x }
-           ; to∘from = λ { (x , y) → refl}
-           ; from∘to = λ { (x , y) → refl} }
-```
+  = record {
+      to = swap
+    ; from = swap
+    ; to∘from = λ{(x , y) → swap-id {x = x}{y = y}}
+    ; from∘to = λ{ (x , y) → swap-id {x = x}{y = y}} }
+#+end_src
 
-# Verdadeiro
-
-## Verdadeiro
+* Verdadeiro
 
 - A constante ⊤ é representada por um tipo contendo
 um único construtor.
 
 - Representamos esse fato usando um registro
 
-## Verdadeiro
-
-- Representando ⊤
-
-```agda
+#+begin_src agda2
 record ⊤ : Set where
   constructor tt
-```
+#+end_src
 
-## Verdadeiro
+* Verdadeiro
 
 - O construtor `tt` corresponde a única forma de construir uma
 evidência (demonstração) de ⊤.
 
-## Verdadeiro
-
 - ⊤ é identidade para ×
 
-```agda
+#+begin_src agda2
 ×-identity-r : ∀ {l}{A : Set l} → A × ⊤ ≃ A
 ×-identity-r
-  = record { to = λ { (x , tt) → x }
-           ; from = λ x → x , tt
-           ; to∘from = λ y → refl
-           ; from∘to = λ { (x , tt) → refl} }
-```
+  = record { to = proj₁
+           ; from = λ a → a , tt
+           ; to∘from = λ {y → refl}
+           ; from∘to = λ {(a , tt) → refl } }
+#+end_src
 
-# Disjunção
-
-## Disjunção
+* Disjunção
 
 - A disjunção é representada por um tipo que codifica a união disjunta
 entre dois tipos.
 
-```agda
+#+begin_src agda2
 infix 1 _⊎_
 
 data _⊎_ {l₁ l₂}(A : Set l₁)
                 (B : Set l₂) : Set (l₁ ⊔ l₂) where
-  inj₁ : A → A ⊎ B
-  inj₂ : B → A ⊎ B
-```
+  inj₁ : A → A ⊎ B  -- introdução do ∨ à esquerda.
+  inj₂ : B → A ⊎ B  -- introdução do ∨ à direita.
+#+end_src
 
-## Disjunção
-
-- A regra de introdução à esquerda da disjunção é representada pelo
-construtor
-
-    inj₁ : A → A ⊎ B
-
-## Disjunção
-
-- A regra de introdução à esquerda da disjunção é representada pelo
-construtor
-
-    inj₂ : B → A ⊎ B
-
-## Disjunção
+* Disjunção
 
 - Para a eliminação da disjunção, utilizamos casamento de padrão:
 
-```agda
+#+begin_src agda2
 ⊎-elim : ∀ {l₁ l₂ l₃}{A : Set l₁}{B : Set l₂}{C : Set l₃} →
            (A → C) → (B → C) → A ⊎ B → C
 ⊎-elim f g (inj₁ x) = f x
 ⊎-elim f g (inj₂ y) = g y
-```
+#+end_src
 
 ## Disjunção
 
 - Exemplo: ⊎ é associativo.
 
-```agda
+#+begin_src agda2
 ⊎-assoc : ∀ {l₁ l₂ l₃}{A : Set l₁}{B : Set l₂}{C : Set l₃} →
           A ⊎ (B ⊎ C) ≃ (A ⊎ B) ⊎ C
 ⊎-assoc
-  = record { to = ⊎-elim (inj₁ ∘ inj₁)
-                         (⊎-elim (inj₁ ∘ inj₂)
-                                 inj₂)
-           ; from = ⊎-elim (⊎-elim inj₁ (inj₂ ∘ inj₁))
-                           (inj₂ ∘ inj₂)
+  = record { to = λ{ (inj₁ a) → inj₁ (inj₁ a) ;
+                     (inj₂ (inj₁ b)) → inj₁ (inj₂ b) ;
+                     (inj₂ (inj₂ c)) → inj₂ c  }
+           ; from = ⊎-elim (⊎-elim inj₁ (inj₂ ∘ inj₁)) (inj₂ ∘ inj₂)
            ; to∘from = λ { (inj₁ (inj₁ a)) → refl ;
                            (inj₁ (inj₂ b)) → refl ;
-                           (inj₂ c) → refl}
+                           (inj₂ c) → refl }
            ; from∘to = λ { (inj₁ a) → refl ;
-                            (inj₂ (inj₁ b)) → refl ;
-                            (inj₂ (inj₂ c)) → refl } }
-```
+                           (inj₂ (inj₁ b)) → refl ;
+                           (inj₂ (inj₂ c)) → refl} }
+#+end_src
 
-# Falso
-
-## Falso
+* Falso
 
 - A constante `⊥` é representada por um tipo sem elementos.
 
-```agda
+#+begin_src agda2
 data ⊥ : Set where
-```
+#+end_src
 
-## Falso 
-
-- Como não há construtores, não há como construir uma dedução
-de ⊥ diretamente.
-
-## Falso
+* Falso
 
 - Eliminação de ⊥
 
-```agda
+#+begin_src agda2
 ⊥-elim : ∀ {l}{A : Set l} → ⊥ → A
 ⊥-elim ()
-```
+#+end_src
 
-## Falso
+* Falso
 
 - ⊥ é identidade para ⊎
 
-```agda
+#+begin_src agda2
 ⊎-identity-l : ∀ {l}{A : Set l} → A ⊎ ⊥ ≃ A
 ⊎-identity-l
   = record { to = ⊎-elim id ⊥-elim
@@ -405,110 +331,92 @@ de ⊥ diretamente.
            ; to∘from = λ y → refl
            ; from∘to = λ { (inj₁ a) → refl ;
                            (inj₂ ())} }
-```
+#+end_src
 
-# Implicação
-
-## Implicação
+* Implicação
 
 - A implicação é representada por tipos funcionais em Agda.
 
 - A regra de introdução da implicação é apenas a criação de
 uma λ-abstração.
 
-## Implicação
-
 - A regra de eliminação da implicação é apenas a aplicação
 de funções.
 
-## Implicação
-
 - Exemplo
 
-```agda
+#+begin_src agda2
 currying : ∀ {l₁ l₂ l₃}{A : Set l₁}{B : Set l₂}{C : Set l₃} →
            (A → B → C) ≃ ((A × B) → C)
 currying
-  = record { to = λ f → λ { (a , b) → f a b }
-           ; from = λ f x y → f (x , y)
+  = record { to = λ f → λ {(x , y) → f x y }
+           ; from = λ f x y → f (x , y) 
            ; to∘from = λ f → refl
            ; from∘to = λ f → refl }
-```
+#+end_src
 
-# Bicondicional
-
-## Bicondicional
+* Bicondicional
 
 - Representamos o conectivo bicondicional por um registro
 formado por duas implicações (funções).
 
-```agda
+#+begin_src agda2
 record _⇔_ {l₁ l₂}(A : Set l₁)
                   (B : Set l₂) : Set (l₁ ⊔ l₂) where
   field
-    to : A → B
+    to   : A → B
     from : B → A
-```
 
-## Bicondicional
+open _⇔_
+#+end_src
 
+* Bicondicional
+  
 - Equivalência
 
-```agda
+#+begin_src agda2
 ⇔-× : ∀ {l₁ l₂}{A : Set l₁}{B : Set l₂} →
        (A ⇔ B) ≃ (A → B) × (B → A)
-⇔-×
-  = record { to = λ z → _⇔_.to z , _⇔_.from z
-           ; from = λ z → record { to = proj₁ z
-                                 ; from = proj₂ z }
-           ; to∘from = λ { (f , g) → refl }
-           ; from∘to = λ { record { to = to
-                                    ; from = from } → refl} }
-```
+⇔-× = record {
+        to = λ A⇔B → to A⇔B , from A⇔B
+      ; from = λ {(A→B , B→A) → record {to = A→B ;
+                                        from = B→A }}
+      ; to∘from = λ{ (A→B , B→A) → refl }
+      ; from∘to = λ { record { to = to
+                             ; from = from } → refl} }
+#+end_src
 
-# Negação
-
-## Negação
+* Negação
 
 - Representamos a negação usando funções e o tipo ⊥.
 
-```agda
+#+begin_src agda2
 infix 3 ¬_
 
 ¬_ : ∀ {l} → Set l → Set l
 ¬ A = A → ⊥
-```
+#+end_src
 
-## Negação
+* Negação
 
 - Em Agda, o princípio do 3o excluído não é demonstrável.
 
 - Lembre-se: esse axioma não é dedutível na lógica intuicionista.
 
-## Negação
-
 - Porém, podemos mostrar que a dupla negação de qualquer tautologia
 da lógica clássica é demonstrável na lógica intuicionista.
 
-## Negação
-
-- Exemplo
-
-```agda
+#+begin_src agda2
 excluded : ∀ {l}{A : Set l} → ¬ (¬ (A ⊎ ¬ A))
-excluded ¬A⊎¬A = ¬A⊎¬A (inj₂ λ a → ¬A⊎¬A (inj₁ a))
-```
+excluded ¬A⊎¬A = ¬A⊎¬A (inj₂ (λ a → ¬A⊎¬A (inj₁ a)))
+#+end_src
 
-# Quantificadores
-
-## Quantificadores
+* Quantificadores
 
 - Quantificador universal é uma noção primitiva em Agda.
 
 - Intuitivamente, o tipo `∀ (x : A) → B` em que `x` não aparece
 livre em `B` é representado por `A → B`.
-
-## Quantificadores
 
 - Dessa forma, a introdução do quantificador universal consiste
 da definição de funções.
@@ -516,17 +424,17 @@ da definição de funções.
 - A eliminação do quantificador universal consiste na aplicação
 de funções.
 
-## Quantificadores
+* Quantificadores
 
 - O quantificador existencial é definido por um par formado:
     - Um valor de tipo `x : A`, a evidência do ∃.
     - Um valor de tipo `P x`, que demonstra `P` para o valor `x`.
 
-## Quantificadores 
+* Quantificadores 
 
 - Para isso, definimos o tipo Σ, conhecido como produto dependente.
 
-```agda
+#+begin_src agda2
 record Σ {l₁ l₂}
          (A : Set l₁)
          (B : A → Set l₂) : Set (l₁ ⊔ l₂) where
@@ -536,73 +444,67 @@ record Σ {l₁ l₂}
     proj₂ : B proj₁
 
 open Σ
-```
+#+end_src
 
-## Quantificadores
+* Quantificadores
 
 - O tipo Σ é chamado de produto dependente porque o valor do segundo
 componente do par depende do valor do primeiro.
 
 - Exemplo: 
 
-```agda
+#+begin_src agda2
 _ : Σ Bool (λ x → x ≡ false)
 _ = false , refl
-```
+#+end_src
 
-## Quantificadores
+* Quantificadores
 
 - Usando o tipo Σ, podemos definir o quantificador existencial como
 um produto dependente em que o primeiro argumento é implícito.
 
-```agda
+#+begin_src agda2
 ∃ : ∀ {l₁ l₂}
       {A : Set l₁}
       (B : A → Set l₂) → Set (l₁ ⊔ l₂)
 ∃ {A = A} B = Σ A B
-```
+#+end_src
 
-## Quantificadores
+* Quantificadores
 
 - Notação alternativa para o quantificador existencial.
 
-```agda
+#+begin_src agda2
 ∃-syntax = ∃
 syntax ∃-syntax (λ x → B) = ∃[ x ] B
-```
+#+end_src
 
-## Quantificadores
+* Quantificadores
 
 - Exemplo
 
-```agda
+#+begin_src agda2
 ∃-⊎ : ∀ {l₁ l₂}{A : Set l₁}{B C : A → Set l₂} →
         ∃[ x ] (B x ⊎ C x) ≃ (∃[ x ] B x) ⊎ (∃[ x ] C x)
 ∃-⊎
-  = record { to = λ{ (x , inj₁ bx) → inj₁ (x , bx) ;
-                     (x , inj₂ cx) → inj₂ (x , cx) }
-           ; from = λ{ (inj₁ (x , bx)) → x , inj₁ bx  ;
-                       (inj₂ (x , cx)) → x , inj₂ cx }
+  = record { to = λ { (x , (inj₁ bx)) → inj₁ (x , bx) ;
+                      (x , (inj₂ cx)) → inj₂ (x , cx) }
+           ; from = λ { (inj₁ (x , bx)) → x , inj₁ bx ;
+                         (inj₂ (x , cx)) → x , inj₂ cx }
            ; to∘from = λ { (inj₁ (x , bx)) → refl ;
-                           (inj₂ (x , cx)) → refl} 
-           ; from∘to = λ { (x , inj₁ bx) → refl ;
-                            (x , inj₂ cx) → refl } }
-```
+                           (inj₂ (x , cx)) → refl}
+           ; from∘to = λ {(x , (inj₁ bx)) → refl ;
+                           (x , (inj₂ cx)) → refl } }
+#+end_src
 
-# Concluindo
-
-## Concluindo
+* Concluindo
 
 - Representamos conectivos da lógica proposicional utilizando
 tipos indutivos Agda.
 
-## Concluindo
-
 - Equivalências lógicas utilizando isomorfismos entre tipos.
 
-# Referências
-
-## Referências
+* Referências
 
 - Kokke, Wen; Walder, Philip; Siek, Jeremy. Programming languages
 foundations in Agda.

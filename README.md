@@ -44,6 +44,14 @@ Conteúdo da disciplina.
     
     * [Aula 12 - 30/09/2021 - Relações em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM0STd02yK5nCw0tbbv4HO_w)
 
+
+* Semana 7 
+
+    * [Aula 13 - 05/10/2021 - Lógica em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1_FR3NSNFA7CShix_QqcFL)
+    
+    
+
+
 Listas de exercícios
 --------------------
 
@@ -76,7 +84,7 @@ Listas de exercícios
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Nat/EvenOdd.agda>
 
 * Lista 06 - Lógica em Agda
-    * Data parea entrega:
+    * Data para entrega: 23/10/2021
     * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
     * Arquivos contendos exercícios da lista: 
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Product/ProductTheoerms.agda>

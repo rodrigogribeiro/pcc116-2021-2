@@ -1,6 +1,6 @@
 #    -*- mode: org -*-
 #+TITLE: Evidências em Agda
-#+SUBTITLE: PCC102 - Teoria da computação
+#+SUBTITLE: PCC116 - Lógica aplicada à computação
 #+AUTHOR: Rodrigo Ribeiro
 #+EMAIL: rodrigo.ribeiro@ufop.edu.br
 
