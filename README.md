@@ -49,6 +49,7 @@ Conteúdo da disciplina.
 
     * [Aula 13 - 05/10/2021 - Lógica em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1_FR3NSNFA7CShix_QqcFL)
     
+    * [Aula 14 - 07/07/2021 - Evidências em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM2pyaVgd9yark4N4TO2InRs)
     
 
 

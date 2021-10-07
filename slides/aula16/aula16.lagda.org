@@ -1,6 +1,6 @@
 #    -*- mode: org -*-
 #+TITLE: Estudo de caso - Insertion Sort
-#+SUBTITLE: PCC102 - Teoria da computação
+#+SUBTITLE: PCC116 - Lógica aplicada à computação
 #+AUTHOR: Rodrigo Ribeiro
 #+EMAIL: rodrigo.ribeiro@ufop.edu.br
 
@@ -8,8 +8,41 @@
 * Setup Inicial
 
 #+begin_src agda2
-module aula16 where
+  module aula16 where
 
-open import Data.List.List
-open import Data.Nat.Nat
+  open import Data.Empty.Empty
+  open import Data.List.List
+  open import Data.Nat.Nat
+  open import Data.Unit.Unit
+
+  open import Relation.Decidable.Dec
+#+end_src
+
+* Objetivos
+
+- Formalizar o algoritmo de ordenação insertion sort.
+
+- A correção envolve demonstrar duas propriedades:
+  - O algoritmo retorna uma lista ordenada.
+  - A lista retornada é uma permutação da lista original.
+
+* Ordenação
+
+- Para isso, vamos parametrizar o desenvolvimento por um
+  teste de ordenação sobre elementos.
+
+#+begin_src agda2
+  module isort {A : Set}
+               {_≤_ : A → A → Set}
+               (_≤?_ : ∀ (x y : A) → Dec (x ≤ y)) where
+#+end_src
+
+* Ordenação
+
+- Primeiramente, vamos definir um predicado que estabelecerá
+  quando uma lista está ordenada.
+
+#+begin_src agda2
+  data Sorted : List A → Set where
+    []
 #+end_src
