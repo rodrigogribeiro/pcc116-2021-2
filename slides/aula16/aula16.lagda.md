@@ -1,204 +1,185 @@
 ---
-title: Listas em Agda
+title: Estudo de caso: Insertion sort
 author: PCC116 - Lógica aplicada à computação - Prof. Rodrigo Ribeiro
 ---
 
+<!--
 ```agda
   module aula16 where
 
+  open import Data.Biconditional.Biconditional
+  open import Data.Biconditional.BiconditionalTheorems
+  open import Data.Bool.Bool
   open import Data.Empty.Empty
+  open import Data.Function.Function
   open import Data.List.List
-  open import Data.Nat.Nat
+  open import Data.List.Relation.Any
+  open import Data.Sum.Sum
   open import Data.Unit.Unit
 
-  open import Relation.Decidable.Dec
+  open import Relation.Equality.Propositional
 ```
+-->
 
 # Objetivos
 
-## Objetivos
+- Apresentação de definições sobre relações de
+ordem.
 
-- Formalizar o algoritmo de ordenação insertion sort.
+- Implementação do algoritmo insertion sort
 
-- A correção envolve demonstrar duas propriedades:
-  - O algoritmo retorna uma lista ordenada.
-  - A lista retornada é uma permutação da lista original.
+- Definição de um predicado para listas ordenadas
+e a demonstração de que o insertion sort produz listas
+ordenadas.
 
-- Para isso, vamos parametrizar o desenvolvimento por um
-  teste de ordenação sobre elementos.
+- Definição de um predicado para permutação de listas
+e a demonstração de que o insertion sort produz uma
+permutação da lista de entrada.
+
+# Definições das relações
+
+- Uma relação é uma função de dois argumentos de um tipo `A`.
 
 ```agda
-  module insertion-sort {l l'}{A : Set l}
-                        {_≤_ : A → A → Set l'}
-                        (≤-refl : ∀ {x} → x ≤ x)
-                        (≤-contra : ∀ {x y} → ¬ (x ≤ y) → y ≤ x)
-                        (≤-trans : ∀ {x y z} → x ≤ y → y ≤ z → x ≤ z)
-                        (_≤?_ : ∀ (x y : A) → Dec (x ≤ y)) where
+  Relation : Set → Set₁
+  Relation A = A → A → Set
 ```
 
-# Insertion sort
+# Definições das relações
 
-## Insertion sort
-
-- Ordenação por inserção utiliza como rotina a inserção
-de forma ordenada em uma lista.
+- Propriedades de relações
 
 ```agda
-     insert : A → List A → List A
-     insert x [] = [ x ]
-     insert x (y ∷ ys) with x ≤? y
-     ...| yes x≤y = x ∷ y ∷ ys
-     ...| no ¬x≤y = y ∷ insert x ys
+  Reflexive : ∀ {A} → Relation A → Set
+  Reflexive {A} _≤_ = ∀ {x} → x ≤ x
+
+  AntiSymmetric : ∀ {A} → Relation A → Set
+  AntiSymmetric {A} _≤_ = ∀ {x y} → x ≤ y → y ≤ x → x ≡ y
+
+  Transitive : ∀ {A} → Relation A → Set
+  Transitive {A} _≤_ = ∀ {x y z} → x ≤ y → y ≤ z → x ≤ z
+
+  Total : ∀ {A} → Relation A → Set
+  Total {A} _≤_ = ∀ x y → x ≤ y ⊎ y ≤ x
 ```
 
-## Insertion sort
+# Relações de ordem
 
-- Utilizando a função `insert`, a definição do insertion
-sort é imediata por recursão.
+- Ordem parcial
 
 ```agda
-     isort : List A → List A
-     isort [] = []
-     isort (x ∷ xs) = insert x (isort xs)
+  record IsPartialOrder {A : Set}(_≤_ : Relation A) : Set where
+    field
+      reflexive      : Reflexive _≤_
+      anti-symmetric : AntiSymmetric _≤_
+      transitive     : Transitive _≤_
 ```
 
-## Insertion sort
+# Relações de ordem
 
-- Tendo definido o algoritmo, como mostrar que ele é
-correto?
-
-- Para mostrar que o algoritmo insertion sort é correto
-devemos:
-    - Mostrar que ele retorna uma lista ordenada.
-    - Que a lista retornada é uma permutação da entrada.
-
-## Insertion sort
-
-- Para definir um predicado para representar
-listas ordenadas, primeiro vamos definir um
-que especifica quando um valor é menor que
-todos em uma lista.
+- Ordens totais.
 
 ```agda
-     data _<*_ (x : A) : List A → Set l' where
-       []  : x <* []
-       _∷_ : ∀ {y ys} → x ≤ y   →
-                         x <* ys →
-                         x <* (y ∷ ys)
+  record IsTotalOrder {A : Set}(_≤_ : Relation A) : Set where
+    field
+      partial : IsPartialOrder _≤_
+      total   : Total _≤_
 ```
 
-## Insertion sort
-
-- Exemplo
+# Definição do insertion sort
 
 ```agda
+  module isort-algorithm {A : Set}
+                         {_≤_ : Relation A}
+                         (M : IsTotalOrder _≤_) where
 
+    open IsTotalOrder M public
+
+    insert : A → List A → List A
+    insert x [] = [ x ]
+    insert x (y ∷ ys) with total x y
+    ...| inj₁ x≤y = x ∷ y ∷ ys
+    ...| inj₂ ¬x≤y = y ∷ insert x ys
+
+    isort : List A → List A
+    isort []       = []
+    isort (x ∷ xs) = insert x (isort xs)
 ```
 
-## Insertion sort
-
-- Predicado para representar listas ordenadas.
+# Definição do predicado de listas ordenadas
 
 ```agda
-     data Sorted : List A → Set l' where
-       []  : Sorted []
-       _∷_ : ∀ {x xs} → x <* xs   →
-                         Sorted xs →
-                         Sorted (x ∷ xs)
+  module sorted {A : Set}{_≤_ : Relation A}(M : IsTotalOrder _≤_) where
+
+    open IsTotalOrder    M public
+    open isort-algorithm M public
+
+    data Sorted : List A → Set where
+      empty : Sorted []
+      single : ∀ {x} → Sorted [ x ]
+      many : ∀ {y x xs} → y ≤ x
+                        → Sorted (x ∷ xs)
+                        → Sorted (y ∷ x ∷ xs)
+
+
+    insert-sorted : ∀ {xs}{x : A} → Sorted xs → Sorted (insert x xs)
+    insert-sorted {.[]} empty = single
+    insert-sorted {[ y ]}{x} single with total M x y
+    ...| inj₁ x≤y = many x≤y single
+    ...| inj₂ y≤x = many y≤x single
+    insert-sorted {(y ∷ y' ∷  ys)}{x} (many y≤y' sxs) with total M x y
+    ...| inj₁ x≤y = many x≤y (many y≤y' sxs)
+    ...| inj₂ y≤x with total M x y' | insert-sorted {x = x} sxs
+    ...   | inj₁ x≤y' | _ = many y≤x (many x≤y' sxs)
+    ...   | inj₂ y'≤x | p = many y≤y' p
+
+    isort-sorted : ∀ (xs : List A) → Sorted (isort xs)
+    isort-sorted [] = empty
+    isort-sorted (x ∷ xs) = insert-sorted (isort-sorted xs)
 ```
 
-## Insertion sort
-
-- Relacionando insert e <*
+# Definições de permutações
 
 ```agda
-     <*-cons : ∀ {x y ys} → x ≤ y → y <* ys → x <* ys
-     <*-cons x≤y [] = []
-     <*-cons x≤y (x ∷ y<*ys)
-       = (≤-trans x≤y x) ∷ <*-cons x≤y y<*ys
+  module permutation {A : Set}
+                     {_≤_ : Relation A}
+                     (M : IsTotalOrder _≤_) where
 
-     <*-insert : ∀ {x y xs} → y ≤ x → y <* xs → y <* insert x xs
-     <*-insert y≤x [] = y≤x ∷ []
-     <*-insert {x}{y} y≤x (_∷_ {y = z} y<z y<*xs) with x ≤? z
-     ...| yes k = y≤x ∷ (y<z ∷ y<*xs)
-     ...| no ¬k = y<z ∷ (<*-insert y≤x y<*xs)
-```
+    open IsTotalOrder M public
+    open isort-algorithm M
 
+    data Perm : List A → List A → Set where
+      empty : Perm [] []
+      skip  : ∀ {x xs ys} → Perm xs ys
+                          → Perm (x ∷ xs) (x ∷ ys)
+      swap  : ∀ {x y xs} → Perm (x ∷ y ∷ xs) (y ∷ x ∷ xs)
+      ptrans : ∀ {xs ys zs} → Perm xs ys
+                            → Perm ys zs
+                            → Perm xs zs
 
-## Insertion sort
+    Perm-refl : ∀ {xs} → Perm xs xs
+    Perm-refl {[]} = empty
+    Perm-refl {x ∷ xs} = skip Perm-refl
 
-- Provando que `insert` preserva a propriedade
-`Sorted`
+    Perm-sym : ∀ {xs ys} → Perm xs ys → Perm ys xs
+    Perm-sym empty = empty
+    Perm-sym (skip pxys) = skip (Perm-sym pxys)
+    Perm-sym swap = swap
+    Perm-sym (ptrans pxys pxys₁) = ptrans (Perm-sym pxys₁) (Perm-sym pxys)
 
-```agda
-     insert-sorted : ∀ {x xs} → Sorted xs → Sorted (insert x xs)
-     insert-sorted [] = [] ∷ []
-     insert-sorted {x} (_∷_ {x = y} z ys) with x ≤? y
-     ...| yes p = (p ∷ (<*-cons p z)) ∷ (z ∷ ys)
-     ...| no ¬p = <*-insert (≤-contra ¬p) z ∷ (insert-sorted ys)
-```
+    insert-perm : ∀ {xs ys x} → Perm xs ys → Perm (x ∷ xs) (insert x ys)
+    insert-perm {.[]} {.[]} {x} empty = skip empty
+    insert-perm {(y ∷ ys)} {(.y ∷ zs)} {x} (skip p) with total M x y
+    ...| inj₁ x≤y = skip (skip p)
+    ...| inj₂ y≤x = ptrans swap (skip (insert-perm p))
+    insert-perm {x ∷ x' ∷ xs} {.x' ∷ .x ∷ ys} {z} swap with total M z x'
+    ...| inj₁ z≤x' = skip swap
+    ...| inj₂ x'≤z with total M z x
+    ...    | inj₁ z≤x = Perm-sym (ptrans swap (skip swap))
+    ...    | inj₂ x≤z = Perm-sym (ptrans swap (Perm-sym (ptrans swap (skip (ptrans swap (skip (insert-perm Perm-refl)))))))
+    insert-perm {xs} {ys} {x} (ptrans p p₁) = ptrans (skip p) (insert-perm p₁)
 
-## Insertion sort
-
-- Provando que isort retorna uma lista ordenada
-
-```agda
-     isort-sorted : ∀ (xs : List A) → Sorted (isort xs)
-     isort-sorted [] = []
-     isort-sorted (x ∷ xs) = insert-sorted (isort-sorted xs)
-```
-
-## Insertion sort
-
-- Para concluir a demonstração de correção, falta mostrar
-que o algoritmo retorna uma permutação da lista fornecida
-como entrada.
-
-- Para isso, vamos criar uma relação para denotar permutações
-de uma lista.
-
-## Insertion sort
-
-- A relação x ▷ ys ≈ zs denota que a lista zs é igual a
-a inserção de x em algum ponto da lista ys.
-
-```agda
-     data _▷_≈_ : A → List A → List A → Set l where
-       here : ∀ {x xs} → x ▷ xs ≈ (x ∷ xs)
-       there : ∀ {x y xs xss} → x ▷ xs ≈ xss
-                              → x ▷ (y ∷ xs) ≈ (y ∷ xss)
-```
-
-## Insertion sort
-
-- Usando a relação x ▷ xs ≈ ys, podemos definir a noção
-de permutação entre duas listas.
-
-```agda
-     data Permutation : List A → List A → Set l where
-       []  : Permutation [] []
-       _∷_ : ∀ {x xs ys xys} → x ▷ ys ≈ xys
-                             → Permutation xs ys
-                             → Permutation (x ∷ xs) xys
-```
-
-## Insertion sort
-
-- Permutações são reflexivas
-
-```agda
-     Permutation-refl : ∀ xs → Permutation xs xs
-     Permutation-refl [] = []
-     Permutation-refl (x ∷ xs) = here ∷ Permutation-refl xs
-```
-
-
-## Insertion sort
-
-```agda
-     insert-permutation : ∀ {x} xs → Permutation (x ∷ xs) (insert x xs)
-     insert-permutation [] = here ∷ []
-     insert-permutation {x}(y ∷ ys) with x ≤? y
-     ...| yes x≤y = Permutation-refl (x ∷ y ∷ ys)
-     ...| no ¬x≤y = {!!} ∷ {!!}
+    isort-perm : (xs : List A) → Perm xs (isort xs)
+    isort-perm [] = empty
+    isort-perm (x ∷ xs) = insert-perm (isort-perm xs)
 ```
