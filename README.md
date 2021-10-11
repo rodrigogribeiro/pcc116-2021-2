@@ -49,8 +49,13 @@ Conteúdo da disciplina.
 
     * [Aula 13 - 05/10/2021 - Lógica em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1_FR3NSNFA7CShix_QqcFL)
     
-    * [Aula 14 - 07/07/2021 - Evidências em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM2pyaVgd9yark4N4TO2InRs)
+    * [Aula 14 - 07/10/2021 - Evidências em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM2pyaVgd9yark4N4TO2InRs)
     
+* Semana 8
+
+    * [Aula 15 - 12/10/2021 - Listas e funções de ordem superior em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM0ANsW8UMpPih2jyKcKj8Sn)
+    
+    * [Aula 16 - 14/10/2021 - Estudo de caso: Formalizando o insertion sort](https://youtube.com/playlist?list=PLxVVfOvO-mM3hQPzoPgLDrS3fAlm1Qoo6)
 
 
 Listas de exercícios
