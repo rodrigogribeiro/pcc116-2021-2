@@ -87,12 +87,19 @@ Listas de exercícios
 * Lista 06 - Lógica em Agda, Evidências.
     * Data para entrega: 23/10/2021
     * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
-    * Arquivos contendos exercícios da lista: 
+    * Arquivos contendo os exercícios da lista: 
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Product/ProductTheoerms.agda>
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Sum/SumTheorems.agda>
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Biconditional/BiconditionalTheorems.agda>
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Relation/Decidable/Dec.agda>
     
+* Lista 07 - Listas e funções de ordem superior. 
+    * Data para entrega: 30/10/2021
+    * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
+    * Arquivos contendo os exercícios da lista: 
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/ListTheorems.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Relation/All.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Relation/Any.agda>
 
 
 Código de exemplo

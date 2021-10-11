@@ -140,7 +140,6 @@ module aula15 where
       ≡⟨⟩
         length (x ∷ xs) + length ys
       ∎
-
 ```
 
 ## Listas

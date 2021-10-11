@@ -123,19 +123,10 @@ permutação da lista de entrada.
 
 
     insert-sorted : ∀ {xs}{x : A} → Sorted xs → Sorted (insert x xs)
-    insert-sorted {.[]} empty = single
-    insert-sorted {[ y ]}{x} single with total M x y
-    ...| inj₁ x≤y = many x≤y single
-    ...| inj₂ y≤x = many y≤x single
-    insert-sorted {(y ∷ y' ∷  ys)}{x} (many y≤y' sxs) with total M x y
-    ...| inj₁ x≤y = many x≤y (many y≤y' sxs)
-    ...| inj₂ y≤x with total M x y' | insert-sorted {x = x} sxs
-    ...   | inj₁ x≤y' | _ = many y≤x (many x≤y' sxs)
-    ...   | inj₂ y'≤x | p = many y≤y' p
+    insert-sorted = {!!}
 
     isort-sorted : ∀ (xs : List A) → Sorted (isort xs)
-    isort-sorted [] = empty
-    isort-sorted (x ∷ xs) = insert-sorted (isort-sorted xs)
+    isort-sorted = {!!}
 ```
 
 # Definições de permutações
@@ -148,38 +139,26 @@ permutação da lista de entrada.
     open IsTotalOrder M public
     open isort-algorithm M
 
-    data Perm : List A → List A → Set where
-      empty : Perm [] []
-      skip  : ∀ {x xs ys} → Perm xs ys
-                          → Perm (x ∷ xs) (x ∷ ys)
-      swap  : ∀ {x y xs} → Perm (x ∷ y ∷ xs) (y ∷ x ∷ xs)
-      ptrans : ∀ {xs ys zs} → Perm xs ys
-                            → Perm ys zs
-                            → Perm xs zs
+    infix 4 _≈_
 
-    Perm-refl : ∀ {xs} → Perm xs xs
-    Perm-refl {[]} = empty
-    Perm-refl {x ∷ xs} = skip Perm-refl
+    data _≈_ : List A → List A → Set where
+      empty : [] ≈ []
+      skip  : ∀ {x xs ys} → xs ≈ ys
+                          → (x ∷ xs) ≈ (x ∷ ys)
+      swap  : ∀ {x y xs} → (x ∷ y ∷ xs) ≈ (y ∷ x ∷ xs)
+      ≈-trans : ∀ {xs ys zs} → xs ≈ ys
+                             → ys ≈ zs
+                             → xs ≈ zs
 
-    Perm-sym : ∀ {xs ys} → Perm xs ys → Perm ys xs
-    Perm-sym empty = empty
-    Perm-sym (skip pxys) = skip (Perm-sym pxys)
-    Perm-sym swap = swap
-    Perm-sym (ptrans pxys pxys₁) = ptrans (Perm-sym pxys₁) (Perm-sym pxys)
+    ≈-refl : ∀ {xs} → xs ≈ xs
+    ≈-refl = {!!}
 
-    insert-perm : ∀ {xs ys x} → Perm xs ys → Perm (x ∷ xs) (insert x ys)
-    insert-perm {.[]} {.[]} {x} empty = skip empty
-    insert-perm {(y ∷ ys)} {(.y ∷ zs)} {x} (skip p) with total M x y
-    ...| inj₁ x≤y = skip (skip p)
-    ...| inj₂ y≤x = ptrans swap (skip (insert-perm p))
-    insert-perm {x ∷ x' ∷ xs} {.x' ∷ .x ∷ ys} {z} swap with total M z x'
-    ...| inj₁ z≤x' = skip swap
-    ...| inj₂ x'≤z with total M z x
-    ...    | inj₁ z≤x = Perm-sym (ptrans swap (skip swap))
-    ...    | inj₂ x≤z = Perm-sym (ptrans swap (Perm-sym (ptrans swap (skip (ptrans swap (skip (insert-perm Perm-refl)))))))
-    insert-perm {xs} {ys} {x} (ptrans p p₁) = ptrans (skip p) (insert-perm p₁)
+    ≈-sym : ∀ {xs ys} → xs ≈ ys → ys ≈ xs
+    ≈-sym xs≈ys = {!!}
 
-    isort-perm : (xs : List A) → Perm xs (isort xs)
-    isort-perm [] = empty
-    isort-perm (x ∷ xs) = insert-perm (isort-perm xs)
+    insert-perm : ∀ {xs ys x} → xs ≈ ys → (x ∷ xs) ≈ (insert x ys)
+    insert-perm xs≈ys = {!!}
+
+    isort-perm : (xs : List A) → xs ≈ (isort xs)
+    isort-perm xs = {!!}
 ```
