@@ -38,7 +38,7 @@ open import Relation.Properties
 de padrões na presença de tipos dependentes.
 
 - Apresentar como tipos dependentes permitem combinar
-demonstrações à definições de programas.
+demonstrações às definições de programas.
 
 
 # Casamento de padrão com tipos dependentes
@@ -63,7 +63,10 @@ valor `Parity n` para todo `n : ℕ`:
 
 ```agda
 parity : (n : ℕ) → Parity n
-parity = {!!}
+parity zero    = even 0
+parity (suc n) with parity n
+parity (suc .(k * 2))     | even k = odd k
+parity (suc .(1 + k * 2)) | odd  k = even (1 + k)
 ```
 
 - Observe que o casamento de padrão sobre `parity n`
@@ -81,7 +84,9 @@ para o obter para dividir um número natural por
 
 ```agda
 half : ℕ → ℕ
-half = {!!}
+half n with parity n
+half .(k * 2)     | even k = k
+half .(1 + k * 2) | odd k = k
 ```
 
 # Casamento de padrão com tipos dependentes
@@ -103,8 +108,19 @@ data Find {A : Set}(p : A → Bool) : List A → Set where
 - Definição da função `find`
 
 ```agda
+trueLemma : ∀ {x} → x ≡ true → T x
+trueLemma eq rewrite eq = tt
+
+falseLemma : ∀ {x} → x ≡ false → T (not x)
+falseLemma eq rewrite eq = tt
+
 find : ∀ {A}(p : A → Bool)(xs : List A) → Find p xs
-find = {!!}
+find p [] = not-found []
+find p (x ∷ xs) with inspect (p x)
+... | it true px≡y  = found [] x (trueLemma px≡y) xs
+... | it false px≡y with find p xs
+...     | found xs y x₁ ys = found (x ∷ xs) y x₁ ys
+...     | not-found x₁ = not-found (falseLemma px≡y ∷ x₁)
 ```
 
 # Programação com tipos dependentes
@@ -133,7 +149,7 @@ data Vec {a}(A : Set a) : ℕ → Set a where
 
 ```agda
 _ : Vec ℕ 3
-_ = 1 ∷ 2 ∷ 3 ∷ []
+_ = 1 ∷ (2 ∷ (3 ∷ []))
 ```
 
 # Head
@@ -154,7 +170,7 @@ total.
 
 ```agda
 head : ∀ {a}{A : Set a}{n} → Vec A (suc n) → A
-head (x ∷ _) = x
+head (x ∷ xs) = x
 ```
 
 # Concatenação
@@ -164,8 +180,8 @@ a propriedade de tamanho.
 
 ```agda
 _++V_ : ∀ {a}{A : Set a}{n m} → Vec A n → Vec A m → Vec A (n + m)
-[]       ++V ys = ys
-(x ∷ xs) ++V ys = x ∷ (xs ++V ys)
+[]       ++V ys = ys              -- 0 + m ≡ m
+(x ∷ xs) ++V ys = x ∷ (xs ++V ys) -- (suc n) + m ≡ suc (n + m)
 ```
 
 # A função `map` preserva o tamanho
@@ -200,7 +216,7 @@ conjuntos finitos.
 
 - `Fin n` representa um tipo que possui `n` elementos.
     - `Fin 0` ≃ ⊥ !
-    - `Fin `  ≃ ⊤ !
+    - `Fin 1` ≃ ⊤ !
 
 ```agda
 data Fin : ℕ → Set where
@@ -215,11 +231,10 @@ data Fin : ℕ → Set where
 ```agda
 Fin0≃⊥ : Fin 0 ≃ ⊥
 Fin0≃⊥
-  = record {
-       to     = λ ()
-    ; from    = λ ()
-    ; to∘from = λ () 
-    ; from∘to = λ () }
+  = record { to = λ () 
+           ; from = λ ()
+           ; to∘from = λ ()
+           ; from∘to = λ () }
 ```
 
 # Tipos finitos
@@ -229,11 +244,10 @@ Fin0≃⊥
 ```agda
 Fin1≃⊤ : Fin 1 ≃ ⊤
 Fin1≃⊤
-  = record {
-      to      = λ _ → tt
-    ; from    = λ _ → zero
-    ; to∘from = λ {tt → refl}
-    ; from∘to = λ {zero → refl} }
+  = record { to = λ _ → tt
+           ; from = λ {tt → zero}
+           ; to∘from = λ { tt → refl }
+           ; from∘to = λ { zero → refl } }
 ```
 
 # Tipos finitos
@@ -246,7 +260,7 @@ evitando problemas de acesso a posições inválidas.
 
 ```agda
 nthV : ∀ {a}{A : Set a}{n} → Fin n → Vec A n → A
-nthV zero      (x ∷ _)  = x
+nthV zero (x ∷ _)       = x
 nthV (suc idx) (_ ∷ xs) = nthV idx xs
 ```
 
