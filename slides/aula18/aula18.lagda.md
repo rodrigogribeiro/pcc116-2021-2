@@ -13,8 +13,8 @@ open import Data.Bool.Bool
 open import Data.Char.Char
 open import Data.Empty.Empty
 open import Data.Function.Function
-open import Data.List.List
-open import Data.Maybe.Maybe
+open import Data.List.List hiding (foldl)
+open import Data.Maybe.Maybe renaming (map to mapM)
 open import Data.Nat.Nat
 open import Data.Product.Product
 open import Data.Sigma.Sigma   renaming (_,_ to _,,_)
@@ -34,9 +34,6 @@ função para formatação de saída (a lá `printf`).
 - Apresentação do conceito de universo e de seu
 uso para definição de linguagens para descrição
 de dados.
-
-- Desenvolvimento de uma função para demonstração
-de equações sobre monóides.
 
 
 # Formalização de formatação de dados
@@ -160,12 +157,28 @@ tipos descritos pelo universo.
 
 ```agda
 readNat : Vec Bit 8 → ℕ
-readNat bs = {!!}
+readNat bs = foldl step 0 bs
+  where
+    step : ℕ → Bit → ℕ
+    step ac I = ac * 10 + 1
+    step ac O = ac * 10
 
 readChar : Vec Bit 8 → Char
 readChar = ℕtoChar ∘ readNat
 
 read : {c : Code} → List Bit → Maybe (el c × List Bit)
+
+readVec : ∀ (n : ℕ)(c : Code) →
+            List Bit          →
+            Maybe (Vec (el c) n × List Bit)
+readVec zero c bs = just ([] , bs)
+readVec (suc n) c bs with read {c} bs
+... | nothing = nothing
+... | just (v , bs') with readVec n c bs'
+...    | nothing = nothing
+...    | just (vs , bs1) = just (v ∷ vs , bs1)
+
+
 read {BIT} [] = nothing
 read {BIT} (b ∷ bs) = just (b , bs)
 read {CHAR} (b₁ ∷ b₂ ∷ b₃ ∷ b₄ ∷ b₅ ∷ b₆ ∷ b₇ ∷ b₈ ∷ bs)
@@ -178,7 +191,7 @@ read {NAT} (b₁ ∷ b₂ ∷ b₃ ∷ b₄ ∷ b₅ ∷ b₆ ∷ b₇ ∷ b₈ 
          , bs
          )
 read {NAT} _ = nothing
-read {VEC c n} bs = {!!}
+read {VEC c n} bs = readVec n c bs
 ```
 
 - Utilizando o universo descrito pelo tipo Code e
@@ -241,17 +254,23 @@ f >>= g = Read f g
 - Exemplo: formato pbm
 
 ```agda
+nat : File
+nat = Base NAT
+
+vec : ℕ → ℕ → File
+vec n m = Base (VEC (VEC BIT n) m)
+
 pbm : File
-pbm
-  = char 'P'  >>
-    char '4'  >>
-    char ' '  >>
-    Base NAT  >>= λ n →
-    char ' '  >>
-    Base NAT  >>= λ m →
-    char '\n' >>
-    Base (VEC (VEC BIT n) m) >>= λ bs →
-    End
+pbm = do
+       char 'P'
+       char '4'
+       char ' '
+       n ← nat
+       char ' '
+       m ← nat
+       char '\n'
+       bs ← vec n m
+       End
 ```
 
 - Usando o universo File, podemos definir
@@ -261,8 +280,21 @@ parsers e pretty-printers genéricos.
 parser : (f : File) → List Bit → Maybe (⟦ f ⟧ × List Bit)
 parser Bad bs = nothing
 parser End bs = just (tt , bs)
-parser (Base x) bs = {!!}
-parser (Plus f f₁) bs = {!!}
-parser (Skip f f₁) bs = {!!}
-parser (Read f x) bs = {!!}
+parser (Base x) bs = read {x} bs
+parser (Plus f f₁) bs with parser f bs
+...| just (v , bs') = just (inj₁ v , bs')
+...| nothing with parser f₁ bs
+...    | just (v' , bs') = just (inj₂ v' , bs')
+...    | nothing = nothing
+parser (Skip f f₁) bs = parser f₁ bs
+parser (Read f x) bs with parser f bs
+...| nothing = nothing
+...| just (x₁ , cs) with parser (x x₁) cs
+...    | nothing = nothing
+...    | just (r , cs') = just ((x₁ ,, r) , cs')
 ```
+
+# Referências
+
+- Oury, Nicolas; Swierstra, Wouter. The Power of Pi.
+ICFP 2008.
