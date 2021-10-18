@@ -282,7 +282,8 @@ variable A : Set
 ! {{x}} = x
 ```
 
-- Vamos usar instances para inferência de deduções sobre relações de ordem.
+- Vamos usar instances para inferência de deduções
+sobre relações de ordem.
 
 - Primeiro, vamos automatizar um teste de igualdade.
 
@@ -290,9 +291,9 @@ variable A : Set
 variable n m : ℕ
 
 _≡ᵇ_ : ℕ → ℕ → Bool
-zero ≡ᵇ zero = true
-suc _ ≡ᵇ zero = false
-zero ≡ᵇ suc _ = false
+zero  ≡ᵇ zero  = true
+suc _ ≡ᵇ zero  = false
+zero  ≡ᵇ suc _ = false
 suc n ≡ᵇ suc m = n ≡ᵇ m
 
 instance
@@ -306,8 +307,8 @@ _ = !
 
 ```agda
 _<ᵇ_ : ℕ → ℕ → Bool
-_ <ᵇ zero = false
-zero <ᵇ suc _ = true
+_     <ᵇ zero  = false
+zero  <ᵇ suc _ = true
 suc n <ᵇ suc m = n <ᵇ m
 
 instance
@@ -332,7 +333,7 @@ record Eq (A : Set) : Set₁ where
     ≡-sym   : Symmetric  _==_
     ≡-trans : Transitive _==_
 
-open Eq {{...}}
+open Eq {{...}} -- instance argument
 
 instance
   Eq-ℕ : Eq ℕ
@@ -499,29 +500,17 @@ _ = node 40 (node 10 leaf leaf)
 ```
 
 - No valor acima, o mecanismo de _instance search_ preenche, automaticamente,
-as demonstrações que garantem o invarianate de árvores binárias.
+as demonstrações que garantem o invariante de árvores binárias.
 
 - Como exemplo, consider o valor de árvore com as deduções
 explicitamente preenchidas
 
 ```agda
 _ : Tree ℕ -∞ +∞
-_ = node 40 (node 10 (leaf {{l≤u = -∞≤10}})
-                     (leaf {{l≤u = 10≤40}}))
-            (node 70 (leaf {{l≤u = 40≤70}})
-                     (leaf {{l≤u = 70≤+∞}}))
-      where
-        -∞≤10 : -∞ ≤ ⟨ 10 ⟩
-        -∞≤10 = !
-
-        10≤40 : ⟨ 10 ⟩ ≤ ⟨ 40 ⟩
-        10≤40 = !
-
-        40≤70 : ⟨ 40 ⟩ ≤ ⟨ 70 ⟩
-        40≤70 = !
-
-        70≤+∞ : ⟨ 70 ⟩ ≤ +∞
-        70≤+∞ = !
+_ = node 40 (node 10 (leaf {{l≤u = !}})
+                     (leaf {{l≤u = ⟨⟩-≤-≤}}))
+            (node 70 (leaf {{l≤u = ⟨⟩-≤-≤}})
+                     (leaf {{l≤u = !}}))
 ```
 
 - Tendo definido o tipo de árvores binárias, podemos
@@ -543,9 +532,9 @@ module Search {{_ : Compare A}} where
             {t₂ : Tree A ⟨ y ⟩ u} →
             x ∈ node y t₁ t₂      →
             x ≡ y ⊎ x ∈ t₁ ⊎ x ∈ t₂
-  ∈-inv (here x) = inj₁ x
-  ∈-inv (left p) = inj₂ (inj₁ p)
-  ∈-inv (right p) = inj₂ (inj₂ p)
+  ∈-inv (here refl) = inj₁ refl
+  ∈-inv (left x∈t) = inj₂ (inj₁ x∈t)
+  ∈-inv (right x∈t) = inj₂ (inj₂ x∈t)
 ```
 
 - A função para busca em uma árvore binária
@@ -554,10 +543,10 @@ possui uma definição quase imediata.
 ```agda
   search : ∀ {l u}(x : A)(t : Tree A l u) → Maybe (x ∈ t)
   search x leaf = nothing
-  search x (node v tl tr) with compare x v
-  ...| equal   = just (here !)
-  ...| less    = map left (search x tl)
-  ...| greater = map right (search x tr)
+  search x (node v t t₁) with compare x v
+  ...| less  = map left (search x t)
+  ...| equal = just (here !)
+  ...| greater = map right (search x t₁)
 ```
 
 - A função para inserção é definida em um módulo
@@ -571,10 +560,10 @@ module Insert {{_ : Compare A}} where
              {{l≤x : l ≤ ⟨ x ⟩}}{{x≤u : ⟨ x ⟩ ≤ u}} →
              Tree A l u
   insert x leaf = node x leaf leaf
-  insert x (node y tl tr) with compare x y
-  ...| less    = node y (insert x tl) tr
-  ...| equal   = node y tl tr
-  ...| greater = node y tl (insert x tr)
+  insert x (node v t t₁) with compare x v
+  ...| less    = node v (insert x t) t₁
+  ...| equal   = node v t t₁
+  ...| greater = node v t (insert x t₁)
 ```
 
 

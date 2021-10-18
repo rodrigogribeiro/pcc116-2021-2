@@ -13,7 +13,7 @@ open import Data.Bool.Bool
 open import Data.Char.Char
 open import Data.Empty.Empty
 open import Data.Function.Function
-open import Data.List.List hiding (foldl)
+open import Data.List.List hiding (foldl ; foldr)
 open import Data.Maybe.Maybe renaming (map to mapM)
 open import Data.Nat.Nat
 open import Data.Product.Product
@@ -22,6 +22,8 @@ open import Data.String.String hiding (_++_)
 open import Data.Sum.Sum
 open import Data.Unit.Unit
 open import Data.Vec.Vec renaming (_++_ to _++V_)
+
+open import Relation.Equality.Propositional
 ```
 -->
 
@@ -160,8 +162,11 @@ readNat : Vec Bit 8 → ℕ
 readNat bs = foldl step 0 bs
   where
     step : ℕ → Bit → ℕ
-    step ac I = ac * 10 + 1
-    step ac O = ac * 10
+    step ac I = ac * 2 + 1
+    step ac O = ac * 2
+
+_ : readNat (O ∷ O ∷ O ∷ O ∷ O ∷ I ∷ O ∷ I ∷ []) ≡ 5
+_ = refl
 
 readChar : Vec Bit 8 → Char
 readChar = ℕtoChar ∘ readNat
