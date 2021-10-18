@@ -7,55 +7,59 @@ Repositório contendo o material da disciplina PCC116 para o semestre 2021/2.
 Conteúdo da disciplina.
 -----------------------
 
-* Semana 1
+* Semana 01
 
     * [Aula 01 - 24/08/2021 - Apresentação da disciplina](https://youtube.com/playlist?list=PLxVVfOvO-mM2uK9K__gOMflgH2pX0T79z)
 
     * [Aula 02 - 26/08/2021 - Revisão: Programação Funcional](https://youtube.com/playlist?list=PLxVVfOvO-mM2-ukidO-TqGm7CZLLBTP6M)
 
-* Semana 2
+* Semana 02
 
     * [Aula 03 - 31/08/2021 - Lógica proposicional - Parte 01](https://youtube.com/playlist?list=PLxVVfOvO-mM24qLpEx6_-HbBiV4I72KMK)
     
     * [Aula 04 - 02/09/2021 - Lógica proposicional - Parte 02](https://youtube.com/playlist?list=PLxVVfOvO-mM2lbLci9io3S2z5c55MAqhN)
 
-* Semana 3
+* Semana 03
     
     * [Aula 05 - 07/09/2021 - Lambda cálculo não tipado](https://youtube.com/playlist?list=PLxVVfOvO-mM0hacFHyf_aRZvdZQp0Pc4I)
 
     * [Aula 06 - 09/09/2021 - Lambda cálculo tipado simples](https://youtube.com/playlist?list=PLxVVfOvO-mM3djYRJ4iH70z8ARnTeEkCl)
     
-* Semana 4 
+* Semana 04 
 
     * [Aula 07 - 14/09/2021 - Sistema de Hindley-Milner](https://youtube.com/playlist?list=PLxVVfOvO-mM0mP7x--npcYr-SwoIzsVE8)
     
     * [Aula 08 - 16/09/2021 - Sistema F](https://youtube.com/playlist?list=PLxVVfOvO-mM1FtTDznN4r78kKAnj23_tL)
     
     
-* Semana 5
+* Semana 05
     
     * [Aula 09 - 21/09/2021 - Lógica de Predicados](https://youtube.com/playlist?list=PLxVVfOvO-mM153yw9gXSX2FgOzvsY_D5D)
     
     * [Aula 10 - 23/09/2021 - Introdução à linguagem Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1Rqc1JkThW2pTxmfw_q3Wx)
 
-* Semana 6
+* Semana 06
  
     * [Aula 11 - 28/09/2021 - Números naturais em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM3-QR3ivcRgLqG8GaMo1x8Y)
     
     * [Aula 12 - 30/09/2021 - Relações em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM0STd02yK5nCw0tbbv4HO_w)
 
 
-* Semana 7 
+* Semana 07 
 
     * [Aula 13 - 05/10/2021 - Lógica em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1_FR3NSNFA7CShix_QqcFL)
     
     * [Aula 14 - 07/10/2021 - Evidências em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM2pyaVgd9yark4N4TO2InRs)
     
-* Semana 8
+* Semana 08
 
     * [Aula 15 - 12/10/2021 - Listas e funções de ordem superior em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM0ANsW8UMpPih2jyKcKj8Sn)
     
     * [Aula 16 - 14/10/2021 - Estudo de caso: Formalizando o insertion sort](https://youtube.com/playlist?list=PLxVVfOvO-mM3hQPzoPgLDrS3fAlm1Qoo6)
+
+* Semana 09
+
+    * [Aula 17 - 19/10/2021 - Programação com tipos dependentes - Parte I](https://youtube.com/playlist?list=PLxVVfOvO-mM3tp4Dm-8pZXKNbX8S9XRr9)
 
 
 Listas de exercícios
@@ -106,6 +110,23 @@ Listas de exercícios
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Relation/All.agda>
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Relation/Any.agda>
 
+* Lista 08 - Programação com tipos dependentes - Parte I.
+    * Data para entrega: 06/11/2021
+    * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
+    * Arquivos contendo os exercícios da lista: 
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Vec/Vec.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Vec/Matrix.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Language/Data/Data.agda>
+
+* Lista 09 - Programação com tipos dependentes  - Parte II.
+    * Data para entrega: 13/11/2021
+    * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
+    * Arquivos contendo os exercícios da lista: 
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Relation/Sublist.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Sorting/Extrinsic/StalinSort.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Sorting/Extrinsic/StalinSortTheorems.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Sorting/Intrinsic/InsertionSort.agda>
+    
 
 Código de exemplo
 -----------------
