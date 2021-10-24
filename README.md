@@ -61,6 +61,7 @@ Conteúdo da disciplina.
 
     * [Aula 17 - 19/10/2021 - Programação com tipos dependentes - Parte I](https://youtube.com/playlist?list=PLxVVfOvO-mM3tp4Dm-8pZXKNbX8S9XRr9)
 
+    * [Aula 18 - 21/10/2021 - Programação com tipos dependentes - Parte II](https://youtube.com/playlist?list=PLxVVfOvO-mM2xehFjgg4rt_PTwZ4DBDHQ)
 
 Listas de exercícios
 --------------------

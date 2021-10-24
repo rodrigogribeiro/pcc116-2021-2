@@ -47,6 +47,11 @@ presentes em diversas linguagens de programação.
 - A função printf de C é, provavelmente, seu
 exemplo mais famoso.
 
+- Problema: Como garantir que os valores correspondem
+ao esperado pelo formato?
+
+    printf "Nome:%s - Idade:%n" "Marvin" 42 --- String → ℕ → String
+
 - Para construir uma versão tipável de printf,
 vamos definir um tipo para representar formatos.
 
@@ -65,7 +70,7 @@ realizar o parsing de uma string de formatos.
 parseFormat : List Char → Format
 parseFormat ('%' ∷ 'n' ∷ cs) = ℕ-Format (parseFormat cs)
 parseFormat ('%' ∷ 's' ∷ cs) = S-Format (parseFormat cs)
-parseFormat (c ∷ cs) = Literal c (parseFormat cs)
+parseFormat (c ∷ cs)         = Literal c (parseFormat cs)
 parseFormat [] = Empty
 ```
 
@@ -103,7 +108,7 @@ interpFormat s (S-Format f)
   = λ s' → interpFormat (s ++ (stringToList s')) f
 interpFormat s (Literal c f)
   = interpFormat (s ++ [ c ]) f
-interpFormat s Empty = (stringFromList s)
+interpFormat s Empty = stringFromList s
 ```
 
 - Usando o interpretador acima, a definição
@@ -126,7 +131,8 @@ textuais ou mesmo binários.
 pretty genéricos para esses formatos.
 
 - Uma alternativa para isso, é a criação de linguagens
-para descrição de formatos de dados.
+para descrição de formatos de dados e gerar algoritmos
+a partir das descrições.
 
 - Porém, como descrever os tipos suportados por formatos
 que podem ser expressos?
@@ -171,11 +177,14 @@ _ = refl
 readChar : Vec Bit 8 → Char
 readChar = ℕtoChar ∘ readNat
 
+-- definição mutuamente recursiva.
+
 read : {c : Code} → List Bit → Maybe (el c × List Bit)
 
 readVec : ∀ (n : ℕ)(c : Code) →
             List Bit          →
             Maybe (Vec (el c) n × List Bit)
+
 readVec zero c bs = just ([] , bs)
 readVec (suc n) c bs with read {c} bs
 ... | nothing = nothing
@@ -213,7 +222,7 @@ data File where
   Base : Code → File
   Plus : File → File → File
   Skip : File → File → File
-  Read : (f : File) → (⟦ f ⟧ → File) → File
+  Read : (f : File) → (⟦ f ⟧ → File) → File -- >>=
 
 ⟦ Bad ⟧ = ⊥
 ⟦ End ⟧ = ⊤
@@ -298,6 +307,7 @@ parser (Read f x) bs with parser f bs
 ...    | nothing = nothing
 ...    | just (r , cs') = just ((x₁ ,, r) , cs')
 ```
+
 
 # Referências
 
