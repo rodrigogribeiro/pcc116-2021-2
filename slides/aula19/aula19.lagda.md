@@ -27,7 +27,7 @@ open import Relation.Equality.Propositional
 - Discutir os motivos para assistentes de prova para
 limitar definições recursivas.
 
-- Apresentar técnicas para definir recursivas em
+- Apresentar técnicas para definir funções recursivas em
 assistentes de provas.
 
 
@@ -57,10 +57,12 @@ Divisão sobre números naturais
 - Uma maneira de definir a divisão sobre números naturais
 é como uma repetição da subtração.
 
+6 / 2 = 1 + (4 / 2) = 1 + (1 + (2 / 2)) = 1 + (1 + (1 + 0 / 2)) = 3
+
 ```haskell
 div : ℕ → ℕ → ℕ
-div zero m = m
-div n m    = suc (div (n - m) m)
+div zero m = 0
+div n    m = suc (div (n - m) m)
 ```
 
 - Porém, a definição acima possui um problema:
@@ -119,8 +121,12 @@ tipo ℕ
 ```agda
   div-fuel : Fuel → (n m : ℕ).{{_ : NonZero m}} → Maybe ℕ
   div-fuel zero n m = nothing
+  div-fuel (suc gas) 0 m = just 0
   div-fuel (suc gas) n m
     = map suc (div-fuel gas (n - m) m)
+
+  _ : div-fuel 6 6 2 {{tt}} ≡ just 3
+  _ = refl
 ```
 
 - Usando a função `div-fuel`, podemos definir a função de
@@ -152,14 +158,14 @@ realmente terminam?
 - Para garantir a terminação devemos impor que não existam
   cadeias decrescentes infinitas.
 
-x_1 > x_2 > x_3 ...
+x_1 > x_2 > x_3 ... x_n > x_{n + 1} ...
 
 - Toda relação que não possui cadeias decrescentes infinitas é
 dita ser uma relação bem formada.
 
 - Vamos modelar esse conceito de forma construtiva usando a noção
 de acessibilidade, com respeito a uma relação de ordem:
-    - Elementos minimais são acessíveis
+    - Elementos minimais são acessíveis =>  ¬ ∃ y . y < x
     - Um elemento x é acessível se todos os elementos menores que x
       são acessíveis.
 
@@ -314,8 +320,8 @@ sobre a estrutura do predicado.
 
 ```agda
   div-≺ : ∀ {n m : ℕ} → n ≺ m → ℕ
-  div-≺ ≺-base = 0
-  div-≺ {n} ≺-one = n
+  div-≺ ≺-base       = 0
+  div-≺ {n} ≺-one    = n
   div-≺ (≺-step n≺m) = suc (div-≺ n≺m)
 ```
 
@@ -352,12 +358,13 @@ bastante imediata.
 module MergeFuel {{_ : Compare A }} where
 
   merge-fuel : Fuel → List A → List A → Maybe (List A)
-  merge-fuel zero _ _ = nothing
-  merge-fuel _ [] ys = just ys
-  merge-fuel _ xs [] = just xs
+  merge-fuel zero      xs       ys       = nothing
+  merge-fuel (suc gas) []       ys       = just ys
+  merge-fuel (suc gas) (x ∷ xs) []       = just (x ∷ xs)
   merge-fuel (suc gas) (x ∷ xs) (y ∷ ys) with compare x y
-  ...| less = map (x ∷_) (merge-fuel gas xs (y ∷ ys))
-  ...| _    = map (y ∷_) (merge-fuel gas (x ∷ xs) ys)
+  ...| less    = map (x ∷_) (merge-fuel gas xs (y ∷ ys))
+  ...| equal   = map (y ∷_) (merge-fuel gas (x ∷ xs) ys)
+  ...| greater = map (y ∷_) (merge-fuel gas (x ∷ xs) ys)
 ```
 
 # Intercalação usando well-founded relations
@@ -445,31 +452,32 @@ para representar uma hipótese de indução.
 - Podemos codificar a ordem entre pares de valores.
 
 ```agda
-  data _<_ : Relation (A × B) where
-    left  : ∀ {x₁ y₁ x₂ y₂} (x₁<x₂ : x₁ <A x₂) → (x₁ , y₁) < (x₂ , y₂)
-    right : ∀ {x y₁ y₂}     (y₁<y₂ : y₁ <B y₂) → (x  , y₁) < (x  , y₂)
+  data _⊏_ : Relation (A × B) where
+    left  : ∀ {x₁ y₁ x₂ y₂} (x₁<x₂ : x₁ <A x₂) → (x₁ , y₁) ⊏ (x₂ , y₂)
+    right : ∀ {x y₁ y₂}     (y₁<y₂ : y₁ <B y₂) → (x  , y₁) ⊏ (x  , y₂)
 ```
 
-- Usando o tipo _<_ sobre pares, podemos construir a prova de
+- Usando o tipo _⊏_ sobre pares, podemos construir a prova de
 acessibilidade entre pares, como funções mutuamente recursivas.
 
 ```agda
   accessibleA : ∀ {x y} → Acc _<A_ x       →
                            WellFounded _<B_ →
-                           Acc _<_ (x , y)
+                           Acc _⊏_ (x , y)
 
   accessibleB : ∀ {x y} → Acc _<A_ x →
                            Acc _<B_ y →
                            WellFounded _<B_ →
-                           WfRec _<_ (Acc _<_) (x , y)
+                           WfRec _⊏_ (Acc _⊏_) (x , y)
 
 
-  accessibleA accA wfB = acc (accessibleB accA (wfB _) wfB)
+  accessibleA accA wfB
+    = acc (accessibleB accA (wfB _) wfB)
 
-  accessibleB (acc rsA) _    wfB ._ (left  x′<x)
-    = accessibleA (rsA _ x′<x) wfB
-  accessibleB accA (acc rsB) wfB ._ (right y′<y)
-    = acc (accessibleB accA (rsB _ y′<y) wfB)
+  accessibleB (acc IHA) accB wfB _ (left x₁<x₂)
+    = accessibleA (IHA _ x₁<x₂) wfB
+  accessibleB accA (acc IHB) wfB _ (right y₁<y₂)
+    = acc (accessibleB accA (IHB _ y₁<y₂) wfB)
 ```
 
 - A seguir, podemos codificar uma função para criar
@@ -477,7 +485,7 @@ uma relação bem formada sobre pares a partir de
 relações sobre tipos A e B.
 
 ```agda
-  wellFounded : WellFounded _<A_ → WellFounded _<B_ → WellFounded _<_
+  wellFounded : WellFounded _<A_ → WellFounded _<B_ → WellFounded _⊏_
   wellFounded wfA wfB p = accessibleA (wfA (proj₁ p)) wfB
 ```
 
@@ -504,11 +512,11 @@ module MergeWF (A : Set) where
   open Lexicographic _<<_ _<<_
   open WellFounded
 
-  merge-wf : WellFounded _<_
+  merge-wf : WellFounded _⊏_
   merge-wf = wellFounded length-wf length-wf
 
   _<*_ : Relation (List A × List A)
-  x <* y = x < y
+  x <* y = x ⊏ y
 ```
 
 - Finalmente, usando a relação sobre pares de listas,
@@ -549,15 +557,14 @@ wfRec.
   merge : List ℕ → List ℕ → List ℕ
   merge xs ys = wfRec _<*_ merge-wf (λ _ → List ℕ) step (xs , ys)
     where
-      -- iteration step
       step : ∀ (x : List ℕ × List ℕ) →
-               (∀ y → y <* x → List ℕ) →
-               List ℕ
-      step ([] , ys) IH = ys
-      step (x ∷ xs , []) IH = x ∷ xs
-      step (x ∷ xs , y ∷ ys) IH with compare x y
-      ...| less = x ∷ IH (xs , y ∷ ys) (termination-1 xs ys x y)
-      ...| _    = y ∷ IH (x ∷ xs , ys) (termination-2 xs ys x y)
+               (∀ y → y <* x → List ℕ) → List ℕ
+      step ([] , ys') IH      = ys'
+      step (x ∷ xs' , []) IH  = x ∷ xs'
+      step (x ∷ xs' , y ∷ ys') IH with compare x y
+      ...| less  = x ∷ IH (xs' , y ∷ ys') (termination-1 xs' ys' x y)
+      ...| equal = y ∷ IH (x ∷ xs' , ys') (termination-2 xs' ys' x y)
+      ...| greater = y ∷ IH (x ∷ xs' , ys') (termination-2 xs' ys' x y)
 ```
 
 # Intercalação de listas usando Bove-Capretta predicates.
@@ -571,7 +578,8 @@ module MergeBove where
   open import Prelude.Nat
   open ℕ-Lt
   open WellFounded
-  open Lexicographic
+  open MergeWF ℕ
+  open Lexicographic renaming (_⊏_ to _⊑_)
 
   data _⊏_ : List ℕ → List ℕ → Set where
     ⊏-1 : ∀ {xs} → xs ⊏ []
@@ -587,10 +595,8 @@ de intercalação por indução sobre xs ⊏ ys.
   merge-bove : {xs ys : List ℕ} → xs ⊏ ys → List ℕ
   merge-bove {xs = xs} ⊏-1 = xs
   merge-bove {ys = ys} ⊏-2 = ys
-  merge-bove {xs = x ∷ xs}{ys = y ∷ ys}(⊏-3 x≤y xs⊏ys)
-    = x ∷ merge-bove xs⊏ys
-  merge-bove {xs = x ∷ xs}{ys = y ∷ ys}(⊏-4 x≥y xs⊏ys)
-    = y ∷ merge-bove xs⊏ys
+  merge-bove {xs = x ∷ xs}(⊏-3 x≤y xs⊏ys) = x ∷ (merge-bove xs⊏ys)
+  merge-bove {ys = y ∷ ys}(⊏-4 x≥y xs⊏ys) = y ∷ (merge-bove xs⊏ys)
 ```
 
 - Em seguida, mostramos que o predicado é válido para
@@ -599,22 +605,24 @@ induction.
 
 ```agda
   ⊏-all : (xs ys : List ℕ) → xs ⊏ ys
-  ⊏-all xs ys = wfRec _<*_
-                      merge-wf
-                      (λ p → proj₁ p ⊏ proj₂ p)
-                      step
-                      (xs , ys)
-    where
-      open MergeWF ℕ public
-      step : ∀ (p : List ℕ × List ℕ) →
-             (∀ y → y <* p → proj₁ y ⊏ proj₂ y) →
-             proj₁ p ⊏ proj₂ p
-      step ([] , ys) IH = ⊏-2
-      step (x ∷ xs , []) IH = ⊏-1
-      step (x ∷ xs , y ∷ ys) IH with compare x y
-      ...| less {{p}}     = ⊏-3 p (IH (xs , y ∷ ys) (left  <-base))
-      ...| equal {{refl}} = ⊏-4 ≤-refl (IH (x ∷ xs , ys) (right <-base))
-      ...| greater {{p}}  = ⊏-4 p (IH (x ∷ xs , ys) (right <-base))
+  ⊏-all xs ys
+    = wfRec _<*_
+            merge-wf
+            (λ p → proj₁ p ⊏ proj₂ p)
+            step
+            (xs , ys)
+      where
+        step : ∀ x → (∀ y → y <* x → proj₁ y ⊏ proj₂ y) → proj₁ x ⊏ proj₂ x
+        step ([] , ys') IH = ⊏-2
+        step (x ∷ xs' , []) IH = ⊏-1
+        step (x ∷ xs' , y ∷ ys') IH with compare x y
+        ...| less {{x≤y}}    = ⊏-3 x≤y (IH (xs' , y ∷ ys')
+                                           (Merge.termination-1 xs' ys' x y))
+        ...| equal {{refl}}  = ⊏-4 ≤-refl (IH (x ∷ xs' , ys')
+                                              (Merge.termination-2 xs' ys' x y))
+        ...| greater {{x≥y}} = ⊏-4 x≥y (IH (x ∷ xs' , ys')
+                                           (Merge.termination-2 xs' ys' x y))
+
 ```
 
 - De posse da prova de que o predicado é válido para todos pares de
