@@ -63,6 +63,10 @@ Conteúdo da disciplina.
 
     * [Aula 18 - 21/10/2021 - Programação com tipos dependentes - Parte II](https://youtube.com/playlist?list=PLxVVfOvO-mM2xehFjgg4rt_PTwZ4DBDHQ)
 
+* Semana 10
+    * [Aula 19 - 26/10/2021 - Recursão geral em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM3qzlp02moyKzMFoNS97V9o)
+    * [Aula 20 - 28/10/2021 - Co-indução em Agda]()
+
 Listas de exercícios
 --------------------
 
