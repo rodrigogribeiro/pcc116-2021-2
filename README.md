@@ -65,7 +65,7 @@ Conteúdo da disciplina.
 
 * Semana 10
     * [Aula 19 - 26/10/2021 - Recursão geral em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM3qzlp02moyKzMFoNS97V9o)
-    * [Aula 20 - 28/10/2021 - Co-indução em Agda]()
+    * [Aula 20 - 28/10/2021 - Co-indução em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1nm8riekxU-IsPoopVzPuh)
 
 Listas de exercícios
 --------------------
@@ -132,6 +132,12 @@ Listas de exercícios
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Sorting/Extrinsic/StalinSortTheorems.agda>
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/List/Sorting/Intrinsic/InsertionSort.agda>
     
+* Lista 10 - Recursão não estrutural.
+    * Data para entrega: 20/11/2021
+    * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
+    * Arquivos contendo os exercícios da lista: 
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Nat/Div/DivIntrinsic.agda>
+
 
 Código de exemplo
 -----------------
