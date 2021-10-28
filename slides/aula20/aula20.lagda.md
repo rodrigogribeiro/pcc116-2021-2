@@ -91,9 +91,6 @@ formada apenas por zeros.
   head (interleave s1 s2) = head s1
   tail (interleave s1 s2) = interleave s2 (tail s1)
 ```
-
-
-
 - Funções de ordem superior sobre Stream: map.
 
 ```agda
@@ -183,7 +180,7 @@ naturais pertencem a nats.
 
   ∈-suc : ∀ {n m : ℕ} → n ∈ enum m → suc n ∈ enum (suc m)
   ∈-suc (here refl) = here refl
-  ∈-suc (there p)   = there (∈-suc p)
+  ∈-suc (there n∈enumm) = there (∈-suc n∈enumm)
 
   ℕ∈nats : ∀ (n : ℕ) → n ∈ nats
   ℕ∈nats zero = here refl
@@ -221,6 +218,8 @@ module SizedList where
 - Definindo uma linguagem, em termos da operação de
 derivada.
 
+δ(L,a) = {w | aw ∈ L}
+
 ```agda
 module Language {A : Set}(_≟_ : ∀ (x y : A) → Dec (x ≡ y)) where
 
@@ -242,7 +241,7 @@ module Language {A : Set}(_≟_ : ∀ (x y : A) → Dec (x ≡ y)) where
 
 ```agda
   _∋_ : ∀ {i} → Lang i → String i → Bool
-  l ∋ [] = null l
+  l ∋ []       = null l
   l ∋ (a ∷ as) = δ l a ∋ as
 ```
 
@@ -263,6 +262,9 @@ module Language {A : Set}(_≟_ : ∀ (x y : A) → Dec (x ≡ y)) where
   ε : ∀ {i} → Lang i
   null ε = true
   δ ε a  = ∅
+
+  _ : ε ∋ [] ≡ true
+  _ = refl
 ```
 
 - Definição da linguagem de um símbolo
@@ -352,8 +354,8 @@ module Language {A : Set}(_≟_ : ∀ (x y : A) → Dec (x ≡ y)) where
   DFA.δ     ∅-DFA s a = s
 
   ε-DFA : DFA Bool
-  DFA.final ε-DFA s = s
-  DFA.δ     ε-DFA s a = false
+  DFA.final ε-DFA s    = s
+  DFA.δ     ε-DFA s a  = false
 
   data Triple : Set where
     init acc err : Triple
