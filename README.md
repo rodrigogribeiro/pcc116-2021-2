@@ -67,6 +67,10 @@ Conteúdo da disciplina.
     * [Aula 19 - 26/10/2021 - Recursão geral em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM3qzlp02moyKzMFoNS97V9o)
     * [Aula 20 - 28/10/2021 - Co-indução em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1nm8riekxU-IsPoopVzPuh)
 
+* Semana 11 
+    * [Aula 21 - 02/11/2021 - Formalizando expressões aritméticas tipadas](https://youtube.com/playlist?list=PLxVVfOvO-mM1BxihahkX4cxeXK6laIciR)
+    * [Aula 22 - 04/11/2021 - Formalizando o lambda-cálculo não tipado e tipado simples]()
+
 Listas de exercícios
 --------------------
 
@@ -137,6 +141,13 @@ Listas de exercícios
     * Formato de entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
     * Arquivos contendo os exercícios da lista: 
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Nat/Div/DivIntrinsic.agda>
+
+* Lista 11 - Noções de semântica formal.
+    * Data para entrega: 27/11/2021
+    * Formato para entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib.
+    * Arquivos contendo os exercícios da lista: 
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Language/Exp/Intrinsic.agda>
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Language/Exp/Extrinsic.agda>
 
 
 Código de exemplo
