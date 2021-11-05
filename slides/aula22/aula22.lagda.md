@@ -101,10 +101,13 @@ podemos representar os índices de maneira simples usando o tipo Fin.
 
 ```agda
   _ : Term 0
-  _ = `λ (var zero)
+  _ = `λ (var zero) -- λ x . x
 
   _ : Term 1
-  _ = (`λ (var zero)) ∙ var zero
+  _ = (`λ (var zero)) ∙ var zero -- (λ x . x) y
+
+  _ : Term 2
+  _ = (var zero) ∙ (var (suc zero)) -- y z
 ```
 
 - Para definir o processo de avaliação, vamos
@@ -114,7 +117,7 @@ definir renaming e substitution.
 
 ```agda
   Ren : ℕ → ℕ → Set
-  Ren n m = Fin n → Fin m
+  Ren n m = Fin n → Fin m -- Term n → Term m
 
   weak-ren : ∀ {n m} → Ren n m → Ren (suc n) (suc m)
   weak-ren r zero = zero
@@ -134,7 +137,7 @@ definir renaming e substitution.
 
   weak-sub : ∀ {n m} → Sub n m → Sub (suc n) (suc m)
   weak-sub s zero = var zero
-  weak-sub s (suc i) = rename suc (s i)
+  weak-sub s (suc i) = rename suc (s i) -- (λ x. e) e' => [x |-> e'] e
 
   substitution : ∀ {n m} → Sub n m → Term n → Term m
   substitution s (var x) = s x

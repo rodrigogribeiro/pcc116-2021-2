@@ -69,7 +69,7 @@ Conteúdo da disciplina.
 
 * Semana 11 
     * [Aula 21 - 02/11/2021 - Formalizando expressões aritméticas tipadas](https://youtube.com/playlist?list=PLxVVfOvO-mM1BxihahkX4cxeXK6laIciR)
-    * [Aula 22 - 04/11/2021 - Formalizando o lambda-cálculo não tipado e tipado simples]()
+    * [Aula 22 - 04/11/2021 - Formalizando o lambda-cálculo não tipado e tipado simples](https://youtube.com/playlist?list=PLxVVfOvO-mM2nPlGaDCbYt_YhDHUOGa5a)
 
 Listas de exercícios
 --------------------
