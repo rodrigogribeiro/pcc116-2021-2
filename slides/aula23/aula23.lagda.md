@@ -54,7 +54,7 @@ Ctx = List Type
 
 ```agda
 Value : Type → Set
-Value nat = ℕ
+Value nat  = ℕ
 Value bool = Bool
 ```
 
@@ -62,7 +62,7 @@ Value bool = Bool
 
 ```agda
 data Exp (Γ : Ctx) : Type → Set where
-  val : ∀ {t}(v : Value t)  → Exp Γ t
+  val : ∀ {t}(v : Value t)    → Exp Γ t
   var : ∀ {t}(v : t ∈ Γ)      → Exp Γ t
   _⊕_ : ∀ (e e' : Exp Γ nat)  → Exp Γ nat
   _⊗_ : ∀ (e e' : Exp Γ nat)  → Exp Γ nat
@@ -204,7 +204,7 @@ module ExecM {Γ : Ctx} where
   evalStmt (While e s)
     = do
         true ← evalExp e where
-          false → return _
+          false → return tt
         evalStmts s
         λ { .runExec ρ .force → later' (evalStmt (While e s) .runExec ρ) }
   evalStmt (If e Then s₁ Else s₂)

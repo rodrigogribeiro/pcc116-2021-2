@@ -71,6 +71,10 @@ Conteúdo da disciplina.
     * [Aula 21 - 02/11/2021 - Formalizando expressões aritméticas tipadas](https://youtube.com/playlist?list=PLxVVfOvO-mM1BxihahkX4cxeXK6laIciR)
     * [Aula 22 - 04/11/2021 - Formalizando o lambda-cálculo não tipado e tipado simples](https://youtube.com/playlist?list=PLxVVfOvO-mM2nPlGaDCbYt_YhDHUOGa5a)
 
+* Semana 12
+    * [Aula 23 - 09/11/2021 - Interpretando a linguagem IMP](https://www.youtube.com/playlist?list=PLxVVfOvO-mM30duPyjCYJ8JTNOFog91La)
+    * [Aula 24 - 11/11/2021 - Programação genérica]()
+
 Listas de exercícios
 --------------------
 
