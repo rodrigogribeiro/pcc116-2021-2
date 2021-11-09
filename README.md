@@ -73,7 +73,7 @@ Conteúdo da disciplina.
 
 * Semana 12
     * [Aula 23 - 09/11/2021 - Interpretando a linguagem IMP](https://www.youtube.com/playlist?list=PLxVVfOvO-mM30duPyjCYJ8JTNOFog91La)
-    * [Aula 24 - 11/11/2021 - Programação genérica]()
+    * [Aula 24 - 11/11/2021 - Programação genérica](https://youtube.com/playlist?list=PLxVVfOvO-mM3AFIICH5-FrYPZQzVRqpOm)
 
 Listas de exercícios
 --------------------
@@ -153,6 +153,11 @@ Listas de exercícios
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Language/Exp/Intrinsic.agda>
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Language/Exp/Extrinsic.agda>
 
+* Lista 12 - Programação genérica.
+    * Data para entrega: 04/12/2021
+    * Formato para entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib
+    * Arquivo contendo os exercícios da lista:
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Generic/GSize.agda>
 
 Código de exemplo
 -----------------

@@ -8,6 +8,7 @@ module aula24 where
 
 open import Data.Bool.Bool
 open import Data.Fin.Fin
+open import Data.List.List
 open import Data.Nat.Nat
 open import Data.Product.Product
 open import Data.Sum.Sum
@@ -28,15 +29,64 @@ tipos dependentes.
 Introdução
 ==========
 
-- Programação genérica surgiu contexto da linguagem Haskell como
+- Programação genérica surgiu no contexto da linguagem Haskell como
 uma aplicação direta do mecanismo de classes de tipos.
 
 - Intuitivamente, o objetivo da programação genérica é definir
 funções que operem sobre tipos de dados quaisquer. A ideia é
 definir a função pela estrutura algébrica de tipos.
 
-- Para isso, vamos definir um tipo de dados para representar
-a estrutura de tipos: um universo.
+- Antes de apresentar uma solução geral para esse problema,
+vamos considerar uma versão restrita.
+
+Contando elementos em uma estrutura
+===================================
+
+- Considere o problema de determinar o número de elementos em uma
+estrutura de dados qualquer.
+
+- Podemos construir um algoritmo para solucionar esse problema
+usando _sobrecarga_, de forma que o programa funcione de forma distinta
+para diferentes tipos de estruturas.
+
+- Primeiro, vamos definir um tipo para representar códigos das estruturas
+consideradas.
+
+```agda
+data Size : Set where
+  `Bool : Size
+  `Pair : (s s' : Size) → Size
+  `List : (s : Size) → Size
+```
+
+- Em seguida, vamos definir uma interpretação desses códigos.
+
+```agda
+⟦_⟧ : Size → Set
+⟦ `Bool ⟧ = Bool
+⟦ `Pair s s' ⟧ = ⟦ s ⟧ × ⟦ s' ⟧
+⟦ `List s ⟧ = List ⟦ s ⟧
+```
+
+- De posse dos códigos e sua intepretação, podemos definir a função desejada:
+
+```agda
+size : (s : Size) → ⟦ s ⟧ → ℕ
+size `Bool v = 1
+size (`Pair s s₁) (a , b) = size s a + size s₁ b
+size (`List s) [] = 0
+size (`List s) (x ∷ xs) = size s x + size (`List s) xs
+```
+
+- Apesar de fácil entendimento, como generalizar essa solução para diferentes
+funcionalidades e uma classe maior de tipos?
+
+
+Generalizando a representação de tipos
+=======================================
+
+- Vamos definir um tipo de dados para representar
+a estrutura de tipos.
 
 ```agda
 infixr 4 _`+_
@@ -44,8 +94,7 @@ infixr 5 _`*_
 
 data Reg : ℕ → Set where
   `zero : ∀ {n} → Reg (suc n)
-  `wk : ∀ {n}(r : Reg n) → Reg (suc n)
-  `let : ∀ {n}(s : Reg n)(t : Reg (suc n)) → Reg n
+  `suc : ∀ {n}(r : Reg n) → Reg (suc n)
   `0 : ∀ {n} → Reg n
   `1 : ∀ {n} → Reg n
   _`+_ : ∀ {n}(s t : Reg n) → Reg n
@@ -66,9 +115,7 @@ data Ctx : ℕ → Set where
 ```agda
 data Data : ∀ {n} → Ctx n → Reg n → Set where
   top : ∀ {n}{t : Reg n}{Γ : Ctx n}(e : Data Γ t) → Data (Γ , t) `zero
-  pop : ∀ {n}{s t : Reg n}{Γ : Ctx n}(e : Data Γ t) → Data (Γ , s) (`wk t)
-  def : ∀ {n}{t : Reg (suc n)}{s : Reg n}{Γ : Ctx n}
-             (e : Data (Γ , s) t) → Data Γ (`let s t)
+  pop : ∀ {n}{s t : Reg n}{Γ : Ctx n}(e : Data Γ t) → Data (Γ , s) (`suc t)
   inl : ∀ {n}{s t : Reg n}{Γ : Ctx n}(e : Data Γ s) → Data Γ (s `+ t)
   inr : ∀ {n}{s t : Reg n}{Γ : Ctx n}(e : Data Γ t) → Data Γ (s `+ t)
   unit : ∀ {n}{Γ : Ctx n} → Data Γ `1
@@ -119,7 +166,7 @@ para criar novos "padrões".
 module LIST where
 
   listF : ∀ {n} → Reg (suc n)
-  listF = `μ (`1 `+ (`wk `zero `* `zero))
+  listF = `μ (`1 `+ (`suc `zero `* `zero))
 ```
 
 - Definição do tipo de listas e seus construtores.
@@ -162,10 +209,6 @@ module EQUALITY where
               pop {s = s} x ≡ pop {s = s} y → x ≡ y
   pop-inv refl = refl
 
-  def-inv : ∀ {n}{s : Reg n}{t : Reg (suc n)}{Γ : Ctx n}
-              {x y : Data (Γ , s) t} → def x ≡ def y → x ≡ y
-  def-inv refl = refl
-
   inl-inv : ∀ {n}{s t : Reg n}{Γ : Ctx n}{x y : Data Γ s}
               → inl {t = t} x ≡ inl {t = t} y → x ≡ y
   inl-inv refl = refl
@@ -195,9 +238,6 @@ module EQUALITY where
   decEq (pop x) (pop y) with decEq x y
   ...| yes eq rewrite eq = yes refl
   ...| no neq = no (neq ∘ pop-inv)
-  decEq (def x) (def y) with decEq x y
-  ...| yes eq rewrite eq = yes refl
-  ...| no neq = no (neq ∘ def-inv)
   decEq (inl x) (inl y) with decEq x y
   ...| yes eq rewrite eq = yes refl
   ...| no neq = no (neq ∘ inl-inv)
@@ -224,6 +264,9 @@ module MAP where
 
 - Definição de morfismos entre dois tipos genéricos.
 
+(A -> B) -> List A -> List B
+(A -> B) -> Maybe A -> Maybe B
+
 ```agda
   data [_⇒_] : ∀ {n} → Ctx n → Ctx n → Set where
     id : ∀ {n}{Γ : Ctx n} → [ Γ ⇒ Γ ]
@@ -245,13 +288,21 @@ module MAP where
   gmap id (pop d) = pop d
   gmap (fun m f) (pop d) = pop (gmap m d)
   gmap (fmap m) (pop d) = pop (gmap m d)
-  gmap m (def d) = def (gmap (fmap m) d)
   gmap m (inl d) = inl (gmap m d)
   gmap m (inr d) = inr (gmap m d)
   gmap m unit = unit
   gmap m (pair d d₁) = pair (gmap m d) (gmap m d₁)
-  gmap m (rec d) = rec (gmap (fmap m) d )
+  gmap m (rec d) = rec (gmap (fmap m) d)
 ```
+
+Conclusão
+=========
+
+- Linguagens com suporte a tipos dependentes permitem meta-programação
+usando a própria linguagem, sem a necessidade de construções especiais.
+    - Meta-programas são apenas "programas".
+
+
 
 Referências
 ===========
