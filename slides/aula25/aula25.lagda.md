@@ -301,7 +301,8 @@ mônada TC.
    * Tenta unificar o primeiro termo com o goal atual (segundo argumento)
 
 2. catchTC : ∀ {a} {A : Set a} → TC A → TC A → TC A
-   * Executa a primeira computação, se esta resultar em erro de tipo, executa a segunda.
+   * Executa a primeira computação, se esta resultar em erro de tipo,
+     executa a segunda.
 
 3. inferType : Term → TC Type
    * Infere o tipo de um termo
@@ -699,20 +700,15 @@ parseProp t = reduce t >>= λ where
     (def (quote ⊥) []) → return `⊥
     t@(pi ax@(arg _ x) (abs _ y)) → do
       X ← parseProp x
-      y ← strengthn ax set! y <|> errorNotAProp t
-      Z ← parseProp y
+      z ← strengthn ax set! y <|> errorNotAProp t
+      Z ← parseProp z
       return (X `⇒ Z)
     t → errorNotAProp t
   where
     errorNotAProp : ∀ {A} → Term → TC A
-    errorNotAProp t = typeError (strErr "Parsing failed: " ∷ termErr t ∷ strErr "is not a proposition!" ∷ [])
-
-macro
-  parse : Term → Term → TC ⊤
-  parse t goal = do
-    T ← parseProp t
-    result ← quoteTC T
-    unify goal result
+    errorNotAProp t = typeError (strErr "Parsing failed: " ∷
+                                 termErr t ∷
+                                 strErr " is not a proposition!" ∷ [])
 ```
 
 - Definindo uma função para provar usando uma hipótese.
@@ -756,12 +752,15 @@ macro
 - Exemplos de uso do solver.
 
 ```agda
-_ : ⊥ → ⊥
+_ : ⊥ → ⊥ → ⊥ → ⊥
 _ = tauto
 
 _ : ⊤
 _ = tauto
 ```
+
+- Limitações: A função de parsing não contempla alguns tipos:
+⊤ → ⊤. Motivo? Não consegui entender...
 
 Conclusão
 =========
