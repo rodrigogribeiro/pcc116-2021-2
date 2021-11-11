@@ -6,15 +6,26 @@ author: PCC116 - Lógica aplicada à computação - Prof. Rodrigo Ribeiro
 ```agda
 module aula25 where
 
+open import Algebra.Functor.Functor
+open import Algebra.Alternative.Alternative
+
 open import Data.Bool.Bool
 open import Data.Empty.Empty
+open import Data.Function.Function
 open import Data.List.List
+open import Data.List.Relation.Any
+open import Data.List.Relation.All
+open import Data.Maybe.Maybe hiding (_>>=_ ; _>>_ ; map)
 open import Data.Nat.Nat
+open import Data.Product.Product
 open import Data.Sigma.Sigma
+open import Data.String.String
 open import Data.Unit.Unit
 
 open import Reflection.API
+open import Reflection.DeBruijnAPI
 open import Relation.Equality.Propositional
+open import Relation.Decidable.Dec
 ```
 
 Objetivos
@@ -490,3 +501,278 @@ macro
 answer : ℕ
 answer = number
 ```
+
+- Uma das principais aplicações de macros é a automação
+de padrões simples de provas.
+
+- Considere o exemplo a seguir.
+
+```agda
++-ident-r : ∀ {n} → n + 0 ≡ n
++-ident-r {zero} = refl
++-ident-r {suc n} = cong suc (+-ident-r {n})
+
+*-ident-r : ∀ {n} → n * 1 ≡ n
+*-ident-r {zero} = refl
+*-ident-r {suc n} = cong suc (*-ident-r {n})
+```
+
+- Podemos abstrair esse padrão de demonstração usando
+uma função de ordem superior.
+
+```agda
+ℕ-induction : ∀ (P : ℕ → Set)
+                (base : P 0)
+                (IH : ∀ n → P n → P (suc n)) →
+                ∀ (n : ℕ) → P n
+ℕ-induction P base IH zero = base
+ℕ-induction P base IH (suc n) = IH n (ℕ-induction P base IH n)
+```
+
+- Podemos usar ℕ-induction para deduzir os resultados anteriores
+
+```agda
+_ : ∀ (n : ℕ) → n + 0 ≡ n
+_ = ℕ-induction _ refl (λ _ → cong suc)
+
+_ : ∀ (n : ℕ) → n * 1 ≡ n
+_ = ℕ-induction _ refl (λ n → cong suc)
+```
+
+- Mas, ainda assim temos repetições... Podemos resolver isso recorrendo
+a uma macro.
+
+```agda
+infixr 5 λv_↦_
+
+λv_↦_ : String → Term → Term
+λv x ↦ body = lam visible (abs x body)
+
+macro
+  simple-ident-r : ∀ (let A = ℕ)(_⊕_ : A → A → A)(e : A) →
+                   Term → TC ⊤
+  simple-ident-r _⊕_ e goal
+    = do
+        ty ← quoteTC (λ (x : ℕ) → x ⊕ e ≡ x)
+        step ← quoteTC (λ (x : ℕ) → cong {x = x ⊕ e}{y = x} suc)
+        unify goal (def (quote ℕ-induction)
+                        ((visibleArg ty) ∷
+                         (visibleArg (con (quote refl) []) ∷
+                         (visibleArg step) ∷ [])))
+```
+
+- Resolvemos os lemas usando a macro anterior.
+
+```agda
+_ : ∀ (n : ℕ) → n + 0 ≡ n
+_ = simple-ident-r _+_ 0
+
+_ : ∀ (n : ℕ) → n * 1 ≡ n
+_ = simple-ident-r _*_ 1
+```
+
+- Outro exemplo simples: Evitar o uso de sym para reescrita de uma
+igualdade.
+
+- Primeiro, vamos utilizar uma função para obter os parâmetro do
+tipo de igualdade
+
+```agda
+≡-info : Term → TC (Arg Term × Arg Term × Term × Term)
+≡-info (def (quote _≡_) (lv ∷ t ∷ arg _ l ∷ arg _ r ∷ []))
+  = return (lv , t , l , r)
+≡-info _ = typeError [ strErr "Not an equality type" ]
+```
+
+- Definição de uma tática que tenta reescrever usando sym.
+
+```agda
+macro
+  rw : Term → Term → TC ⊤
+  rw p goal = catchTC (do ty ← inferType p
+                          (lv , t , l , r) ← ≡-info ty
+                          unify goal (def (quote sym)
+                                          (lv ∷ t ∷ hiddenArg l
+                                                  ∷ hiddenArg r
+                                                  ∷ visibleArg p ∷ [])))
+                      (unify goal p)
+```
+
+- Exemplo.
+
+```agda
+postulate x y : ℕ
+postulate zap : x + 2 ≡ y
+
+_ : y ≡ x + 2
+_ = rw zap
+
+_ : x + 2 ≡ y
+_ = rw zap
+```
+
+Exemplo: Tática para tautologias
+================================
+
+- Vamos construir uma tática para provar algumas tautologias
+simples da lógica proposicional.
+
+- Primeiro, vamos definir a sintaxe das proposições consideradas.
+
+```agda
+data `Prop : Set where
+  `⊤ : `Prop
+  `⊥ : `Prop
+  _`⇒_ : `Prop → `Prop → `Prop
+
+Ctx : Set
+Ctx = List `Prop
+
+⇒inv : ∀ {p₁ p₂ p₁' p₂'} → (p₁ `⇒ p₂) ≡ (p₁' `⇒ p₂') → p₁ ≡ p₁' × p₂ ≡ p₂'
+⇒inv refl = refl , refl
+
+_==_ : ∀ (p p' : `Prop) → Dec (p ≡ p')
+`⊤ == `⊤ = yes refl
+`⊤ == `⊥ = no (λ ())
+`⊤ == (p' `⇒ p'') = no (λ ())
+`⊥ == `⊤ = no (λ ())
+`⊥ == `⊥ = yes refl
+`⊥ == (p' `⇒ p'') = no (λ ())
+(p `⇒ p₁) == `⊤ = no (λ ())
+(p `⇒ p₁) == `⊥ = no (λ ())
+(p `⇒ p₁) == (p' `⇒ p'') with p == p' | p₁ == p''
+...| yes eq | yes eq' rewrite eq | eq' = yes refl
+...| no  eq | _       = no (eq ∘ proj₁ ∘ ⇒inv)
+...| _      | no eq'  = no (eq' ∘ proj₂ ∘ ⇒inv)
+```
+
+- Definindo proposições demonstráveis.
+
+```agda
+data _⊢_ : Ctx → `Prop → Set where
+  var : ∀ {t Γ} → t ∈ Γ → Γ ⊢ t
+  tt  : ∀ {Γ} → Γ ⊢ `⊤
+  lam : ∀ {Γ t t'} → (t' ∷ Γ) ⊢ t
+                   → Γ ⊢ (t' `⇒ t)
+```
+
+- Semântica de demonstrações
+
+```agda
+⟦_⟧ : `Prop → Set
+⟦ `⊤ ⟧ = ⊤
+⟦ `⊥ ⟧ = ⊥
+⟦ p `⇒ p' ⟧ = ⟦ p ⟧ → ⟦ p' ⟧
+
+⟦_⟧C : Ctx → Set
+⟦_⟧C = All ⟦_⟧
+```
+
+- Teorema de soundness
+
+```agda
+⊢-sound : ∀ {Γ p} → Γ ⊢ p → ⟦ Γ ⟧C → ⟦ p ⟧
+⊢-sound (var x₁) env = lookup x₁ env
+⊢-sound tt env = tt
+⊢-sound (lam p) env z = ⊢-sound p (z ∷ env)
+```
+
+- Incluindo uma nova hipótese.
+
+```agda
+strengthn : Arg Type → Type → Term → TC Term
+strengthn dom a t = do
+  t' ← newMeta a
+  extendContext dom (unify t (weaken 1 t'))
+  return t'
+```
+
+- Para construir a tática, temos que realizar o "parsing"
+de valores de Term em `Prop.
+
+
+```agda
+{-# TERMINATING #-}
+parseProp : Term → TC `Prop
+parseProp t = reduce t >>= λ where
+    (def (quote ⊤) []) → return `⊤
+    (def (quote ⊥) []) → return `⊥
+    t@(pi ax@(arg _ x) (abs _ y)) → do
+      X ← parseProp x
+      y ← strengthn ax set! y <|> errorNotAProp t
+      Z ← parseProp y
+      return (X `⇒ Z)
+    t → errorNotAProp t
+  where
+    errorNotAProp : ∀ {A} → Term → TC A
+    errorNotAProp t = typeError (strErr "Parsing failed: " ∷ termErr t ∷ strErr "is not a proposition!" ∷ [])
+
+macro
+  parse : Term → Term → TC ⊤
+  parse t goal = do
+    T ← parseProp t
+    result ← quoteTC T
+    unify goal result
+```
+
+- Definindo uma função para provar usando uma hipótese.
+
+```agda
+assumption : (Γ : Ctx) (X : `Prop) → Maybe (X ∈ Γ)
+assumption [] Y = nothing
+assumption (X ∷ Γ)  Y with X == Y
+assumption (X ∷ Γ) .X  | yes refl = just (here refl)
+assumption (X ∷ Γ)  Y  | no x     = there <$> assumption Γ Y
+```
+
+- Principal função do solver de tautologias
+
+```agda
+solveTauto : (Γ : Ctx) (X : `Prop) → Maybe (Γ ⊢ X)
+solveTauto Γ X = (var <$> assumption Γ X) <|> solveTautoAux X
+  where
+    solveTautoAux : (X : `Prop) → Maybe (Γ ⊢ X)
+    solveTautoAux = λ where
+      `⊤ → just tt
+      `⊥ → nothing
+      (X `⇒ Y) → lam <$> solveTauto (X ∷ Γ) Y
+```
+
+- Função top level do solver
+
+```agda
+macro
+  tauto : Term → TC ⊤
+  tauto goal = do
+    t ← inferType goal
+    X ← parseProp t
+    case solveTauto [] X of λ where
+      (just x) → let proof : ⟦ X ⟧
+                     proof = ⊢-sound x []
+                 in quoteTC proof >>= unify goal
+      nothing  → typeError (strErr "Failed to solve" ∷ [])
+```
+
+- Exemplos de uso do solver.
+
+```agda
+_ : ⊥ → ⊥
+_ = tauto
+
+_ : ⊤
+_ = tauto
+```
+
+Conclusão
+=========
+
+- Nesta aula, apresentamos o mecanismo de reflection de Agda.
+
+- Reflection permite acessar uma interface para o typechecker da linguagem Agda.
+
+Referências
+===========
+
+- A gentle introduction to Agda reflection: https://github.com/alhassy/gentle-intro-to-reflection
+
+- Agda documentation - Reflection: https://agda.readthedocs.io/en/v2.6.2/language/reflection.html
