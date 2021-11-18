@@ -75,6 +75,10 @@ Conteúdo da disciplina.
     * [Aula 23 - 09/11/2021 - Interpretando a linguagem IMP](https://www.youtube.com/playlist?list=PLxVVfOvO-mM30duPyjCYJ8JTNOFog91La)
     * [Aula 24 - 11/11/2021 - Programação genérica](https://youtube.com/playlist?list=PLxVVfOvO-mM3AFIICH5-FrYPZQzVRqpOm)
 
+* Semana 13 
+    * [Aula 25 - 16/11/2021 - Reflection em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM3TzZt3bDo-Zj9rGXL9DDqX)
+    * [Aula 26 - 18/11/2021 - Martin-Löf Type Theory](https://youtube.com/playlist?list=PLxVVfOvO-mM3rrHV9N34N-nsJZRsdEoei)
+
 Listas de exercícios
 --------------------
 
@@ -158,6 +162,12 @@ Listas de exercícios
     * Formato para entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib
     * Arquivo contendo os exercícios da lista:
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/Data/Generic/GSize.agda>
+
+* Lista 13 - Introdução à Teoria de tipos de Martin-Löf
+    * Data para entrega: 11/12/2021
+    * Formato para entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib
+    * Arquivo contendo os exercícios da lista:
+        * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/MLTT/Spartan.agda>
 
 Código de exemplo
 -----------------

@@ -43,6 +43,8 @@ Introdução
 - Reflection consiste em converter código de programa em uma árvore
 abstrata de forma que essa possa ser manipulada por outros programas.
 
+- Usando reflection, podemos criar meta-programas.
+
 - Primeiramente, vamos definir um tipo de dados simples.
 
 ```agda
@@ -53,7 +55,7 @@ data Color : Set where
 Tipo Name
 =========
 
-- O tipo `Name` representa identificadores quaiquer no código.
+- O tipo `Name` representa identificadores quaisquer no código.
 
 ```agda
 colorName : Name
@@ -308,7 +310,8 @@ mônada TC.
    * Infere o tipo de um termo
 
 4. checkType : Term → Type → TC Term
-   * Verifica se o termo possui um dado tipo, preenchendo argumentos implícitos.
+   * Verifica se o termo possui um dado tipo, preenchendo argumentos
+     implícitos.
 
 5. normalise : Term → TC Term
    * Calcula a forma normal de um termo
@@ -317,7 +320,7 @@ mônada TC.
    * Retorna a AST correspondente a um valor de tipo A
 
 7. unquoteTC : ∀ {a} {A : Set a} → Term → TC A
-   * Retorna o valor correspondnete a um termo.
+   * Retorna o valor correspondente a um termo.
 
 8. freshName : String → TC Name
    * Retorna um novo nome.
@@ -344,6 +347,9 @@ Metaprogramas em Agda
 se uma cor (tipo Color) é red.
 
 - Primeiro, vamos criar alguns valores auxiliares:
+
+IsRed : Color → Set
+IsRed x = red ≡ x
 
 ```agda
 l0 : Arg Term
@@ -441,7 +447,7 @@ constructors : Definition → List Name
 constructors (data-type vars cs) = cs
 constructors _ = []
 
-by-refls : Name → Term → TC ⊤
+by-refls : Name → Type → TC ⊤
 by-refls nm form
   = let mk-clause : Name → Clause
         mk-clause qcon = clause []
@@ -629,7 +635,8 @@ data `Prop : Set where
 Ctx : Set
 Ctx = List `Prop
 
-⇒inv : ∀ {p₁ p₂ p₁' p₂'} → (p₁ `⇒ p₂) ≡ (p₁' `⇒ p₂') → p₁ ≡ p₁' × p₂ ≡ p₂'
+⇒inv : ∀ {p₁ p₂ p₁' p₂'} → (p₁ `⇒ p₂) ≡ (p₁' `⇒ p₂') →
+                             p₁ ≡ p₁' × p₂ ≡ p₂'
 ⇒inv refl = refl , refl
 
 _==_ : ∀ (p p' : `Prop) → Dec (p ≡ p')
@@ -767,11 +774,14 @@ Conclusão
 
 - Nesta aula, apresentamos o mecanismo de reflection de Agda.
 
-- Reflection permite acessar uma interface para o typechecker da linguagem Agda.
+- Reflection permite acessar uma interface para o typechecker da
+linguagem Agda.
 
 Referências
 ===========
 
-- A gentle introduction to Agda reflection: https://github.com/alhassy/gentle-intro-to-reflection
+- A gentle introduction to Agda reflection:
+   https://github.com/alhassy/gentle-intro-to-reflection
 
-- Agda documentation - Reflection: https://agda.readthedocs.io/en/v2.6.2/language/reflection.html
+- Agda documentation - Reflection:
+   https://agda.readthedocs.io/en/v2.6.2/language/reflection.html
