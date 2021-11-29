@@ -695,6 +695,16 @@ e do fato que $f(n) = 0$, podemos reconstruir raízes de $f$.
 
 ## Truncation
 
+- A ideia é calcular $f(0), f(1), f(2)...$ até encontrarmos
+$n \in\mathbb{N}$ tal que $f(n) = 0$.
+
+## Truncation
+
+- A terminação é garantida devido à suposição da existência
+da raiz.
+
+## Truncation
+
 - Representando em HTT:
 
 $$
@@ -703,8 +713,49 @@ $$
 
 ## Truncation
 
-- A ideia é encontrar a menor raiz para uma certa função $f$
-que possui raízes.
+- É importante ressaltar que $\| A \| \Rightarrow A$ não é válido para quaisquer tipos $A$.
+
+- Um ponto central do argumento é o fato de $\mathbb{N}$ ser definido indutivamente.
+
+## Truncation
+
+- Porém, como podemos usar a hipótese $\|\Sigma\,(n\,:\,\mathbb{N}).f(n) = 0\|$?
+
+## Truncation
+
+- Apesar de parecer uma implicação $A \Rightarrow A$, esse não é o caso.
+
+## Truncation
+
+- A operação de truncation _apaga_ o conteúdo computacional de $\Sigma\,(n\,:\,\mathbb{N}).f(n) = 0$.
+
+## Truncation
+
+- Logo, precisamos de uma maneira de usar uma hipótese da forma $\| A \|$.
+
+## Truncation
+
+- Princípio de eliminação
+
+```agda
+∥∥-rec : ∀ {U V}{A : Type U}{B : Type V} →
+         isProp B → (A → B) → (∥ A ∥ → B)
+```
+
+## Truncation
+
+- Porém, o tipo $\Sigma\,(n\,:\,\mathbb{N}).f(n) = 0$ não é uma proposição...
+   - Se $f$ tiver mais de uma raiz.
+
+## Truncation
+
+- Existe uma forma de tornar o tipo $\Sigma\,(n\,:\,\mathbb{N}).f(n) = 0$ uma
+proposição?
+
+## Truncation
+
+- Sim! A ideia é usar um tipo para denotar a menor raiz para $f$
+    - Esse conjunto será unitário e, portanto, uma proposição.
 
 ## Truncation
 
@@ -805,6 +856,15 @@ find-first P dec m Pm with find-first-from P dec m Pm 0 z≤n
 
 ## Truncation
 
+- Definição do existencial.
+
+```agda
+∃ : ∀ {U V}(A : Type U)(B : A → Type V) → Type (U ⊔ V)
+∃ A B = ∥ Σ {A = A} B ∥
+```
+
+## Truncation
+
 - Encontrando a menor raiz, usando truncation.
 
 ```agda
@@ -821,3 +881,234 @@ extract-first-root f E
 ```
 
 ## Truncation
+
+- Concluindo...
+
+```
+extract-root :  ∀ (f : ℕ → ℕ) →
+                ∃ ℕ (λ n → f n ≡ 0) →
+                Σ (λ n → f n ≡ 0)
+extract-root f E with extract-first-root f E
+...| n , Pn , _ = n , Pn
+```
+
+# Univalence
+
+## Univalence
+
+- Definição de homotopia.
+
+```agda
+_~_ : ∀ {U V}{A : Type U}{B : A → Type V}
+        (f g : (x : A) → B x) → Type (U ⊔ V)
+f ~ g = ∀ x → f x ≡ g x
+```
+
+## Univalence
+
+- Definição de um predicado para funções quasi-invertible.
+
+```agda
+isQInv : ∀ {U V}{A : Type U}{B : Type V} →
+         (A → B) → Type (U ⊔ V)
+isQInv {A = A}{B = B} f
+  = Σ {A = B → A}
+      (λ g → ((g ∘ f) ~ id) × ((f ∘ g) ~ id))
+```
+
+## Univalence
+
+- Definição de equivalência
+
+```agda
+isEquiv : ∀ {U V}{A : Type U}{B : Type V} →
+          (A → B) → Type (U ⊔ V)
+isEquiv {A = A}{B = B} f
+  = Σ {A = B → A}(λ g → (g ∘ f) ~ id) ×
+    Σ {A = B → A}(λ g → (f ∘ g) ~ id)
+```
+
+## Univalence
+
+- Construindo equivalências a partir de isQInv
+
+```agda
+isQInv-isEquiv : ∀ {U V}{A : Type U}{B : Type V}{f : A → B} →
+                 isQInv f → isEquiv f
+isQInv-isEquiv (g , (gf , fg))
+  = (g , gf) , (g , fg)
+```
+
+## Univalence
+
+- Equivalência entre tipos
+
+```agda
+_≃_ : ∀ {U V} → Type U → Type V → Type (U ⊔ V)
+A ≃ B = Σ {A = A → B} isEquiv
+```
+
+## Univalence
+
+- Casting usando uma igualdade
+
+```agda
+coerce : ∀ {U}{A B : Type U} → A ≡ B → A → B
+coerce refl x = x
+```
+
+## Univalence
+
+- `coerce` induz uma equivalência.
+
+```agda
+coerce-isEquiv : ∀ {U}{A B : Type U}(p : A ≡ B) → isEquiv (coerce p)
+coerce-isEquiv refl = (id , (λ x → refl)) , (id , λ x → refl)
+```
+
+## Univalence
+
+- Produzindo uma equivalência entre tipos.
+
+```agda
+id-to-equiv : ∀ {U}{A B : Type U} → A ≡ B → A ≃ B
+id-to-equiv p = coerce p , coerce-isEquiv p
+```
+
+## Univalence
+
+- Axioma de univalence: isomorfismo entre tipos é
+equivalente à igualdade entre tipos.
+
+```agda
+postulate univalence
+  : ∀ {U}{A B : Type U} →
+      isEquiv (id-to-equiv {U}{A}{B})
+```
+
+## Univalence
+
+- Definição do isomorfismo
+
+```agda
+ua-equiv : ∀ {U}{A B : Type U} → (A ≡ B) ≃ (A ≃ B)
+ua-equiv = id-to-equiv , univalence
+```
+
+## Univalence
+
+- Vamos considerar um exemplo de uso da univalence.
+
+## Univalence
+
+- Considere o seguinte tipo.
+
+```agda
+code : ℕ → ℕ → Type U₀
+code zero zero       = ⊤
+code zero (suc m)    = ⊥
+code (suc n) zero    = ⊥
+code (suc n) (suc m) = code n m
+```
+
+## Univalence
+
+- Usando univalence, podemos mostrar que
+
+$$
+n \equiv m \simeq code\:n\:m
+$$
+
+## Univalence
+
+- Primeira implicação
+
+```agda
+enc : ∀ {n m : ℕ} → n ≡ m → code n m
+enc {zero} {.zero} refl     = ⋆
+enc {suc n} {.(suc n)} refl = enc {n} {n} refl
+```
+
+## Univalence
+
+- Segunda implicação
+
+```agda
+dec : ∀ {n m} → code n m → n ≡ m
+dec {zero} {zero} ⋆   = refl
+dec {suc n} {suc m} p = ap suc (dec p)
+```
+
+## Univalence
+
+- Provando equivalências.
+
+```agda
+dec-enc : {n m : ℕ}(p : n ≡ m) → dec (enc p) ≡ p
+dec-enc {zero}{.zero} refl = refl
+dec-enc {suc n}{.(suc n)} refl = ap (ap suc) (dec-enc refl)
+```
+
+## Univalence
+
+- Provando equivalências
+
+```agda
+enc-suc : {n m : ℕ}(p : n ≡ m) → enc (ap suc p) ≡ enc p
+enc-suc refl = refl
+```
+
+## Univalence
+
+- Provando equivalências
+
+```agda
+enc-dec : {n m : ℕ}(p : code n m) → enc (dec {n} p) ≡ p
+enc-dec {zero}{zero} ⋆ = refl
+enc-dec {suc n}{suc m} p
+  rewrite enc-suc (dec {n}{m} p) = enc-dec {n}{m} p
+```
+
+## Univalence
+
+- Concluindo a demonstração.
+
+```agda
+ℕ-eq : (n m : ℕ) → (n ≡ m) ≃ (code n m)
+ℕ-eq n m = enc , ((dec , dec-enc) , (dec , enc-dec {n}))
+```
+
+## Univalence
+
+- Usando o axioma univalence, podemos substituir provas de
+`n ≡ m` por `code n m`.
+
+# Conclusão
+
+## Conclusão
+
+- Nesta aula apresentamos uma introdução a um tema atual
+de pesquisa em teoria de tipos e fundamentos da matemática:
+Homotopy type theory.
+
+## Conclusão
+
+- Central a HTT é o axioma da univalence.
+
+- Vimos que axiomas são difíceis de lidar.
+
+## Conclusão
+
+- Proposta promissora: teoria de tipos em que univalence é
+um teorema e não uma axioma.
+
+## Conclusão
+
+- A ideia é em uma interpretação da teoria de tipos conhecida
+como cubical models.
+
+# Referências
+
+## Referências
+
+- MIMRAM, Samuel. Program = Proof.
