@@ -521,8 +521,8 @@ com a b xs i ++ ys = com a b (xs ++ ys) i
 
 - Apresentamos uma breve introdução ao Cubical Agda.
 
-- Os exemplos apresentados são simples, a linguagem é capaz de formalizar resultados
-não triviais da matemática moderna.
+- Os exemplos apresentados são simples, porém a linguagem é capaz de
+formalizar resultados não triviais da matemática moderna.
 
 ## Conclusão
 
@@ -532,6 +532,8 @@ estudado por diversos grupos.
 ## Conclusão
 
 - Agradeço a todos pela participação neste curso!
+
+![](./images/obrigado.jpeg)
 
 # Referências
 
