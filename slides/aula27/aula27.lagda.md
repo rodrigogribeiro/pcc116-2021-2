@@ -25,9 +25,6 @@ x ≡ y = Id _ x y
 
 - Apresentar os conceitos principais relativos à Homotopy Type Theory.
 
-- Demonstrar functional extensionality a partir do axioma de univalência.
-
-
 # Introdução
 
 ## Introdução
@@ -691,7 +688,7 @@ pode-se obter a evidência.
 ## Truncation
 
 - Exemplo: A partir de uma função $f : \mathbb{N} \to \mathbb{N}$
-e do fato que $f(n) = 0$, podemos reconstruir raízes de $f$.
+e do fato que $f(n) = 0$, podemos obter raízes de $f$.
 
 ## Truncation
 

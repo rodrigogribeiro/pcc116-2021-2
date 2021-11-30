@@ -79,6 +79,10 @@ Conteúdo da disciplina.
     * [Aula 25 - 16/11/2021 - Reflection em Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM3TzZt3bDo-Zj9rGXL9DDqX)
     * [Aula 26 - 18/11/2021 - Martin-Löf Type Theory](https://youtube.com/playlist?list=PLxVVfOvO-mM3rrHV9N34N-nsJZRsdEoei)
 
+* Semana 14
+    * [Aula 27 - 30/11/2021 - Introdução à Homotopy Type Theory](https://youtube.com/playlist?list=PLxVVfOvO-mM3JGsYAb4w6c6EaDDsKeTr2)
+    * [Aula 28 - 02/12/2021 - Introdução ao Cubical Agda]()
+
 Listas de exercícios
 --------------------
 
@@ -168,6 +172,11 @@ Listas de exercícios
     * Formato para entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib
     * Arquivo contendo os exercícios da lista:
         * <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/MLTT/Spartan.agda>
+
+* Lista 14 - Cubical Agda
+    * Data para entrega: 18/12/2021
+    * Formato para entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib
+    * Arquivo contendo os exercícios da lista:
 
 Código de exemplo
 -----------------
