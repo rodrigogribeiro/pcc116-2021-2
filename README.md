@@ -81,7 +81,7 @@ Conteúdo da disciplina.
 
 * Semana 14
     * [Aula 27 - 30/11/2021 - Introdução à Homotopy Type Theory](https://youtube.com/playlist?list=PLxVVfOvO-mM3JGsYAb4w6c6EaDDsKeTr2)
-    * [Aula 28 - 02/12/2021 - Introdução ao Cubical Agda]()
+    * [Aula 28 - 02/12/2021 - Introdução ao Cubical Agda](https://youtube.com/playlist?list=PLxVVfOvO-mM1p6CX7jILt29YvkmIZ1JQk)
 
 Listas de exercícios
 --------------------
@@ -177,6 +177,7 @@ Listas de exercícios
     * Data para entrega: 18/12/2021
     * Formato para entrega: arquivo .zip contendo todo o código da biblioteca pcc116-agda-lib
     * Arquivo contendo os exercícios da lista:
+        *  <https://github.com/rodrigogribeiro/pcc116-agda-lib/blob/master/CTT/Silly.agda>
 
 Código de exemplo
 -----------------

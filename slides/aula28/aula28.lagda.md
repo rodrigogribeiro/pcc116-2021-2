@@ -338,7 +338,7 @@ module MySquare {A : Set}
 
 - Intuição geométrica
 
-![](./images/square3.png)
+![](./images/square3.png){height=320px}
 
 
 ## Squares
@@ -453,15 +453,6 @@ igualdades impostas por seus construtores.
 
 ## High inductive types
 
-- Representação de conjuntos
-
-```agda
-isSet : ∀ {l} → Set l → Set l
-isSet A = (x y : A) → (p q : x ≡ y) → p ≡ q
-```
-
-## High inductive types
-
 - A representação de estruturas de dados para conjuntos
 é complicada em computação.
 
@@ -533,7 +524,7 @@ estudado por diversos grupos.
 
 - Agradeço a todos pela participação neste curso!
 
-![](./images/obrigado.jpeg)
+![](./images/obrigado.jpeg){height=280px}
 
 # Referências
 
